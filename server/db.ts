@@ -1,11 +1,24 @@
-import { eq } from "drizzle-orm";
+import { eq, desc, and, like, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { 
+  InsertUser, 
+  users, 
+  products, 
+  productCategories,
+  services,
+  serviceCategories,
+  jobs,
+  jobCategories,
+  reviews,
+  messages,
+  notifications,
+  wallets,
+  transactions,
+} from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
-// Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
@@ -89,4 +102,216 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+/**
+ * Product Categories
+ */
+export async function getAllProductCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(productCategories).where(eq(productCategories.isActive, true)).orderBy(productCategories.order);
+}
+
+export async function getProductCategoryById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(productCategories).where(eq(productCategories.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+/**
+ * Products
+ */
+export async function getAllProducts(filters?: {
+  categoryId?: number;
+  search?: string;
+  status?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select().from(products);
+  
+  const conditions = [eq(products.isActive, true)];
+  
+  if (filters?.categoryId) {
+    conditions.push(eq(products.categoryId, filters.categoryId));
+  }
+  
+  if (filters?.status) {
+    conditions.push(eq(products.status, filters.status as any));
+  }
+  
+  if (filters?.search) {
+    conditions.push(
+      or(
+        like(products.titleAr, `%${filters.search}%`),
+        like(products.titleEn, `%${filters.search}%`)
+      ) as any
+    );
+  }
+  
+  return await query.where(and(...conditions)).orderBy(desc(products.createdAt));
+}
+
+export async function getProductById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(products).where(eq(products.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getProductsBySellerId(sellerId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(products).where(eq(products.sellerId, sellerId)).orderBy(desc(products.createdAt));
+}
+
+export async function createProduct(data: typeof products.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(products).values(data);
+  return result;
+}
+
+export async function updateProduct(id: number, data: Partial<typeof products.$inferInsert>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(products).set(data).where(eq(products.id, id));
+}
+
+export async function deleteProduct(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(products).set({ isActive: false }).where(eq(products.id, id));
+}
+
+/**
+ * Service Categories
+ */
+export async function getAllServiceCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(serviceCategories).where(eq(serviceCategories.isActive, true)).orderBy(serviceCategories.order);
+}
+
+/**
+ * Services
+ */
+export async function getAllServices(filters?: {
+  categoryId?: number;
+  search?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select().from(services);
+  
+  const conditions = [eq(services.isActive, true), eq(services.status, 'active')];
+  
+  if (filters?.categoryId) {
+    conditions.push(eq(services.categoryId, filters.categoryId));
+  }
+  
+  if (filters?.search) {
+    conditions.push(
+      or(
+        like(services.titleAr, `%${filters.search}%`),
+        like(services.titleEn, `%${filters.search}%`)
+      ) as any
+    );
+  }
+  
+  return await query.where(and(...conditions)).orderBy(desc(services.createdAt));
+}
+
+export async function getServiceById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(services).where(eq(services.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+/**
+ * Job Categories
+ */
+export async function getAllJobCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(jobCategories).where(eq(jobCategories.isActive, true)).orderBy(jobCategories.order);
+}
+
+/**
+ * Jobs
+ */
+export async function getAllJobs(filters?: {
+  categoryId?: number;
+  search?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select().from(jobs);
+  
+  const conditions = [eq(jobs.isActive, true), eq(jobs.status, 'open')];
+  
+  if (filters?.categoryId) {
+    conditions.push(eq(jobs.categoryId, filters.categoryId));
+  }
+  
+  if (filters?.search) {
+    conditions.push(
+      or(
+        like(jobs.titleAr, `%${filters.search}%`),
+        like(jobs.titleEn, `%${filters.search}%`)
+      ) as any
+    );
+  }
+  
+  return await query.where(and(...conditions)).orderBy(desc(jobs.createdAt));
+}
+
+export async function getJobById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(jobs).where(eq(jobs.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+/**
+ * Wallet
+ */
+export async function getWalletByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(wallets).where(eq(wallets.userId, userId)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function createWallet(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(wallets).values({
+    userId,
+    balance: 0,
+    currency: 'SAR',
+    pendingBalance: 0,
+    totalEarnings: 0,
+    totalWithdrawals: 0,
+  });
+  
+  return result;
+}
+
