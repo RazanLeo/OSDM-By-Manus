@@ -21,7 +21,8 @@ import BuyerWallet from "./pages/dashboard/buyer/Wallet";
 import ProductDetails from "./pages/markets/ProductDetails";
 import About from "./pages/content/About";
 import Terms from "./pages/content/Terms";
-import Privacy from "./pages/content/Privacy";
+import Privacy from '@/pages/content/Privacy';
+import IPPolicy from '@/pages/content/IPPolicy';
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import ServiceDetails from "./pages/markets/ServiceDetails";
@@ -50,6 +51,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/terms" component={Terms} />
       <Route path="/privacy" component={Privacy} />
+      <Route path="/ip-policy" component={IPPolicy} />
       <Route path="/messages" component={Messages} />
       <Route path="/notifications" component={Notifications} />
       <Route path={"/404"} component={NotFound} />
