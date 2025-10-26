@@ -18,6 +18,12 @@ import BuyerPurchases from "./pages/dashboard/buyer/Purchases";
 import BuyerOrders from "./pages/dashboard/buyer/Orders";
 import BuyerProjects from "./pages/dashboard/buyer/Projects";
 import BuyerWallet from "./pages/dashboard/buyer/Wallet";
+import ProductDetails from "./pages/markets/ProductDetails";
+import About from "./pages/content/About";
+import Terms from "./pages/content/Terms";
+import Privacy from "./pages/content/Privacy";
+import Messages from "./pages/Messages";
+import Notifications from "./pages/Notifications";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -26,6 +32,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/markets/products" component={ProductsMarket} />
+      <Route path="/markets/products/:id" component={ProductDetails} />
       <Route path="/markets/services" component={ServicesMarket} />
       <Route path="/markets/jobs" component={JobsMarket} />
       <Route path="/dashboard/seller/products" component={SellerProducts} />
@@ -36,6 +43,11 @@ function Router() {
       <Route path="/dashboard/buyer/orders" component={BuyerOrders} />
       <Route path="/dashboard/buyer/projects" component={BuyerProjects} />
       <Route path="/dashboard/buyer/wallet" component={BuyerWallet} />
+      <Route path="/about" component={About} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/messages" component={Messages} />
+      <Route path="/notifications" component={Notifications} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
