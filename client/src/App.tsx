@@ -24,6 +24,8 @@ import Terms from "./pages/content/Terms";
 import Privacy from "./pages/content/Privacy";
 import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
+import ServiceDetails from "./pages/markets/ServiceDetails";
+import JobDetails from "./pages/markets/JobDetails";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -34,7 +36,9 @@ function Router() {
       <Route path="/markets/products" component={ProductsMarket} />
       <Route path="/markets/products/:id" component={ProductDetails} />
       <Route path="/markets/services" component={ServicesMarket} />
+      <Route path="/markets/services/:id" component={ServiceDetails} />
       <Route path="/markets/jobs" component={JobsMarket} />
+      <Route path="/markets/jobs/:id" component={JobDetails} />
       <Route path="/dashboard/seller/products" component={SellerProducts} />
       <Route path="/dashboard/seller/services" component={SellerServices} />
       <Route path="/dashboard/seller/contracts" component={SellerContracts} />
