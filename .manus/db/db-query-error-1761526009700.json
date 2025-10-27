@@ -1,0 +1,8 @@
+{
+  "query": "\nINSERT IGNORE INTO users (email, username, full_name, role, is_active, email_verified, created_at, updated_at)\nVALUES \n  ('admin@osdm.sa', 'admin', 'Admin User', 'admin', 1, 1, NOW(), NOW()),\n  ('guest@osdm.sa', 'Guest', 'Guest User', 'user', 1, 1, NOW(), NOW()),\n  ('razan@osdm.sa', 'Razan@OSDM', 'Razan Ahmed Tawfiq', 'admin', 1, 1, NOW(), NOW());\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute \nINSERT IGNORE INTO users (email, username, full_name, role, is_active, email_verified, created_at, updated_at)\nVALUES \n  ('admin@osdm.sa', 'admin', 'Admin User', 'admin', 1, 1, NOW(), NOW()),\n  ('guest@osdm.sa', 'Guest', 'Guest User', 'user', 1, 1, NOW(), NOW()),\n  ('razan@osdm.sa', 'Razan@OSDM', 'Razan Ahmed Tawfiq', 'admin', 1, 1, NOW(), NOW());\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'username' in 'field list'"
+  ]
+}

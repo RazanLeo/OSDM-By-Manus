@@ -126,16 +126,16 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', 'Cairo', sans-serif;
+    font-family: 'DIN Next LT Pro', 'Inter', sans-serif;
   }
 
   /* RTL Support */
   [dir="rtl"] {
-    font-family: 'Cairo', 'Inter', sans-serif;
+    font-family: 'DIN Next LT Arabic', 'Cairo', 'Tajawal', sans-serif;
   }
 
   [dir="ltr"] {
-    font-family: 'Inter', 'Cairo', sans-serif;
+    font-family: 'DIN Next LT Pro', 'Inter', sans-serif;
   }
 
   /* Headings */
