@@ -30,6 +30,7 @@ import ServiceDetails from "./pages/markets/ServiceDetails";
 import JobDetails from "./pages/markets/JobDetails";
 import Login from "./pages/auth/Login";
 import Settings from "./pages/Settings";
+import AddReview from "./pages/AddReview";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -60,6 +61,7 @@ function Router() {
       <Route path="/messages" component={Messages} />
       <Route path="/notifications" component={Notifications} />
       <Route path="/settings" component={Settings} />
+      <Route path="/add-review" component={AddReview} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

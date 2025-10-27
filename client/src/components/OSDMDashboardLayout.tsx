@@ -54,7 +54,7 @@ export default function OSDMDashboardLayout({ children }: OSDMDashboardLayoutPro
     { icon: LayoutDashboard, labelAr: 'النظرة العامة', labelEn: 'Overview', href: '/dashboard' },
     { icon: ShoppingCart, labelAr: 'مشتريات المنتجات', labelEn: 'Product Purchases', href: '/dashboard/buyer/purchases' },
     { icon: FileText, labelAr: 'طلبات الخدمات', labelEn: 'Service Orders', href: '/dashboard/buyer/orders' },
-    { icon: FileSignature, labelAr: 'المشاريع المنشورة', labelEn: 'Posted Projects', href: '/dashboard/buyer/projects' },
+    { icon: Briefcase, labelAr: 'المشاريع المستلمة', labelEn: 'Received Projects', href: '/dashboard/buyer/projects' },
     { icon: Wallet, labelAr: 'المحفظة والمدفوعات', labelEn: 'Wallet & Payments', href: '/dashboard/buyer/wallet' },
   ];
 
