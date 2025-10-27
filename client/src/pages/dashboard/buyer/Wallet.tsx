@@ -28,9 +28,9 @@ export default function BuyerWallet() {
         ) : (
           <>
             {/* Balance Card */}
-            <Card className="bg-gradient-to-br from-blue-500 to-blue-700 text-white">
+            <Card className="bg-gradient-to-br from-[#4691A9] to-[#846F9C] text-white">
               <CardHeader>
-                <CardDescription className="text-blue-100">
+                <CardDescription className="text-white/80">
                   {t('رصيد المحفظة', 'Wallet Balance')}
                 </CardDescription>
                 <CardTitle className="text-3xl flex items-center gap-2">

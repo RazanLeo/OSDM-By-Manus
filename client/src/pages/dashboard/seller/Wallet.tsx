@@ -29,9 +29,9 @@ export default function SellerWallet() {
           <>
             {/* Balance Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="bg-gradient-to-br from-purple-500 to-purple-700 text-white">
+              <Card className="bg-gradient-to-br from-[#846F9C] to-[#846F9C]/80 text-white">
                 <CardHeader>
-                  <CardDescription className="text-purple-100">
+                  <CardDescription className="text-white/80">
                     {t('الرصيد المتاح', 'Available Balance')}
                   </CardDescription>
                   <CardTitle className="text-3xl flex items-center gap-2">
@@ -50,7 +50,7 @@ export default function SellerWallet() {
                 <CardHeader>
                   <CardDescription>{t('الرصيد المعلق', 'Pending Balance')}</CardDescription>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <DollarSign className="h-6 w-6 text-yellow-500" />
+                    <DollarSign className="h-6 w-6 text-[#4691A9]" />
                     {wallet?.pendingBalance || 0} {wallet?.currency || 'SAR'}
                   </CardTitle>
                 </CardHeader>
@@ -60,7 +60,7 @@ export default function SellerWallet() {
                 <CardHeader>
                   <CardDescription>{t('إجمالي الأرباح', 'Total Earnings')}</CardDescription>
                   <CardTitle className="text-2xl flex items-center gap-2">
-                    <TrendingUp className="h-6 w-6 text-green-500" />
+                    <TrendingUp className="h-6 w-6 text-[#89A58F]" />
                     {wallet?.totalEarnings || 0} {wallet?.currency || 'SAR'}
                   </CardTitle>
                 </CardHeader>

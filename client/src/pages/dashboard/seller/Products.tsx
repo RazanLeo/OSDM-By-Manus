@@ -31,11 +31,11 @@ export default function SellerProducts() {
 
   const getStatusBadge = (status: string) => {
     const statusMap: Record<string, { labelAr: string; labelEn: string; className: string }> = {
-      draft: { labelAr: 'مسودة', labelEn: 'Draft', className: 'bg-gray-500' },
-      pending: { labelAr: 'قيد المراجعة', labelEn: 'Pending', className: 'bg-yellow-500' },
-      active: { labelAr: 'نشط', labelEn: 'Active', className: 'bg-green-500' },
-      rejected: { labelAr: 'مرفوض', labelEn: 'Rejected', className: 'bg-red-500' },
-      suspended: { labelAr: 'معلق', labelEn: 'Suspended', className: 'bg-orange-500' },
+      draft: { labelAr: 'مسودة', labelEn: 'Draft', className: 'bg-[#846F9C]' },
+      pending: { labelAr: 'قيد المراجعة', labelEn: 'Pending', className: 'bg-[#4691A9]' },
+      active: { labelAr: 'نشط', labelEn: 'Active', className: 'bg-[#89A58F]' },
+      rejected: { labelAr: 'مرفوض', labelEn: 'Rejected', className: 'bg-[#846F9C]/70' },
+      suspended: { labelAr: 'معلق', labelEn: 'Suspended', className: 'bg-[#4691A9]/70' },
     };
     
     const statusInfo = statusMap[status] || statusMap.draft;
