@@ -65,8 +65,7 @@ export default function Header() {
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 shadow-sm">
         <div className="container flex h-20 items-center justify-between gap-4 px-4">
           {/* Logo and Brand */}
-          <Link href="/">
-            <a className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
               <img
                 src="/logo.png"
                 alt="OSDM Logo"
@@ -86,7 +85,6 @@ export default function Header() {
                   {t('السوق الرقمي ذو المحطة الواحدة', 'One Stop Digital Market')}
                 </span>
               </div>
-            </a>
           </Link>
 
           {/* Search Bar */}
