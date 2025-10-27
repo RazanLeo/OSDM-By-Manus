@@ -282,3 +282,98 @@
   margin: 0 10px;
 }
 
+
+
+/* OSDM Custom Styles - Enhanced */
+.gradient-text-purple {
+  background: linear-gradient(135deg, #846F9C 0%, #9B86B3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, #4691A9 0%, #5AA5BD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-green {
+  background: linear-gradient(135deg, #89A58F 0%, #9DB9A3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg-purple {
+  background: linear-gradient(135deg, #846F9C 0%, #9B86B3 100%);
+}
+
+.gradient-bg-blue {
+  background: linear-gradient(135deg, #4691A9 0%, #5AA5BD 100%);
+}
+
+.gradient-bg-green {
+  background: linear-gradient(135deg, #89A58F 0%, #9DB9A3 100%);
+}
+
+.gradient-bg-full {
+  background: linear-gradient(135deg, #846F9C 0%, #4691A9 50%, #89A58F 100%);
+}
+
+/* Button Hover Effects */
+.btn-purple:hover {
+  background: linear-gradient(135deg, #9B86B3 0%, #846F9C 100%);
+}
+
+.btn-blue:hover {
+  background: linear-gradient(135deg, #5AA5BD 0%, #4691A9 100%);
+}
+
+.btn-green:hover {
+  background: linear-gradient(135deg, #9DB9A3 0%, #89A58F 100%);
+}
+
+/* Card Styles */
+.card-purple {
+  border-left: 4px solid #846F9C;
+}
+
+.card-blue {
+  border-left: 4px solid #4691A9;
+}
+
+.card-green {
+  border-left: 4px solid #89A58F;
+}
+
+/* Icon Colors */
+.icon-purple {
+  color: #846F9C;
+}
+
+.icon-blue {
+  color: #4691A9;
+}
+
+.icon-green {
+  color: #89A58F;
+}
+
+/* Badge Styles */
+.badge-purple {
+  background-color: #846F9C;
+  color: white;
+}
+
+.badge-blue {
+  background-color: #4691A9;
+  color: white;
+}
+
+.badge-green {
+  background-color: #89A58F;
+  color: white;
+}
+
