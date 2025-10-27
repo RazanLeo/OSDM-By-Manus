@@ -236,18 +236,21 @@ export default function Header() {
               <div className="flex items-center gap-2">
                 <Link href="/auth/login">
                   <Button
-                    variant="ghost"
+                    variant="outline"
                     size="sm"
-                    className="hover:bg-gradient-to-r hover:from-[#846F9C]/10 hover:to-[#4691A9]/10 transition-all"
+                    className="flex items-center gap-2 border-2 border-[#4691A9] text-[#4691A9] hover:bg-gradient-to-r hover:from-[#846F9C]/10 hover:to-[#4691A9]/10 transition-all"
                     style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
                   >
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#846F9C] to-[#4691A9] flex items-center justify-center">
+                      <User className="h-4 w-4 text-white" />
+                    </div>
                     {t('تسجيل الدخول', 'Login')}
                   </Button>
                 </Link>
                 <Link href="/auth/register">
                   <Button
                     size="sm"
-                    className="bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] hover:opacity-90 transition-opacity text-white"
+                    className="bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] hover:opacity-90 transition-opacity text-white shadow-lg"
                     style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
                   >
                     {t('إنشاء حساب', 'Sign Up')}

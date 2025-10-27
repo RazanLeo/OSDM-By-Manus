@@ -3,45 +3,57 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ShoppingBag, Wrench, Briefcase } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { MARKETS } from '@shared/constants';
 
 export default function MarketsSection() {
-  const { t } = useLanguage();
+  const { t, direction } = useLanguage();
+  const dir = direction;
 
   const markets = [
     {
       id: 'products',
       icon: ShoppingBag,
-      color: 'osdm-purple',
-      bgColor: 'bg-osdm-purple',
-      ...MARKETS.products,
+      nameAr: 'سوق المنتجات الرقمية الجاهزة',
+      nameEn: 'Ready Digital Products Market',
+      descriptionAr: 'منتجات رقمية جاهزة للبيع والشراء الفوري',
+      descriptionEn: 'Ready digital products for instant buying and selling',
+      gradient: 'from-[#846F9C] to-[#4691A9]',
       href: '/markets/products',
     },
     {
       id: 'services',
       icon: Wrench,
-      color: 'osdm-blue',
-      bgColor: 'bg-osdm-blue',
-      ...MARKETS.services,
+      nameAr: 'سوق المنتجات والخدمات الرقمية المتخصصة حسب الطلب',
+      nameEn: 'Specialized Digital Products & Services Market',
+      descriptionAr: 'خدمات رقمية متخصصة حسب الطلب',
+      descriptionEn: 'Specialized digital services on demand',
+      gradient: 'from-[#4691A9] to-[#89A58F]',
       href: '/markets/services',
     },
     {
       id: 'jobs',
       icon: Briefcase,
-      color: 'osdm-green',
-      bgColor: 'bg-osdm-green',
-      ...MARKETS.jobs,
+      nameAr: 'سوق المنتجات الرقمية الجاهزة',
+      nameEn: 'Freelance Job Opportunities Market',
+      descriptionAr: 'منتجات رقمية جاهزة للبيع والشراء الفوري',
+      descriptionEn: 'Freelance job opportunities and remote work',
+      gradient: 'from-[#846F9C] to-[#89A58F]',
       href: '/markets/jobs',
     },
   ];
 
   return (
-    <section id="markets" className="container py-12 md:py-20">
+    <section id="markets" className="container py-12 md:py-20 px-4">
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-4">
+        <h2 
+          className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] bg-clip-text text-transparent mb-4"
+          style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+        >
           {t('الأسواق الرقمية', 'Digital Markets')}
         </h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <p 
+          className="text-lg text-gray-600 max-w-2xl mx-auto"
+          style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+        >
           {t(
             'اختر السوق المناسب لاحتياجاتك واستكشف آلاف المنتجات والخدمات وفرص العمل',
             'Choose the right market for your needs and explore thousands of products, services, and job opportunities'
@@ -55,22 +67,33 @@ export default function MarketsSection() {
           return (
             <Card 
               key={market.id} 
-              className="hover:shadow-xl transition-shadow duration-300 border-2 hover:border-primary"
+              className="hover:shadow-xl transition-all duration-300 border-2 hover:border-[#4691A9]/30 hover:scale-105 flex flex-col"
             >
-              <CardHeader>
-                <div className={`w-16 h-16 ${market.bgColor} rounded-full flex items-center justify-center mb-4`}>
-                  <Icon className="w-8 h-8 text-white" />
+              <CardHeader className="flex-1">
+                <div className="flex justify-center mb-4">
+                  <div className={`w-20 h-20 bg-gradient-to-r ${market.gradient} rounded-full flex items-center justify-center shadow-lg`}>
+                    <Icon className="w-10 h-10 text-white" />
+                  </div>
                 </div>
-                <CardTitle className={`text-xl font-bold ${market.color}`}>
+                <CardTitle 
+                  className={`text-xl font-bold text-center bg-gradient-to-r ${market.gradient} bg-clip-text text-transparent mb-3`}
+                  style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                >
                   {t(market.nameAr, market.nameEn)}
                 </CardTitle>
-                <CardDescription className="text-base">
+                <CardDescription 
+                  className="text-base text-center text-gray-600"
+                  style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                >
                   {t(market.descriptionAr, market.descriptionEn)}
                 </CardDescription>
               </CardHeader>
-              <CardFooter>
+              <CardFooter className="pt-0">
                 <Link href={market.href} className="w-full">
-                  <Button className={`w-full ${market.bgColor} hover:opacity-90 text-white`}>
+                  <Button 
+                    className={`w-full bg-gradient-to-r ${market.gradient} hover:opacity-90 text-white shadow-lg`}
+                    style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                  >
                     {t('دخول السوق', 'Enter Market')}
                   </Button>
                 </Link>

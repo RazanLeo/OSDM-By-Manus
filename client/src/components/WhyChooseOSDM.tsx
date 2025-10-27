@@ -24,8 +24,8 @@ export default function WhyChooseOSDM() {
   const features = [
     {
       icon: Flag,
-      titleAr: '🇸🇦 منصة سعودية رائدة',
-      titleEn: '🇸🇦 Leading Saudi Platform',
+      titleAr: 'منصة سعودية رائدة',
+      titleEn: 'Leading Saudi Platform',
       descAr:
         'منصة رقمية متكاملة تستلهم رؤية 2030، تدعم التحول الرقمي والاقتصاد الوطني وحل مشكلة البطالة.',
       descEn:
@@ -54,7 +54,7 @@ export default function WhyChooseOSDM() {
       titleAr: 'تمكين البائعين',
       titleEn: 'Empowering Sellers',
       descAr:
-        'فرص واسعة لتحقيق أو لزيادة الدخل وانتشار الأعمال وجذب العملاء وخفض التكاليف مع أدوات تسويقية وبيئية رقمية محفّزة للابتكار دون عناء التسويق الفردي وإنشاء المواقع الخاصة.',
+        'فرص واسعة لتحقيق أو زيادة الدخل وانتشار الأعمال وجذب العملاء وخفض التكاليف مع أدوات تسويقية وبيئة رقمية محفّزة للابتكار دون عناء التسويق الفردي وإنشاء المواقع الخاصة',
       descEn:
         'Wide opportunities to achieve or increase income, spread businesses, attract customers, and reduce costs with marketing tools and a digital environment that encourages innovation without the hassle of individual marketing and creating private websites.',
     },

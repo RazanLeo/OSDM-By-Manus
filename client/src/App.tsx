@@ -27,12 +27,15 @@ import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import ServiceDetails from "./pages/markets/ServiceDetails";
 import JobDetails from "./pages/markets/JobDetails";
+import Login from "./pages/auth/Login";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
+       <Route path="/" component={Home} />
+      <Route path="/auth/login" component={Login} />
+      <Route path="/auth/register" component={Login} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/markets/products" component={ProductsMarket} />
       <Route path="/markets/products/:id" component={ProductDetails} />
