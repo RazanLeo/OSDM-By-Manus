@@ -1,7 +1,8 @@
 import OSDMDashboardLayout from '@/components/OSDMDashboardLayout';
 import { Card, CardContent } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { FileText } from 'lucide-react';
+import { FileText, Star } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function BuyerOrders() {
   const { t } = useLanguage();
@@ -9,20 +10,26 @@ export default function BuyerOrders() {
   return (
     <OSDMDashboardLayout>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold gradient-text">
-            {t('طلبات الخدمات', 'Service Orders')}
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            {t('متابعة طلبات الخدمات الرقمية المتخصصة', 'Track your custom digital service orders')}
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold gradient-text">
+              {t('الخدمات المستلمة', 'Received Services')}
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              {t('الخدمات الرقمية التي تم تسليمها لك', 'Digital services delivered to you')}
+            </p>
+          </div>
+          <Button className="gradient-bg text-white" onClick={() => window.location.href = '/add-review'}>
+            <Star className="h-4 w-4 mr-2" />
+            {t('إضافة تقييم', 'Add Review')}
+          </Button>
         </div>
 
         <Card>
           <CardContent className="text-center py-12">
             <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
             <p className="text-muted-foreground">
-              {t('لا توجد طلبات خدمات حالياً', 'No service orders at the moment')}
+              {t('لا توجد خدمات مستلمة حتى الآن', 'No received services yet')}
             </p>
           </CardContent>
         </Card>
