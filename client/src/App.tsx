@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { UserModeProvider } from "./contexts/UserModeContext";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import ProductsMarket from "./pages/markets/Products";
@@ -28,6 +29,7 @@ import Notifications from "./pages/Notifications";
 import ServiceDetails from "./pages/markets/ServiceDetails";
 import JobDetails from "./pages/markets/JobDetails";
 import Login from "./pages/auth/Login";
+import Settings from "./pages/Settings";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -57,6 +59,7 @@ function Router() {
       <Route path="/ip-policy" component={IPPolicy} />
       <Route path="/messages" component={Messages} />
       <Route path="/notifications" component={Notifications} />
+      <Route path="/settings" component={Settings} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -73,15 +76,17 @@ function App() {
   return (
     <ErrorBoundary>
       <LanguageProvider defaultLanguage="ar">
-        <ThemeProvider
-          defaultTheme="light"
-          // switchable
-        >
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
-        </ThemeProvider>
+        <UserModeProvider>
+          <ThemeProvider
+            defaultTheme="light"
+            // switchable
+          >
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </ThemeProvider>
+        </UserModeProvider>
       </LanguageProvider>
     </ErrorBoundary>
   );

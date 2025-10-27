@@ -3,6 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/_core/hooks/useAuth';
+import { useUserMode } from '@/contexts/UserModeContext';
 import { trpc } from '@/lib/trpc';
 import {
   LayoutDashboard,
@@ -27,23 +28,17 @@ interface OSDMDashboardLayoutProps {
   children: ReactNode;
 }
 
-type UserMode = 'seller' | 'buyer';
-
 export default function OSDMDashboardLayout({ children }: OSDMDashboardLayoutProps) {
   const { t, language, toggleLanguage } = useLanguage();
   const { user, isAuthenticated } = useAuth();
+  const { userMode, toggleMode } = useUserMode();
   const [location] = useLocation();
-  const [userMode, setUserMode] = useState<UserMode>('seller');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const logoutMutation = trpc.auth.logout.useMutation();
 
   const handleLogout = async () => {
     await logoutMutation.mutateAsync();
     window.location.href = '/';
-  };
-
-  const toggleMode = () => {
-    setUserMode(prev => prev === 'seller' ? 'buyer' : 'seller');
   };
 
   // Navigation items based on user mode
