@@ -133,13 +133,13 @@ export default function Dashboard() {
       href: '/markets/services',
     },
     {
-      icon: Star,
-      titleAr: 'إضافة تقييم',
-      titleEn: 'Add Review',
-      descriptionAr: 'قيّم تجربتك مع البائعين',
-      descriptionEn: 'Rate your experience with sellers',
+      icon: Briefcase,
+      titleAr: 'نشر مشروع',
+      titleEn: 'Post Project',
+      descriptionAr: 'انشر مشروعك واستقبل عروض من المستقلين',
+      descriptionEn: 'Post your project and receive bids from freelancers',
       bgColor: 'bg-gradient-to-r from-[#89A58F] to-[#89A58F]/80',
-      href: '/dashboard/buyer/purchases',
+      href: '/markets/jobs',
     },
   ];
 
