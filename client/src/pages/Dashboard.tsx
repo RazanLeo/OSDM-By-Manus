@@ -104,12 +104,12 @@ export default function Dashboard() {
     },
     {
       icon: Briefcase,
-      titleAr: 'تصفح المشاريع',
-      titleEn: 'Browse Projects',
-      descriptionAr: 'ابحث عن فرص عمل حر مناسبة',
-      descriptionEn: 'Find suitable freelance opportunities',
+      titleAr: 'إضافة مشروع',
+      titleEn: 'Add Project',
+      descriptionAr: 'أضف مشروعاً جديداً لإدارة عقودك',
+      descriptionEn: 'Add a new project to manage your contracts',
       bgColor: 'bg-gradient-to-r from-[#89A58F] to-[#89A58F]/80',
-      href: '/markets/jobs',
+      href: '/dashboard/seller/contracts',
     },
   ];
 
