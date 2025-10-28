@@ -393,3 +393,329 @@ export type Notification = typeof notifications.$inferSelect;
 export type Wallet = typeof wallets.$inferSelect;
 export type Transaction = typeof transactions.$inferSelect;
 
+
+
+/**
+ * جداول إضافية للدمج الكامل (Picalica + Gumroad + Khamsat + Mostaql)
+ */
+
+// نظام الاشتراكات (Gumroad Style)
+export const productSubscriptions = mysqlTable("product_subscriptions", {
+  id: int("id").autoincrement().primaryKey(),
+  productId: int("productId").notNull(),
+  userId: int("userId").notNull(),
+  planType: mysqlEnum("planType", ["monthly", "yearly"]).notNull(),
+  price: int("price").notNull(),
+  currency: varchar("currency", { length: 10 }).default("SAR").notNull(),
+  status: mysqlEnum("status", ["active", "cancelled", "expired", "paused"]).default("active").notNull(),
+  currentPeriodStart: timestamp("currentPeriodStart").notNull(),
+  currentPeriodEnd: timestamp("currentPeriodEnd").notNull(),
+  cancelledAt: timestamp("cancelledAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// نظام الحزم (Bundles)
+export const productBundles = mysqlTable("product_bundles", {
+  id: int("id").autoincrement().primaryKey(),
+  sellerId: int("sellerId").notNull(),
+  titleAr: varchar("titleAr", { length: 500 }).notNull(),
+  titleEn: varchar("titleEn", { length: 500 }).notNull(),
+  descriptionAr: text("descriptionAr"),
+  descriptionEn: text("descriptionEn"),
+  price: int("price").notNull(),
+  originalPrice: int("originalPrice").notNull(),
+  discountPercentage: int("discountPercentage").default(0).notNull(),
+  currency: varchar("currency", { length: 10 }).default("SAR").notNull(),
+  coverImage: text("coverImage"),
+  status: mysqlEnum("status", ["draft", "active", "inactive"]).default("draft").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const bundleItems = mysqlTable("bundle_items", {
+  id: int("id").autoincrement().primaryKey(),
+  bundleId: int("bundleId").notNull(),
+  productId: int("productId").notNull(),
+  order: int("order").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام الإضافات للخدمات (Khamsat Add-ons)
+export const serviceAddons = mysqlTable("service_addons", {
+  id: int("id").autoincrement().primaryKey(),
+  serviceId: int("serviceId").notNull(),
+  titleAr: varchar("titleAr", { length: 255 }).notNull(),
+  titleEn: varchar("titleEn", { length: 255 }).notNull(),
+  descriptionAr: text("descriptionAr"),
+  descriptionEn: text("descriptionEn"),
+  price: int("price").notNull(),
+  deliveryDays: int("deliveryDays").default(0).notNull(),
+  isActive: boolean("isActive").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// نظام قائمة الأمنيات (Wishlist)
+export const wishlists = mysqlTable("wishlists", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  itemId: int("itemId").notNull(),
+  itemType: mysqlEnum("itemType", ["product", "service", "bundle"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام البائعين المفضلين
+export const favoriteSellers = mysqlTable("favorite_sellers", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sellerId: int("sellerId").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام الكوبونات
+export const coupons = mysqlTable("coupons", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 50 }).notNull().unique(),
+  titleAr: varchar("titleAr", { length: 255 }),
+  titleEn: varchar("titleEn", { length: 255 }),
+  descriptionAr: text("descriptionAr"),
+  descriptionEn: text("descriptionEn"),
+  discountType: mysqlEnum("discountType", ["percentage", "fixed"]).notNull(),
+  discountValue: int("discountValue").notNull(),
+  minPurchase: int("minPurchase").default(0).notNull(),
+  maxDiscount: int("maxDiscount"),
+  usageLimit: int("usageLimit"),
+  usedCount: int("usedCount").default(0).notNull(),
+  validFrom: timestamp("validFrom"),
+  validUntil: timestamp("validUntil"),
+  applicableType: mysqlEnum("applicableType", ["all", "products", "services"]).default("all").notNull(),
+  isActive: boolean("isActive").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const couponUsages = mysqlTable("coupon_usages", {
+  id: int("id").autoincrement().primaryKey(),
+  couponId: int("couponId").notNull(),
+  userId: int("userId").notNull(),
+  orderId: int("orderId"),
+  discountAmount: int("discountAmount").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام النزاعات (Disputes)
+export const disputes = mysqlTable("disputes", {
+  id: int("id").autoincrement().primaryKey(),
+  orderId: int("orderId").notNull(),
+  orderType: mysqlEnum("orderType", ["product", "service", "job"]).notNull(),
+  raisedBy: int("raisedBy").notNull(),
+  againstUserId: int("againstUserId").notNull(),
+  reason: varchar("reason", { length: 255 }).notNull(),
+  descriptionAr: text("descriptionAr").notNull(),
+  descriptionEn: text("descriptionEn").notNull(),
+  evidence: text("evidence"),
+  status: mysqlEnum("status", ["open", "investigating", "resolved", "closed"]).default("open").notNull(),
+  resolutionAr: text("resolutionAr"),
+  resolutionEn: text("resolutionEn"),
+  resolvedBy: int("resolvedBy"),
+  resolvedAt: timestamp("resolvedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// نظام الدعم الفني
+export const supportTickets = mysqlTable("support_tickets", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  subjectAr: varchar("subjectAr", { length: 255 }).notNull(),
+  subjectEn: varchar("subjectEn", { length: 255 }).notNull(),
+  descriptionAr: text("descriptionAr").notNull(),
+  descriptionEn: text("descriptionEn").notNull(),
+  category: varchar("category", { length: 100 }),
+  priority: mysqlEnum("priority", ["low", "normal", "high", "urgent"]).default("normal").notNull(),
+  status: mysqlEnum("status", ["open", "in_progress", "resolved", "closed"]).default("open").notNull(),
+  assignedTo: int("assignedTo"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const ticketReplies = mysqlTable("ticket_replies", {
+  id: int("id").autoincrement().primaryKey(),
+  ticketId: int("ticketId").notNull(),
+  userId: int("userId").notNull(),
+  messageAr: text("messageAr").notNull(),
+  messageEn: text("messageEn").notNull(),
+  attachments: text("attachments"),
+  isStaff: boolean("isStaff").default(false).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام المحادثات (Conversations)
+export const conversations = mysqlTable("conversations", {
+  id: int("id").autoincrement().primaryKey(),
+  participant1: int("participant1").notNull(),
+  participant2: int("participant2").notNull(),
+  orderId: int("orderId"),
+  orderType: mysqlEnum("orderType", ["product", "service", "job"]),
+  lastMessageAt: timestamp("lastMessageAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const conversationMessages = mysqlTable("conversation_messages", {
+  id: int("id").autoincrement().primaryKey(),
+  conversationId: int("conversationId").notNull(),
+  senderId: int("senderId").notNull(),
+  messageText: text("messageText"),
+  attachments: text("attachments"),
+  isRead: boolean("isRead").default(false).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام التقييمات المتقدم (Extended Reviews)
+export const detailedReviews = mysqlTable("detailed_reviews", {
+  id: int("id").autoincrement().primaryKey(),
+  reviewId: int("reviewId").notNull().unique(),
+  qualityRating: int("qualityRating"),
+  communicationRating: int("communicationRating"),
+  deliveryRating: int("deliveryRating"),
+  valueRating: int("valueRating"),
+  images: text("images"),
+  sellerResponseAr: text("sellerResponseAr"),
+  sellerResponseEn: text("sellerResponseEn"),
+  sellerResponseDate: timestamp("sellerResponseDate"),
+  isVerified: boolean("isVerified").default(false).notNull(),
+  isFeatured: boolean("isFeatured").default(false).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام التحليلات والإحصائيات
+export const analyticsEvents = mysqlTable("analytics_events", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId"),
+  eventType: varchar("eventType", { length: 100 }).notNull(),
+  entityType: varchar("entityType", { length: 50 }),
+  entityId: int("entityId"),
+  metadata: text("metadata"),
+  ipAddress: varchar("ipAddress", { length: 50 }),
+  userAgent: text("userAgent"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام المهارات للمستقلين
+export const freelancerSkills = mysqlTable("freelancer_skills", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  skillNameAr: varchar("skillNameAr", { length: 100 }).notNull(),
+  skillNameEn: varchar("skillNameEn", { length: 100 }).notNull(),
+  level: mysqlEnum("level", ["beginner", "intermediate", "expert"]).default("intermediate").notNull(),
+  yearsOfExperience: int("yearsOfExperience").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام معرض الأعمال (Portfolio)
+export const portfolioItems = mysqlTable("portfolio_items", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  titleAr: varchar("titleAr", { length: 255 }).notNull(),
+  titleEn: varchar("titleEn", { length: 255 }).notNull(),
+  descriptionAr: text("descriptionAr"),
+  descriptionEn: text("descriptionEn"),
+  images: text("images"),
+  projectUrl: varchar("projectUrl", { length: 500 }),
+  tags: text("tags"),
+  displayOrder: int("displayOrder").default(0).notNull(),
+  isPublic: boolean("isPublic").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// نظام الشهادات
+export const certifications = mysqlTable("certifications", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  titleAr: varchar("titleAr", { length: 255 }).notNull(),
+  titleEn: varchar("titleEn", { length: 255 }).notNull(),
+  issuer: varchar("issuer", { length: 255 }),
+  issueDate: timestamp("issueDate"),
+  expiryDate: timestamp("expiryDate"),
+  credentialUrl: varchar("credentialUrl", { length: 500 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام الترخيص للمنتجات (Picalica Style)
+export const productLicenses = mysqlTable("product_licenses", {
+  id: int("id").autoincrement().primaryKey(),
+  productId: int("productId").notNull(),
+  licenseType: mysqlEnum("licenseType", ["personal", "commercial", "extended"]).notNull(),
+  price: int("price").notNull(),
+  features: text("features"),
+  isActive: boolean("isActive").default(true).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام المراجعات للطلبات (Revisions)
+export const orderRevisions = mysqlTable("order_revisions", {
+  id: int("id").autoincrement().primaryKey(),
+  orderId: int("orderId").notNull(),
+  orderType: mysqlEnum("orderType", ["service", "job"]).notNull(),
+  requestedBy: int("requestedBy").notNull(),
+  descriptionAr: text("descriptionAr").notNull(),
+  descriptionEn: text("descriptionEn").notNull(),
+  status: mysqlEnum("status", ["pending", "accepted", "rejected", "completed"]).default("pending").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// نظام التسليمات
+export const deliveries = mysqlTable("deliveries", {
+  id: int("id").autoincrement().primaryKey(),
+  orderId: int("orderId").notNull(),
+  orderType: mysqlEnum("orderType", ["service", "job"]).notNull(),
+  deliveredBy: int("deliveredBy").notNull(),
+  messageAr: text("messageAr"),
+  messageEn: text("messageEn"),
+  files: text("files"),
+  status: mysqlEnum("status", ["pending", "accepted", "rejected"]).default("pending").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+// نظام الوسوم (Tags)
+export const tags = mysqlTable("tags", {
+  id: int("id").autoincrement().primaryKey(),
+  nameAr: varchar("nameAr", { length: 100 }).notNull(),
+  nameEn: varchar("nameEn", { length: 100 }).notNull(),
+  slug: varchar("slug", { length: 100 }).notNull().unique(),
+  usageCount: int("usageCount").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام ربط الوسوم بالمنتجات
+export const productTags = mysqlTable("product_tags", {
+  productId: int("productId").notNull(),
+  tagId: int("tagId").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// نظام ربط الوسوم بالخدمات
+export const serviceTags = mysqlTable("service_tags", {
+  serviceId: int("serviceId").notNull(),
+  tagId: int("tagId").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+// Types للجداول الجديدة
+export type ProductSubscription = typeof productSubscriptions.$inferSelect;
+export type ProductBundle = typeof productBundles.$inferSelect;
+export type ServiceAddon = typeof serviceAddons.$inferSelect;
+export type Wishlist = typeof wishlists.$inferSelect;
+export type Coupon = typeof coupons.$inferSelect;
+export type Dispute = typeof disputes.$inferSelect;
+export type SupportTicket = typeof supportTickets.$inferSelect;
+export type Conversation = typeof conversations.$inferSelect;
+export type FreelancerSkill = typeof freelancerSkills.$inferSelect;
+export type PortfolioItem = typeof portfolioItems.$inferSelect;
+export type Certification = typeof certifications.$inferSelect;
+export type Tag = typeof tags.$inferSelect;
+
