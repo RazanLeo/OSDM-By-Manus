@@ -33,6 +33,7 @@ import Register from "./pages/auth/Register";
 import Search from "./pages/Search";
 import Settings from "./pages/Settings";
 import AddReview from "./pages/AddReview";
+import AdminDashboard from "./pages/admin/Dashboard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -41,6 +42,8 @@ function Router() {
        <Route path="/" component={Home} />
       <Route path="/auth/login" component={Login} />
       <Route path="/auth/register" component={Register} />
+      <Route path="/admin/dashboard" component={AdminDashboard} />
+      <Route path="/admin" component={AdminDashboard} />
       <Route path="/search" component={Search} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/markets/products" component={ProductsMarket} />
