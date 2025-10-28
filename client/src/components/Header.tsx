@@ -73,8 +73,14 @@ export default function Header() {
               />
               <div className="flex flex-col">
                 <span
-                  className="text-2xl font-bold bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] bg-clip-text text-transparent"
-                  style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
+                  className="text-2xl font-bold"
+                  style={{ 
+                    fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif',
+                    background: 'linear-gradient(90deg, #846F9C 0%, #4691A9 50%, #89A58F 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
                 >
                   OSDM
                 </span>
