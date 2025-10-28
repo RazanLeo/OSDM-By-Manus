@@ -267,9 +267,23 @@ class SDKServer {
   }
 
   async authenticateRequest(req: Request): Promise<User> {
-    // Regular authentication flow
     const cookies = this.parseCookies(req.headers.cookie);
     const sessionCookie = cookies.get(COOKIE_NAME);
+    
+    // Try to parse as JSON first (Email/Password auth)
+    try {
+      const sessionData = JSON.parse(sessionCookie || '{}');
+      if (sessionData.userId) {
+        const user = await db.getUserById(sessionData.userId);
+        if (user) {
+          return user;
+        }
+      }
+    } catch {
+      // Not JSON, try OAuth
+    }
+    
+    // OAuth authentication flow
     const session = await this.verifySession(sessionCookie);
 
     if (!session) {

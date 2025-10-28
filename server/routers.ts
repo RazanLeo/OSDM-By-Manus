@@ -10,6 +10,89 @@ export const appRouter = router({
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
+    
+    login: publicProcedure
+      .input(z.object({
+        email: z.string().email(),
+        password: z.string().min(6),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const bcrypt = await import('bcryptjs');
+        const user = await db.getUserByEmail(input.email);
+        
+        if (!user || !user.password) {
+          throw new Error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+        }
+        
+        const isValid = await bcrypt.compare(input.password, user.password);
+        if (!isValid) {
+          throw new Error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+        }
+        
+        // Update last signed in
+        await db.updateUserLastSignIn(user.id);
+        
+        // Set session cookie
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, JSON.stringify({ userId: user.id }), cookieOptions);
+        
+        return {
+          success: true,
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          },
+        };
+      }),
+    
+    register: publicProcedure
+      .input(z.object({
+        name: z.string().min(2),
+        email: z.string().email(),
+        password: z.string().min(6),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const bcrypt = await import('bcryptjs');
+        
+        // Check if email exists
+        const existing = await db.getUserByEmail(input.email);
+        if (existing) {
+          throw new Error('البريد الإلكتروني مستخدم بالفعل');
+        }
+        
+        // Hash password
+        const hashedPassword = await bcrypt.hash(input.password, 10);
+        
+        // Create user
+        const user = await db.createUser({
+          name: input.name,
+          email: input.email,
+          password: hashedPassword,
+          role: 'user',
+          loginMethod: 'email',
+        });
+        
+        if (!user) {
+          throw new Error('فشل إنشاء الحساب');
+        }
+        
+        // Set session cookie
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, JSON.stringify({ userId: user.id }), cookieOptions);
+        
+        return {
+          success: true,
+          user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          },
+        };
+      }),
+    
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });

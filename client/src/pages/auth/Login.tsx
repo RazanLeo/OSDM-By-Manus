@@ -1,16 +1,50 @@
+import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { trpc } from '@/lib/trpc';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Login() {
   const [, setLocation] = useLocation();
   const { t, direction } = useLanguage();
   const dir = direction;
+  const { toast } = useToast();
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleOAuthLogin = () => {
-    // Redirect to OAuth login
-    window.location.href = '/api/auth/login';
+  const loginMutation = trpc.auth.login.useMutation({
+    onSuccess: (data) => {
+      toast({
+        title: t('تم تسجيل الدخول بنجاح', 'Login successful'),
+        description: t(`مرحباً ${data.user.name}`, `Welcome ${data.user.name}`),
+      });
+      // Reload to update user context
+      window.location.href = '/';
+    },
+    onError: (error) => {
+      toast({
+        title: t('خطأ في تسجيل الدخول', 'Login error'),
+        description: error.message,
+        variant: 'destructive',
+      });
+      setIsLoading(false);
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    loginMutation.mutate({
+      email,
+      password,
+    });
   };
 
   return (
@@ -23,26 +57,18 @@ export default function Login() {
             alt="OSDM Logo"
             className="h-32 w-32 mx-auto mb-4"
           />
-          <svg width="150" height="60" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
-            <defs>
-              <linearGradient id="osdm-gradient-login" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style={{ stopColor: '#846F9C', stopOpacity: 1 }} />
-                <stop offset="50%" style={{ stopColor: '#4691A9', stopOpacity: 1 }} />
-                <stop offset="100%" style={{ stopColor: '#89A58F', stopOpacity: 1 }} />
-              </linearGradient>
-            </defs>
-            <text
-              x="50%"
-              y="42"
-              fill="url(#osdm-gradient-login)"
-              fontSize="42"
-              fontWeight="bold"
-              textAnchor="middle"
-              fontFamily={dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif'}
-            >
-              OSDM
-            </text>
-          </svg>
+          <span
+            className="text-5xl font-bold block"
+            style={{ 
+              background: 'linear-gradient(90deg, #846F9C 0%, #4691A9 50%, #89A58F 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif'
+            }}
+          >
+            OSDM
+          </span>
           <p 
             className="text-gray-600 mt-2"
             style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
@@ -54,76 +80,86 @@ export default function Login() {
         <Card className="shadow-xl">
           <CardHeader>
             <CardTitle 
-              className="text-center"
+              className="text-center text-2xl"
               style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
             >
-              {t('مرحباً بك في منصة OSDM', 'Welcome to OSDM Platform')}
+              {t('تسجيل الدخول', 'Login')}
             </CardTitle>
             <CardDescription 
               className="text-center"
               style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
             >
-              {t('سجل الدخول للبدء في البيع والشراء', 'Login to start selling and buying')}
+              {t('أدخل بياناتك للدخول إلى حسابك', 'Enter your credentials to access your account')}
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {/* OAuth Login Button */}
-            <Button
-              onClick={handleOAuthLogin}
-              className="w-full bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] hover:opacity-90 text-white py-6 text-lg"
-              style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
-            >
-              {t('تسجيل الدخول / إنشاء حساب', 'Login / Sign Up')}
-            </Button>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
+                  {t('البريد الإلكتروني', 'Email')}
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder={t('example@email.com', 'example@email.com')}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
+                  className="text-right"
+                  dir={dir}
+                />
+              </div>
 
-            {/* Features */}
-            <div className="mt-6 space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="h-6 w-6 rounded-full bg-gradient-to-r from-[#846F9C] to-[#4691A9] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-white text-xs">✓</span>
-                </div>
-                <p 
-                  className="text-sm text-gray-600"
-                  style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
-                >
-                  {t('بيع وشراء المنتجات الرقمية', 'Buy and sell digital products')}
-                </p>
+              <div className="space-y-2">
+                <Label htmlFor="password" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
+                  {t('كلمة المرور', 'Password')}
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder={t('••••••••', '••••••••')}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                  className="text-right"
+                  dir={dir}
+                />
               </div>
-              <div className="flex items-start gap-3">
-                <div className="h-6 w-6 rounded-full bg-gradient-to-r from-[#4691A9] to-[#89A58F] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-white text-xs">✓</span>
-                </div>
-                <p 
-                  className="text-sm text-gray-600"
-                  style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
-                >
-                  {t('تقديم وطلب الخدمات المتخصصة', 'Offer and request specialized services')}
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="h-6 w-6 rounded-full bg-gradient-to-r from-[#846F9C] to-[#89A58F] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-white text-xs">✓</span>
-                </div>
-                <p 
-                  className="text-sm text-gray-600"
-                  style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
-                >
-                  {t('إيجاد فرص العمل الحر', 'Find freelance job opportunities')}
-                </p>
-              </div>
-            </div>
 
-            {/* Security Note */}
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-              <p 
-                className="text-xs text-gray-500 text-center"
+              <Button
+                type="submit"
+                className="w-full bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] hover:opacity-90 text-white py-6 text-lg"
+                disabled={isLoading}
                 style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
               >
-                {t(
-                  'تسجيل الدخول آمن ومحمي. نحن لا نخزن كلمات المرور الخاصة بك',
-                  'Login is secure and protected. We do not store your passwords'
-                )}
+                {isLoading ? t('جاري تسجيل الدخول...', 'Logging in...') : t('تسجيل الدخول', 'Login')}
+              </Button>
+            </form>
+
+            {/* Register Link */}
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
+                {t('ليس لديك حساب؟', "Don't have an account?")}{' '}
+                <button
+                  onClick={() => setLocation('/auth/register')}
+                  className="text-[#4691A9] hover:underline font-semibold"
+                >
+                  {t('إنشاء حساب جديد', 'Create new account')}
+                </button>
               </p>
+            </div>
+
+            {/* Test Accounts Info */}
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <p className="text-xs font-semibold text-blue-900 mb-2" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
+                {t('حسابات تجريبية:', 'Test Accounts:')}
+              </p>
+              <div className="space-y-1 text-xs text-blue-800" style={{ fontFamily: 'monospace' }}>
+                <p>👤 User: user@osdm.sa / User@123</p>
+                <p>👑 Admin: admin@osdm.sa / Admin@123</p>
+              </div>
             </div>
           </CardContent>
         </Card>

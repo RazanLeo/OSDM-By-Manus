@@ -36,6 +36,13 @@
       "when": 1761613948779,
       "tag": "0004_orange_squadron_supreme",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1761683614334,
+      "tag": "0005_soft_lionheart",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,118 @@
+{
+  "query": "SELECT id, name, email, role FROM users LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT id, name, email, role FROM users LIMIT 20;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Razan Taofek",
+      "email": "7wppc74r8m@privaterelay.appleid.com",
+      "role": "admin"
+    },
+    {
+      "id": "1710006",
+      "name": "أحمد محمد",
+      "email": "ahmed@example.com",
+      "role": "user"
+    },
+    {
+      "id": "1710007",
+      "name": "شركة التقنية الحديثة",
+      "email": "tech@example.com",
+      "role": "user"
+    },
+    {
+      "id": "1710008",
+      "name": "سارة أحمد",
+      "email": "sara@example.com",
+      "role": "user"
+    },
+    {
+      "id": "1710010",
+      "name": "أحمد محمد",
+      "email": "ahmed@example.com",
+      "role": "user"
+    },
+    {
+      "id": "1710011",
+      "name": "شركة التقنية الحديثة",
+      "email": "tech@example.com",
+      "role": "user"
+    },
+    {
+      "id": "1710012",
+      "name": "سارة أحمد",
+      "email": "sara@example.com",
+      "role": "user"
+    },
+    {
+      "id": "1800001",
+      "name": "مدير المنصة",
+      "email": "admin@osdm.com",
+      "role": "user"
+    },
+    {
+      "id": "1800002",
+      "name": "مستقل",
+      "email": "mustaqil@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800003",
+      "name": "خمسات",
+      "email": "khamsat@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800004",
+      "name": "بيكاليكا",
+      "email": "picalica@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800005",
+      "name": "سنديان",
+      "email": "syndian@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800006",
+      "name": "أنا",
+      "email": "ana@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800007",
+      "name": "بعيد",
+      "email": "baeed@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800008",
+      "name": "زيتون",
+      "email": "zaitoon@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800009",
+      "name": "أكاديمية خسوب",
+      "email": "academya@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800010",
+      "name": "خسوب",
+      "email": "khassoub@test.com",
+      "role": "user"
+    },
+    {
+      "id": "1800011",
+      "name": "موسوعة خسوب",
+      "email": "mosoua@test.com",
+      "role": "user"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\trole\n1\tRazan Taofek\t7wppc74r8m@privaterelay.appleid.com\tadmin\n1710006\tأحمد محمد\tahmed@example.com\tuser\n1710007\tشركة التقنية الحديثة\ttech@example.com\tuser\n1710008\tسارة أحمد\tsara@example.com\tuser\n1710010\tأحمد محمد\tahmed@example.com\tuser\n1710011\tشركة التقنية الحديثة\ttech@example.com\tuser\n1710012\tسارة أحمد\tsara@example.com\tuser\n1800001\tمدير المنصة\tadmin@osdm.com\tuser\n1800002\tمستقل\tmustaqil@test.com\tuser\n1800003\tخمسات\tkhamsat@test.com\tuser\n1800004\tبيكاليكا\tpicalica@test.com\tuser\n1800005\tسنديان\tsyndian@test.com\tuser\n1800006\tأنا\tana@test.com\tuser\n1800007\tبعيد\tbaeed@test.com\tuser\n1800008\tزيتون\tzaitoon@test.com\tuser\n1800009\tأكاديمية خسوب\tacademya@test.com\tuser\n1800010\tخسوب\tkhassoub@test.com\tuser\n1800011\tموسوعة خسوب\tmosoua@test.com\tuser\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}
