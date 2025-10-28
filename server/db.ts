@@ -956,3 +956,20 @@ export async function getCategoriesByType(type: string) {
   return await db.select().from(table);
 }
 
+
+
+
+// Service functions
+export async function createService(data: typeof services.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.insert(services).values(data);
+}
+
+// Job functions
+export async function createJob(data: typeof jobs.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.insert(jobs).values(data);
+}
+
