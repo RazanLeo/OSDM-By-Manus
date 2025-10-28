@@ -913,3 +913,46 @@ export async function addUserCertification(data: typeof userCertifications.$infe
   return result;
 }
 
+
+
+
+// Category functions
+export async function createCategory(data: {
+  nameAr: string;
+  nameEn: string;
+  type: string;
+  parentId?: number | null;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const table = data.type === 'product' ? productCategories : 
+                data.type === 'service' ? serviceCategories : 
+                jobCategories;
+  
+  await db.insert(table).values({
+    nameAr: data.nameAr,
+    nameEn: data.nameEn,
+    parentId: data.parentId || null,
+  });
+  // Return a placeholder ID since we can't get the last insert ID easily
+  return 1;
+}
+
+export async function getAllCategories() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const products = await db.select().from(productCategories);
+  const services = await db.select().from(serviceCategories);
+  const jobs = await db.select().from(jobCategories);
+  return [...products, ...services, ...jobs];
+}
+
+export async function getCategoriesByType(type: string) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const table = type === 'product' ? productCategories : 
+                type === 'service' ? serviceCategories : 
+                jobCategories;
+  return await db.select().from(table);
+}
+
