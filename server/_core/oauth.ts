@@ -10,6 +10,17 @@ function getQueryParam(req: Request, key: string): string | undefined {
 }
 
 export function registerOAuthRoutes(app: Express) {
+  // Login endpoint - redirects to OAuth portal
+  app.get("/api/auth/login", async (req: Request, res: Response) => {
+    try {
+      const loginUrl = await sdk.getLoginUrl();
+      res.redirect(302, loginUrl);
+    } catch (error) {
+      console.error("[OAuth] Login redirect failed", error);
+      res.status(500).json({ error: "Failed to initiate login" });
+    }
+  });
+
   app.get("/api/oauth/callback", async (req: Request, res: Response) => {
     const code = getQueryParam(req, "code");
     const state = getQueryParam(req, "state");

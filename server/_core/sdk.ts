@@ -130,6 +130,16 @@ class SDKServer {
    * @example
    * const userInfo = await sdk.getUserInfo(tokenResponse.accessToken);
    */
+  /**
+   * Get OAuth login URL
+   * @example
+   * const loginUrl = await sdk.getLoginUrl();
+   */
+  async getLoginUrl(): Promise<string> {
+    // Return the OAuth portal URL from environment
+    return ENV.oAuthPortalUrl || "https://oauth.manus.im/login";
+  }
+
   async getUserInfo(accessToken: string): Promise<GetUserInfoResponse> {
     const data = await this.oauthService.getUserInfoByToken({
       accessToken,
