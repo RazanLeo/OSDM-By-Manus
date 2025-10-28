@@ -3,14 +3,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-export default function Login() {
+export default function Register() {
   const [, setLocation] = useLocation();
   const { t, direction } = useLanguage();
   const dir = direction;
 
-  const handleOAuthLogin = () => {
-    // Redirect to OAuth login
-    window.location.href = '/api/auth/login';
+  const handleOAuthRegister = () => {
+    // Redirect to OAuth registration
+    window.location.href = '/api/auth/login?register=true';
   };
 
   return (
@@ -41,25 +41,25 @@ export default function Login() {
           <CardHeader>
             <CardTitle 
               className="text-center"
-              style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+              style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
             >
-              {t('مرحباً بك في منصة OSDM', 'Welcome to OSDM Platform')}
+              {t('إنشاء حساب جديد', 'Create New Account')}
             </CardTitle>
             <CardDescription 
               className="text-center"
-              style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+              style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
             >
-              {t('سجل الدخول للبدء في البيع والشراء', 'Login to start selling and buying')}
+              {t('انضم إلى منصة OSDM وابدأ رحلتك الرقمية', 'Join OSDM Platform and start your digital journey')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* OAuth Login Button */}
+            {/* OAuth Register Button */}
             <Button
-              onClick={handleOAuthLogin}
+              onClick={handleOAuthRegister}
               className="w-full bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] hover:opacity-90 text-white py-6 text-lg"
-              style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+              style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
             >
-              {t('تسجيل الدخول / إنشاء حساب', 'Login / Sign Up')}
+              {t('إنشاء حساب جديد', 'Create New Account')}
             </Button>
 
             {/* Features */}
@@ -70,7 +70,7 @@ export default function Login() {
                 </div>
                 <p 
                   className="text-sm text-gray-600"
-                  style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                  style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
                 >
                   {t('بيع وشراء المنتجات الرقمية', 'Buy and sell digital products')}
                 </p>
@@ -81,7 +81,7 @@ export default function Login() {
                 </div>
                 <p 
                   className="text-sm text-gray-600"
-                  style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                  style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
                 >
                   {t('تقديم وطلب الخدمات المتخصصة', 'Offer and request specialized services')}
                 </p>
@@ -92,22 +92,40 @@ export default function Login() {
                 </div>
                 <p 
                   className="text-sm text-gray-600"
-                  style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                  style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
                 >
                   {t('إيجاد فرص العمل الحر', 'Find freelance job opportunities')}
                 </p>
               </div>
             </div>
 
+            {/* Already have account */}
+            <div className="mt-6 text-center">
+              <p 
+                className="text-sm text-gray-600"
+                style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
+              >
+                {t('لديك حساب بالفعل؟', 'Already have an account?')}{' '}
+                <Button
+                  variant="link"
+                  onClick={() => setLocation('/auth/login')}
+                  className="p-0 h-auto text-[#4691A9] hover:text-[#846F9C]"
+                  style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
+                >
+                  {t('تسجيل الدخول', 'Login')}
+                </Button>
+              </p>
+            </div>
+
             {/* Security Note */}
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
               <p 
                 className="text-xs text-gray-500 text-center"
-                style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
               >
                 {t(
-                  'تسجيل الدخول آمن ومحمي. نحن لا نخزن كلمات المرور الخاصة بك',
-                  'Login is secure and protected. We do not store your passwords'
+                  'تسجيلك آمن ومحمي. نحن نحترم خصوصيتك ونحمي بياناتك',
+                  'Your registration is secure and protected. We respect your privacy and protect your data'
                 )}
               </p>
             </div>
@@ -120,7 +138,7 @@ export default function Login() {
             variant="ghost"
             onClick={() => setLocation('/')}
             className="text-gray-600 hover:text-gray-900"
-            style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+            style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}
           >
             {t('← العودة للصفحة الرئيسية', '← Back to Home')}
           </Button>

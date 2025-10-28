@@ -29,6 +29,8 @@ import Notifications from "./pages/Notifications";
 import ServiceDetails from "./pages/markets/ServiceDetails";
 import JobDetails from "./pages/markets/JobDetails";
 import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Search from "./pages/Search";
 import Settings from "./pages/Settings";
 import AddReview from "./pages/AddReview";
 
@@ -38,7 +40,8 @@ function Router() {
     <Switch>
        <Route path="/" component={Home} />
       <Route path="/auth/login" component={Login} />
-      <Route path="/auth/register" component={Login} />
+      <Route path="/auth/register" component={Register} />
+      <Route path="/search" component={Search} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/markets/products" component={ProductsMarket} />
       <Route path="/markets/products/:id" component={ProductDetails} />
