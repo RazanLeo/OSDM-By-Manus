@@ -72,18 +72,25 @@ export default function Header() {
                 className="h-16 w-16 object-contain"
               />
               <div className="flex flex-col">
-                <span
-                  className="text-2xl font-bold"
-                  style={{ 
-                    fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif',
-                    background: 'linear-gradient(90deg, #846F9C 0%, #4691A9 50%, #89A58F 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
-                  }}
-                >
-                  OSDM
-                </span>
+                <svg width="120" height="40" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="osdm-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style={{ stopColor: '#846F9C', stopOpacity: 1 }} />
+                      <stop offset="50%" style={{ stopColor: '#4691A9', stopOpacity: 1 }} />
+                      <stop offset="100%" style={{ stopColor: '#89A58F', stopOpacity: 1 }} />
+                    </linearGradient>
+                  </defs>
+                  <text
+                    x="0"
+                    y="28"
+                    fill="url(#osdm-gradient)"
+                    fontSize="32"
+                    fontWeight="bold"
+                    fontFamily={dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif'}
+                  >
+                    OSDM
+                  </text>
+                </svg>
                 <span
                   className="text-xs text-gray-600"
                   style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}

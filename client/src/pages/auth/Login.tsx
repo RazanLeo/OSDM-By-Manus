@@ -23,18 +23,26 @@ export default function Login() {
             alt="OSDM Logo"
             className="h-32 w-32 mx-auto mb-4"
           />
-          <h1 
-            className="text-4xl font-bold"
-            style={{ 
-              fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif',
-              background: 'linear-gradient(90deg, #846F9C 0%, #4691A9 50%, #89A58F 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}
-          >
-            OSDM
-          </h1>
+          <svg width="150" height="60" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+            <defs>
+              <linearGradient id="osdm-gradient-login" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#846F9C', stopOpacity: 1 }} />
+                <stop offset="50%" style={{ stopColor: '#4691A9', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#89A58F', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+            <text
+              x="50%"
+              y="42"
+              fill="url(#osdm-gradient-login)"
+              fontSize="42"
+              fontWeight="bold"
+              textAnchor="middle"
+              fontFamily={dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif'}
+            >
+              OSDM
+            </text>
+          </svg>
           <p 
             className="text-gray-600 mt-2"
             style={{ fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif' }}

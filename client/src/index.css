@@ -49,7 +49,18 @@
   --color-purple: #846F9C;
   --color-blue: #4691A9;
   --color-green: #89A58F;
+}
 
+/* OSDM Gradient Text */
+.osdm-gradient-text {
+  background: linear-gradient(90deg, #846F9C 0%, #4691A9 50%, #89A58F 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  display: inline-block !important;
+}
+
+:root {
   --primary: var(--color-blue-700);
   --primary-foreground: var(--color-blue-50);
   --sidebar-primary: var(--color-blue-600);
