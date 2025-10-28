@@ -15,6 +15,20 @@
       "when": 1761516546202,
       "tag": "0001_confused_blindfold",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1761610441587,
+      "tag": "0002_famous_rhodey",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1761612270836,
+      "tag": "0003_chief_union_jack",
+      "breakpoints": true
     }
   ]
 }

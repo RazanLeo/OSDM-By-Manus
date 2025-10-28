@@ -7,8 +7,12 @@ import {
   productCategories,
   services,
   serviceCategories,
+  servicePackages,
+  serviceOrders,
   jobs,
   jobCategories,
+  jobBids,
+  contracts,
   reviews,
   messages,
   notifications,
@@ -314,4 +318,121 @@ export async function createWallet(userId: number) {
   
   return result;
 }
+
+
+
+// Product Subscriptions and Bundles - To be implemented when tables are added to schema
+
+/**
+ * Service Packages
+ */
+export async function getServicePackages(serviceId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(servicePackages).where(eq(servicePackages.serviceId, serviceId)).orderBy(servicePackages.order);
+}
+
+// Service Add-ons - To be implemented when table is added to schema
+
+/**
+ * Service Orders
+ */
+export async function createServiceOrder(data: typeof serviceOrders.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(serviceOrders).values(data);
+  return result;
+}
+
+export async function getServiceOrderById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(serviceOrders).where(eq(serviceOrders.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getMyServiceOrders(userId: number, type: 'buyer' | 'seller') {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const condition = type === 'buyer' 
+    ? eq(serviceOrders.buyerId, userId)
+    : eq(serviceOrders.sellerId, userId);
+  
+  return await db.select().from(serviceOrders).where(condition).orderBy(desc(serviceOrders.createdAt));
+}
+
+/**
+ * Job Bids
+ */
+export async function createJobBid(data: typeof jobBids.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(jobBids).values(data);
+  return result;
+}
+
+export async function getJobBids(jobId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(jobBids).where(eq(jobBids.jobId, jobId)).orderBy(desc(jobBids.createdAt));
+}
+
+export async function getMyBids(freelancerId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(jobBids).where(eq(jobBids.freelancerId, freelancerId)).orderBy(desc(jobBids.createdAt));
+}
+
+/**
+ * Contracts
+ */
+export async function createContract(data: typeof contracts.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(contracts).values(data);
+  return result;
+}
+
+export async function getContractById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.select().from(contracts).where(eq(contracts.id, id)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getMyContracts(userId: number, type: 'employer' | 'freelancer') {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const condition = type === 'employer'
+    ? eq(contracts.employerId, userId)
+    : eq(contracts.freelancerId, userId);
+  
+  return await db.select().from(contracts).where(condition).orderBy(desc(contracts.createdAt));
+}
+
+// Wishlists - To be implemented when table is added to schema
+
+// Coupons - To be implemented when table is added to schema
+
+// Conversations & Messages - To be implemented when tables are added to schema
+
+// Disputes - To be implemented when table is added to schema
+
+// Support Tickets - To be implemented when tables are added to schema
+
+// Portfolio - To be implemented when table is added to schema
+
+// Skills - To be implemented when table is added to schema
+
+// Certifications - To be implemented when table is added to schema
 

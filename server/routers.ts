@@ -166,6 +166,121 @@ export const appRouter = router({
       return wallet;
     }),
   }),
+
+  // Service Packages
+  servicePackages: router({
+    list: publicProcedure
+      .input(z.object({ serviceId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getServicePackages(input.serviceId);
+      }),
+  }),
+
+  // Service Orders
+  serviceOrders: router({
+    create: protectedProcedure
+      .input(z.object({
+        serviceId: z.number(),
+        packageId: z.number(),
+        requirements: z.string(),
+        totalPrice: z.number(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        return await db.createServiceOrder({
+          serviceId: input.serviceId,
+          buyerId: ctx.user.id,
+          sellerId: 0, // Will be set from service
+          titleAr: 'Service Order',
+          titleEn: 'Service Order',
+          descriptionAr: input.requirements,
+          descriptionEn: input.requirements,
+          price: input.totalPrice,
+          deliveryTime: 7,
+          status: 'pending',
+          currency: 'SAR',
+        });
+      }),
+    myOrders: protectedProcedure
+      .input(z.object({ type: z.enum(['buyer', 'seller']) }))
+      .query(async ({ ctx, input }) => {
+        return await db.getMyServiceOrders(ctx.user.id, input.type);
+      }),
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getServiceOrderById(input.id);
+      }),
+  }),
+
+  // Job Bids
+  jobBids: router({
+    create: protectedProcedure
+      .input(z.object({
+        jobId: z.number(),
+        bidAmount: z.number(),
+        deliveryTime: z.number(),
+        proposal: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        return await db.createJobBid({
+          jobId: input.jobId,
+          freelancerId: ctx.user.id,
+          amount: input.bidAmount,
+          deliveryTime: input.deliveryTime,
+          proposalAr: input.proposal,
+          proposalEn: input.proposal,
+          status: 'pending',
+          currency: 'SAR',
+        });
+      }),
+    listByJob: publicProcedure
+      .input(z.object({ jobId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getJobBids(input.jobId);
+      }),
+    myBids: protectedProcedure.query(async ({ ctx }) => {
+      return await db.getMyBids(ctx.user.id);
+    }),
+  }),
+
+  // Contracts
+  contracts: router({
+    create: protectedProcedure
+      .input(z.object({
+        jobId: z.number(),
+        bidId: z.number(),
+        freelancerId: z.number(),
+        amount: z.number(),
+        deliveryTime: z.number(),
+        terms: z.string(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        return await db.createContract({
+          jobId: input.jobId,
+          bidId: input.bidId,
+          employerId: ctx.user.id,
+          freelancerId: input.freelancerId,
+          amount: input.amount,
+          deliveryTime: input.deliveryTime,
+          titleAr: input.terms,
+          titleEn: input.terms,
+          descriptionAr: input.terms,
+          descriptionEn: input.terms,
+          status: 'active',
+          currency: 'SAR',
+        });
+      }),
+    myContracts: protectedProcedure
+      .input(z.object({ type: z.enum(['employer', 'freelancer']) }))
+      .query(async ({ ctx, input }) => {
+        return await db.getMyContracts(ctx.user.id, input.type);
+      }),
+    getById: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getContractById(input.id);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
