@@ -20,7 +20,13 @@ import {
   mainServicesContent,
   feesContent,
   userGuideContent,
-  faqContent
+  faqContent,
+  privacyContent,
+  termsContent,
+  securityContent,
+  complianceContent,
+  intellectualPropertyContent,
+  otherPoliciesContent
 } from '@/data/footerContent';
 
 export default function Footer() {
@@ -223,7 +229,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li>
                 <button 
-                  onClick={() => openModal('سياسة الخصوصية', 'Privacy Policy', underConstructionContent.ar, underConstructionContent.en)}
+                  onClick={() => openModal('سياسة الخصوصية', 'Privacy Policy', privacyContent.ar, privacyContent.en)}
                   className="text-gray-600 hover:text-[#4691A9] transition-colors text-sm block text-start"
                   style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
                 >
@@ -232,7 +238,7 @@ export default function Footer() {
               </li>
               <li>
                 <button 
-                  onClick={() => openModal('شروط الاستخدام', 'Terms of Service', underConstructionContent.ar, underConstructionContent.en)}
+                  onClick={() => openModal('شروط الاستخدام', 'Terms of Service', termsContent.ar, termsContent.en)}
                   className="text-gray-600 hover:text-[#4691A9] transition-colors text-sm block text-start"
                   style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
                 >
@@ -241,7 +247,7 @@ export default function Footer() {
               </li>
               <li>
                 <button 
-                  onClick={() => openModal('سياسة الأمان', 'Security Policy', underConstructionContent.ar, underConstructionContent.en)}
+                  onClick={() => openModal('سياسة الأمان', 'Security Policy', securityContent.ar, securityContent.en)}
                   className="text-gray-600 hover:text-[#4691A9] transition-colors text-sm block text-start"
                   style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
                 >
@@ -250,7 +256,7 @@ export default function Footer() {
               </li>
               <li>
                 <button 
-                  onClick={() => openModal('سياسة الامتثال', 'Compliance Policy', underConstructionContent.ar, underConstructionContent.en)}
+                  onClick={() => openModal('سياسة الامتثال', 'Compliance Policy', complianceContent.ar, complianceContent.en)}
                   className="text-gray-600 hover:text-[#4691A9] transition-colors text-sm block text-start"
                   style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
                 >
@@ -259,7 +265,7 @@ export default function Footer() {
               </li>
               <li>
                 <button 
-                  onClick={() => openModal('سياسة حقوق الملكية الفكرية', 'IP Policy', underConstructionContent.ar, underConstructionContent.en)}
+                  onClick={() => openModal('سياسة حقوق الملكية الفكرية', 'Intellectual Property Policy', intellectualPropertyContent.ar, intellectualPropertyContent.en)}
                   className="text-gray-600 hover:text-[#4691A9] transition-colors text-sm block text-start"
                   style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
                 >
@@ -268,7 +274,7 @@ export default function Footer() {
               </li>
               <li>
                 <button 
-                  onClick={() => openModal('السياسات الأخرى', 'Other Policies', underConstructionContent.ar, underConstructionContent.en)}
+                  onClick={() => openModal('السياسات الأخرى', 'Other Policies', otherPoliciesContent.ar, otherPoliciesContent.en)}
                   className="text-gray-600 hover:text-[#4691A9] transition-colors text-sm block text-start"
                   style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
                 >
