@@ -23,8 +23,8 @@ export default function WhatYouNeed() {
       number: '2',
       titleAr: 'الاتصال',
       titleEn: 'Connection',
-      descAr: 'إنترنت',
-      descEn: 'Internet',
+      descAr: 'شبكة الإنترنت',
+      descEn: 'Internet Network',
       gradient: 'from-[#4691A9] to-[#89A58F]',
     },
     {
@@ -41,8 +41,8 @@ export default function WhatYouNeed() {
       number: '4',
       titleAr: 'منصة OSDM',
       titleEn: 'OSDM Platform',
-      descAr: 'التسجيل والقيام بعملية البيع والشراء',
-      descEn: 'Registration and buying and selling process',
+      descAr: 'التسجيل وإنشاء الحساب والتفعيل والبدء بعملية البيع والشراء',
+      descEn: 'Registration, account creation, activation, and starting the buying and selling process',
       gradient: 'from-[#4691A9] to-[#846F9C]',
     },
   ];
@@ -52,8 +52,8 @@ export default function WhatYouNeed() {
       <div className="container px-4">
         <div className="text-center mb-12">
           <h2 
-            className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] bg-clip-text text-transparent"
-            style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+            className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] bg-clip-text text-transparent leading-normal"
+            style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif', lineHeight: '1.5' }}
           >
             {t('ما يحتاجه المستخدم للبدء', 'What You Need to Start')}
           </h2>
