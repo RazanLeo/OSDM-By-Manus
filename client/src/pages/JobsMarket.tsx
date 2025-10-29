@@ -62,6 +62,8 @@ export default function JobsMarket() {
             <CategorySidebar
               marketType="jobs"
               onCategorySelect={handleCategorySelect}
+              primaryColor="#89A58F"
+              secondaryColor="#846F9C"
             />
           </div>
 

@@ -60,6 +60,8 @@ export default function ProductsMarket() {
             <CategorySidebar
               marketType="products"
               onCategorySelect={handleCategorySelect}
+              primaryColor="#846F9C"
+              secondaryColor="#4691A9"
             />
           </div>
 

@@ -61,6 +61,8 @@ export default function ServicesMarket() {
             <CategorySidebar
               marketType="services"
               onCategorySelect={handleCategorySelect}
+              primaryColor="#4691A9"
+              secondaryColor="#89A58F"
             />
           </div>
 

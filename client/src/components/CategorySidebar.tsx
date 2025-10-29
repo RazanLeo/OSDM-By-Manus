@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Search, ChevronDown, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
+import { trpc } from '../lib/trpc';
 
 interface Category {
   id: number;
   nameAr: string;
   nameEn: string;
   parentId: number | null;
-  icon?: string;
+  icon?: string | null;
   order: number;
 }
 
@@ -15,19 +16,27 @@ interface CategorySidebarProps {
   marketType: 'products' | 'services' | 'jobs';
   onCategorySelect: (categoryId: number | null) => void;
   selectedCategoryId?: number | null;
+  primaryColor: string; // e.g., "#846F9C"
+  secondaryColor: string; // e.g., "#4691A9"
 }
 
 export default function CategorySidebar({ 
   marketType, 
   onCategorySelect,
-  selectedCategoryId 
+  selectedCategoryId,
+  primaryColor,
+  secondaryColor
 }: CategorySidebarProps) {
   const { language, isRTL } = useLanguage();
   
-  const [categories, setCategories] = useState<Category[]>([]);
   const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set());
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
+
+  // Fetch categories using tRPC
+  const { data: categories = [], isLoading } = 
+    marketType === 'products' ? trpc.productCategories.list.useQuery() :
+    marketType === 'services' ? trpc.serviceCategories.list.useQuery() :
+    trpc.jobCategories.list.useQuery();
 
   // Translations
   const t = {
@@ -36,34 +45,6 @@ export default function CategorySidebar({
     all: isRTL ? 'جميع التصنيفات' : 'All Categories',
     noResults: isRTL ? 'لا توجد نتائج' : 'No results found',
     total: isRTL ? 'إجمالي التصنيفات' : 'Total Categories',
-  };
-
-  // Fetch categories from API
-  useEffect(() => {
-    fetchCategories();
-  }, [marketType]);
-
-  const fetchCategories = async () => {
-    try {
-      setLoading(true);
-      const endpoint = marketType === 'products' ? '/api/trpc/productCategories.list' :
-                      marketType === 'services' ? '/api/trpc/serviceCategories.list' :
-                      '/api/trpc/jobCategories.list';
-      
-      const response = await fetch(endpoint);
-      const data = await response.json();
-      
-      // Handle tRPC response format
-      const categoriesData = data.result?.data || [];
-      // Ensure it's an array
-      const categoriesArray = Array.isArray(categoriesData) ? categoriesData : [];
-      setCategories(categoriesArray);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      setCategories([]);
-    } finally {
-      setLoading(false);
-    }
   };
 
   // Get main categories (parentId === null)
@@ -112,11 +93,14 @@ export default function CategorySidebar({
             flex items-center justify-between p-3 rounded-lg cursor-pointer
             transition-all duration-200 group
             ${isSelected 
-              ? 'bg-gradient-to-r from-[#846F9C] to-[#4691A9] text-white shadow-md' 
+              ? `bg-gradient-to-r text-white shadow-md` 
               : 'hover:bg-gray-100 dark:hover:bg-gray-800'
             }
             ${level === 0 ? 'font-semibold' : level === 1 ? 'font-medium text-sm' : 'text-sm'}
           `}
+          style={isSelected ? {
+            backgroundImage: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`
+          } : {}}
           onClick={() => {
             if (hasSubcategories) {
               toggleCategory(category.id);
@@ -161,7 +145,7 @@ export default function CategorySidebar({
     );
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="w-full md:w-80 bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6">
         <div className="animate-pulse space-y-4">
@@ -177,7 +161,12 @@ export default function CategorySidebar({
   return (
     <div className="w-full md:w-80 bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
       {/* Header */}
-      <div className="p-6 bg-gradient-to-r from-[#846F9C] to-[#4691A9]">
+      <div 
+        className="p-6"
+        style={{
+          backgroundImage: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`
+        }}
+      >
         <h2 className="text-xl font-bold text-white mb-4">
           {t.title}
         </h2>
@@ -208,10 +197,13 @@ export default function CategorySidebar({
             flex items-center justify-between p-3 rounded-lg cursor-pointer
             transition-all duration-200
             ${selectedCategoryId === null
-              ? 'bg-gradient-to-r from-[#846F9C] to-[#4691A9] text-white shadow-md'
+              ? 'text-white shadow-md'
               : 'hover:bg-gray-100 dark:hover:bg-gray-800'
             }
           `}
+          style={selectedCategoryId === null ? {
+            backgroundImage: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`
+          } : {}}
           onClick={() => onCategorySelect(null)}
         >
           <span className="font-semibold">
