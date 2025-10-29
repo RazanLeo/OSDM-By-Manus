@@ -41,92 +41,90 @@ Unifying the digital economy experience under one unified and integrated digital
 تعتبر OSDM أول منصة وسوق رقمي متكامل وشامل في المنطقة بهذا الشكل الثلاثي، تسهم بفعالية في دفع عجلة التحول الرقمي والنمو الاقتصادي وحل مشكلة البطالة تماشياً مع رؤية 2030.
 
 • تنوع وشمولية استثنائية غير مسبوقة
-سوق رقمي موحد يشمل كافة المنتجات والخدمات وفرص العمل الرقمية والذي يقدم حل جذري لمشكلة التشتت وتعدد المنصات: منصة موحدة تغنيك عن التعامل مع عدة مواقع وتمنحك تجربة شراء وبيع موحدة.
+سوق رقمي موحد يشمل كافة المنتجات والخدمات وفرص العمل الرقمية والذي يقدم حل جذري لمشكلة التشتت وتعدد المنصات: منصة موحدة تغنيك عن التعامل مع عدة مواقع وتمنحك تجربة شراء وبيع موحدة بحيث توفر المنصة تجربة شاملة، إذ تتيح عرض جميع أنواع المنتجات والخدمات الرقمية، سواء الجاهزة ذات الدخل السلبي أو المتخصصة حسب الطلب ذات الدخل الإيجابي، بالإضافة إلى فرص العمل الحر عن بعد. وتغنيك عن التعامل مع منصات متعددة، مما يمنحك تجربة بيع وشراء متكاملة من مكان واحد موثوق.
 
 • تمكين البائعين وفتح آفاق جديدة
-تتيح المنصة للأفراد، البائعين، والمستقلين من أصحاب العلم والمعرفة والخبرات والمهارات والقدرات والمواهب والإبداعات والكفاءات تحقيق دخل مستدام ونمو أعمالهم عن بعد.
+تتيح المنصة للأفراد، البائعين، والمستقلين من أصحاب العلم والمعرفة والخبرات والمهارات والقدرات والمواهب والإبداعات والكفاءات تحقيق دخل مستدام ونمو أعمالهم عن بعد، مع دعم ريادة الأعمال والابتكار وزيادة فرص الانتشار والبيع وجذب العملاء وخفض التكاليف والجهد عبر التسويق المشترك دون الحاجة لمصاريف تسويق فردي أو إنشاء موقع أو عدة مواقع خاصة.
 
 • تمكين المشترين بمختلف فئاتهم
-تُمكّن الأفراد والشركات والمؤسسات والجهات التعليمية وكل أنواع المنظمات من تلبية جميع احتياجاتهم من المنتجات والخدمات الرقمية.
+تُمكِّن الأفراد والشركات والمؤسسات والجهات التعليمية وكل أنواع المنظمات من تلبية جميع احتياجاتهم من المنتجات والخدمات الرقمية وتنفيذ المشاريع والمهام والأعمال بمرونة وسهولة.
 
 • تجربة موثوقة وآمنة وحماية وأمان عالي المستوى
-تضمن المنصة جودة المنتجات والخدمات، وحماية حقوق جميع الأطراف عبر نظام تقييمات ومراجعات شفاف.
+تضمن المنصة جودة المنتجات والخدمات، وحماية حقوق جميع الأطراف عبر نظام تقييمات ومراجعات شفاف، شارات جودة وموثوقية، ودعم فني متواصل على مدار الساعة. كما توفر حلول متقدمة لحماية البيانات والمصادقة والتشفير المتقدم، ونظامًا متكاملاً لفض النزاعات.
 
 • أدوات وتحليلات متطورة
 يحصل البائعون والمشترون على لوحات تحكم موحدة وتقارير تحليلية مفصلة لإدارة الأداء والأعمال بفعالية.
 
 • سهولة الاستخدام والوصول
-تتميز المنصة بواجهة عصرية سلسة منظمة بشكل يسهل التصفح وتدعم البحث المتقدم والفلاتر الذكية.
+تتميز المنصة بواجهة عصرية سلسة منظمة بشكل يسهل التصفح وتدعم البحث المتقدم والفلاتر الذكية، مع تصنيفات شاملة وقوائم مفضلة ومقارنات وخدمات مخصصة لتلبية كافة الاحتياجات.
 
 • لوحة تحكم موحدة
-حساب موحد بلوحة تحكم رئيسية يتيح للمستخدم الدخول كبائع ومشتري في نفس الوقت مع 6 لوحات تحكم فرعية.
+حساب موحد بلوحة تحكم رئيسية يتيح للمستخدم الدخول كبائع ومشتري في نفس الوقت مع ٦ لوحات تحكم فرعية ٣ لوضع البائع و٣ لوضع المشتري في كل الأسواق الثلاث.
 
 • دعم العمل الحر والتوظيف الرقمي
-توفر بوابة متخصصة لربط المستقلين بالشركات والمؤسسات لتنفيذ مختلف المشاريع والمهام والأعمال عن بعد.
+توفر بوابة متخصصة لربط المستقلين بالشركات والمؤسسات لتنفيذ مختلف المشاريع والمهام والأعمال عن بعد بكافة أحجامها مصغرة ومتوسطة وكبيرة ومعقدة بشكل كامل.
 
 • حلول دفع متكاملة وآمنة
-تدعم المنصة العديد من بوابات الدفع السعودية والعالمية (Mada, Visa, MasterCard, Apple Pay, STC Pay, PayTabs, Moyasar, PayPal, Google Pay).
+تدعم المنصة العديد من بوابات الدفع السعودية والعالمية Mada, Visa, MasterCard, Apple Pay, STC Pay, PayTabs, Moyasar, PayPal, Google Pay
 
-• نظام Escrow
-لضمان وحماية المشتري واسترداد الأموال عند الحاجة.
+• نظام Escrow لضمان وحماية المشتري واسترداد الأموال عند الحاجة.
 
 • تكامل الذكاء الاصطناعي والأتمتة
-تعتمد المنصة على أحدث تقنيات الذكاء الاصطناعي في العمليات التشغيلية والتحليلية.
+تعتمد المنصة على أحدث تقنيات الذكاء الاصطناعي في العمليات التشغيلية والتحليلية، ما يسهم في تسهيل العمل وزيادة الجودة والفعالية.
 
 • برامج الولاء والحوافز
-تقدم المنصة عروض موسمية، مسابقات وجوائز، بالإضافة إلى برامج ولاء، إحالة ومكافآت للبائعين والمشترين.
+تقدم المنصة عروض موسمية، مسابقات وجوائز، بالإضافة إلى برامج ولاء، إحالة ومكافآت للبائعين والمشترين، مع تخفيضات وخصومات حصرية ودروس تعليمية في التجارة الرقمية.
 
 • المصداقية والتركيز على القيمة المضافة
 تضع المنصة مصلحة المستخدمين أولاً من خلال تقديم قيمة وفائدة حقيقية قبل التفكير في الربح.
 
 • التكامل والمرونة والحرية
-اعمل من أي مكان وفي أي وقت عن بعد بشكل رقمي كامل.`,
+اعمل من أي مكان وفي أي وقت عن بعد بشكل رقمي كامل كل ما تحتاجه هو جهازك واتصالك بالإنترنت وكفاءاتك ومنصتنا لتصل إلى الحرية المالية.`,
     en: `Goals, Features and Why OSDM Platform?
 
 • Leading Saudi platform supporting digital transformation
-OSDM is the first comprehensive digital marketplace in the region with this triple format, effectively contributing to driving digital transformation, economic growth, and solving unemployment in line with Vision 2030.
+OSDM is the first comprehensive and integrated digital platform and marketplace in the region with this triple format, effectively contributing to driving digital transformation, economic growth, and solving unemployment in line with Vision 2030.
 
 • Exceptional and unprecedented diversity and inclusiveness
-A unified digital market that includes all digital products, services, and job opportunities, providing a radical solution to the problem of fragmentation and multiple platforms.
+A unified digital market that includes all digital products, services, and job opportunities, providing a radical solution to the problem of fragmentation and multiple platforms: a unified platform that eliminates the need to deal with multiple websites and provides you with a unified buying and selling experience. The platform provides a comprehensive experience, as it allows displaying all types of digital products and services, whether ready-made with passive income or specialized on-demand with active income, in addition to remote freelance job opportunities. It eliminates the need to deal with multiple platforms, giving you an integrated buying and selling experience from one trusted place.
 
 • Empowering sellers and opening new horizons
-The platform enables individuals, sellers, and freelancers with knowledge, experience, skills, talents, and creativity to achieve sustainable income and grow their businesses remotely.
+The platform enables individuals, sellers, and freelancers with knowledge, experience, skills, abilities, talents, creativity, and competencies to achieve sustainable income and grow their businesses remotely, with support for entrepreneurship and innovation, increasing opportunities for reach, sales, and attracting customers, and reducing costs and effort through joint marketing without the need for individual marketing expenses or creating one or several private websites.
 
 • Empowering buyers of all categories
-Enables individuals, companies, institutions, educational entities, and all types of organizations to meet all their needs for digital products and services.
+Enables individuals, companies, institutions, educational entities, and all types of organizations to meet all their needs for digital products and services and implement projects, tasks, and work with flexibility and ease.
 
 • Reliable and secure experience with high-level protection and security
-The platform ensures the quality of products and services and protects the rights of all parties through a transparent rating and review system.
+The platform ensures the quality of products and services and protects the rights of all parties through a transparent rating and review system, quality and reliability badges, and 24/7 technical support. It also provides advanced solutions for data protection, authentication, and advanced encryption, and an integrated dispute resolution system.
 
 • Advanced tools and analytics
 Sellers and buyers get unified dashboards and detailed analytical reports to manage performance and business effectively.
 
 • Ease of use and access
-The platform features a modern, smooth, organized interface that facilitates browsing and supports advanced search and smart filters.
+The platform features a modern, smooth, organized interface that facilitates browsing and supports advanced search and smart filters, with comprehensive categories, favorites lists, comparisons, and customized services to meet all needs.
 
 • Unified control panel
-A unified account with a main control panel that allows the user to enter as a seller and buyer at the same time with 6 sub-control panels.
+A unified account with a main control panel that allows the user to enter as both seller and buyer at the same time with 6 sub-control panels: 3 for seller mode and 3 for buyer mode across all three markets.
 
 • Support for freelancing and digital employment
-Provides a specialized portal to connect freelancers with companies and institutions to implement various projects, tasks and remote work.
+Provides a specialized portal to connect freelancers with companies and institutions to implement various projects, tasks, and work remotely of all sizes: small, medium, large, and complex, in a complete manner.
 
 • Integrated and secure payment solutions
-The platform supports many Saudi and international payment gateways (Mada, Visa, MasterCard, Apple Pay, STC Pay, PayTabs, Moyasar, PayPal, Google Pay).
+The platform supports many Saudi and international payment gateways: Mada, Visa, MasterCard, Apple Pay, STC Pay, PayTabs, Moyasar, PayPal, Google Pay
 
-• Escrow system
-To ensure and protect the buyer and refund money when needed.
+• Escrow system to ensure and protect the buyer and refund money when needed.
 
 • AI and automation integration
-The platform relies on the latest AI technologies in operational and analytical processes.
+The platform relies on the latest AI technologies in operational and analytical processes, which contributes to facilitating work and increasing quality and effectiveness.
 
 • Loyalty and incentive programs
-The platform offers seasonal offers, competitions and prizes, in addition to loyalty programs, referrals and rewards for sellers and buyers.
+The platform offers seasonal offers, competitions and prizes, in addition to loyalty programs, referrals and rewards for sellers and buyers, with exclusive discounts and educational lessons in digital commerce.
 
 • Credibility and focus on added value
 The platform puts the interests of users first by providing real value and benefit before thinking about profit.
 
 • Integration, flexibility and freedom
-Work from anywhere and at any time remotely in a fully digital manner.`
+Work from anywhere and at any time remotely in a fully digital manner. All you need is your device, your internet connection, your competencies, and our platform to reach financial freedom.`
   },
 
   // كل ما يحتاجه الفرد للبدء
