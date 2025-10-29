@@ -52,9 +52,15 @@ export default function CategorySidebar({
       
       const response = await fetch(endpoint);
       const data = await response.json();
-      setCategories(data.result?.data || []);
+      
+      // Handle tRPC response format
+      const categoriesData = data.result?.data || [];
+      // Ensure it's an array
+      const categoriesArray = Array.isArray(categoriesData) ? categoriesData : [];
+      setCategories(categoriesArray);
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories([]);
     } finally {
       setLoading(false);
     }
