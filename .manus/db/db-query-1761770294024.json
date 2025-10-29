@@ -1,0 +1,85 @@
+{
+  "query": "SELECT \n  p.nameAr as parent,\n  s.nameAr as subcategory,\n  COUNT(t.id) as types_count\nFROM product_categories p\nLEFT JOIN product_categories s ON s.parentId = p.id\nLEFT JOIN product_categories t ON t.parentId = s.id\nWHERE p.parentId IS NULL\nGROUP BY p.id, s.id\nORDER BY p.`order`, s.`order`\nLIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT \n  p.nameAr as parent,\n  s.nameAr as subcategory,\n  COUNT(t.id) as types_count\nFROM product_categories p\nLEFT JOIN product_categories s ON s.parentId = p.id\nLEFT JOIN product_categories t ON t.parentId = s.id\nWHERE p.parentId IS NULL\nGROUP BY p.id, s.id\nORDER BY p.`order`, s.`order`\nLIMIT 15;",
+  "rows": [
+    {
+      "parent": "المحتوى النصي والمكتوب",
+      "subcategory": "الكتب الإلكترونية",
+      "types_count": "28"
+    },
+    {
+      "parent": "المحتوى النصي والمكتوب",
+      "subcategory": "الكتب الإلكترونية",
+      "types_count": "28"
+    },
+    {
+      "parent": "المحتوى النصي والمكتوب",
+      "subcategory": "البحوث والدراسات والتقارير والتحليلات",
+      "types_count": "7"
+    },
+    {
+      "parent": "المحتوى النصي والمكتوب",
+      "subcategory": "البحوث والدراسات والتقارير والتحليلات",
+      "types_count": "7"
+    },
+    {
+      "parent": "المحتوى النصي والمكتوب",
+      "subcategory": "القوالب والنماذج النصية",
+      "types_count": "10"
+    },
+    {
+      "parent": "المحتوى النصي والمكتوب",
+      "subcategory": "القوالب والنماذج النصية",
+      "types_count": "10"
+    },
+    {
+      "parent": "المحتوى النصي والمكتوب",
+      "subcategory": "المحتوى التعليمي والإعلامي المكتوب",
+      "types_count": "9"
+    },
+    {
+      "parent": "المحتوى النصي والمكتوب",
+      "subcategory": "المحتوى التعليمي والإعلامي المكتوب",
+      "types_count": "9"
+    },
+    {
+      "parent": "المحتوى المرئي البصري",
+      "subcategory": "الصور الفوتوغرافية",
+      "types_count": "16"
+    },
+    {
+      "parent": "المحتوى المرئي البصري",
+      "subcategory": "الصور الفوتوغرافية",
+      "types_count": "16"
+    },
+    {
+      "parent": "المحتوى المرئي البصري",
+      "subcategory": "التصاميم الجرافيكية",
+      "types_count": "14"
+    },
+    {
+      "parent": "المحتوى المرئي البصري",
+      "subcategory": "التصاميم الجرافيكية",
+      "types_count": "14"
+    },
+    {
+      "parent": "المحتوى المرئي البصري",
+      "subcategory": "الرسومات التوضيحية",
+      "types_count": "9"
+    },
+    {
+      "parent": "المحتوى المرئي البصري",
+      "subcategory": "الرسومات التوضيحية",
+      "types_count": "9"
+    },
+    {
+      "parent": "المحتوى المرئي البصري",
+      "subcategory": "الأيقونات والرموز",
+      "types_count": "6"
+    }
+  ],
+  "messages": [],
+  "stdout": "parent\tsubcategory\ttypes_count\nالمحتوى النصي والمكتوب\tالكتب الإلكترونية\t28\nالمحتوى النصي والمكتوب\tالكتب الإلكترونية\t28\nالمحتوى النصي والمكتوب\tالبحوث والدراسات والتقارير والتحليلات\t7\nالمحتوى النصي والمكتوب\tالبحوث والدراسات والتقارير والتحليلات\t7\nالمحتوى النصي والمكتوب\tالقوالب والنماذج النصية\t10\nالمحتوى النصي والمكتوب\tالقوالب والنماذج النصية\t10\nالمحتوى النصي والمكتوب\tالمحتوى التعليمي والإعلامي المكتوب\t9\nالمحتوى النصي والمكتوب\tالمحتوى التعليمي والإعلامي المكتوب\t9\nالمحتوى المرئي البصري\tالصور الفوتوغرافية\t16\nالمحتوى المرئي البصري\tالصور الفوتوغرافية\t16\nالمحتوى المرئي البصري\tالتصاميم الجرافيكية\t14\nالمحتوى المرئي البصري\tالتصاميم الجرافيكية\t14\nالمحتوى المرئي البصري\tالرسومات التوضيحية\t9\nالمحتوى المرئي البصري\tالرسومات التوضيحية\t9\nالمحتوى المرئي البصري\tالأيقونات والرموز\t6\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}
