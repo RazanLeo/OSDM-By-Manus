@@ -32,7 +32,7 @@ export default function WhatYouNeed() {
       number: '3',
       titleAr: 'الكفاءات',
       titleEn: 'Competencies',
-      descAr: 'العلم والمعرفة والخبرات والمهارات القدرات والمواهب والإبداعات',
+      descAr: 'العلم والمعرفة والخبرات والمهارات والقدرات والمواهب والإبداعات',
       descEn: 'Knowledge, experience, skills, abilities, talents, and creativity',
       gradient: 'from-[#846F9C] to-[#89A58F]',
     },
