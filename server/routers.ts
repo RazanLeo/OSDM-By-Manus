@@ -364,6 +364,32 @@ export const appRouter = router({
         return await db.getContractById(input.id);
       }),
   }),
+
+  // Admin APIs
+  admin: router({
+    stats: protectedProcedure.query(async ({ ctx }) => {
+      // Check if user is admin
+      if (ctx.user.role !== 'admin') {
+        throw new Error('غير مصرح لك بالوصول');
+      }
+
+      const totalUsers = await db.getTotalUsersCount();
+      const totalProducts = await db.getTotalProductsCount();
+      const totalServices = await db.getTotalServicesCount();
+      const totalJobs = await db.getTotalJobsCount();
+      const totalOrders = 0; // TODO: implement orders
+      const totalRevenue = 0; // TODO: implement revenue
+
+      return {
+        totalUsers,
+        totalProducts,
+        totalServices,
+        totalJobs,
+        totalOrders,
+        totalRevenue,
+      };
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

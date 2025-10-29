@@ -1,5 +1,6 @@
 import { eq, desc, and, like, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import { sql } from "drizzle-orm";
 import { 
   InsertUser, 
   users, 
@@ -1022,5 +1023,37 @@ export async function createJob(data: typeof jobs.$inferInsert) {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   await db.insert(jobs).values(data);
+}
+
+
+
+
+// Admin Stats Functions
+export async function getTotalUsersCount(): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  const result = await db.select({ count: sql<number>`count(*)` }).from(users);
+  return result[0]?.count || 0;
+}
+
+export async function getTotalProductsCount(): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  const result = await db.select({ count: sql<number>`count(*)` }).from(products);
+  return result[0]?.count || 0;
+}
+
+export async function getTotalServicesCount(): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  const result = await db.select({ count: sql<number>`count(*)` }).from(services);
+  return result[0]?.count || 0;
+}
+
+export async function getTotalJobsCount(): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  const result = await db.select({ count: sql<number>`count(*)` }).from(jobs);
+  return result[0]?.count || 0;
 }
 

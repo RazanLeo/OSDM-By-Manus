@@ -1,242 +1,198 @@
-import { useEffect } from 'react';
-import { useLocation } from 'wouter';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { trpc } from '@/lib/trpc';
+import { Users, Package, Briefcase, ShoppingCart, TrendingUp, DollarSign } from 'lucide-react';
+
+interface Stats {
+  totalUsers: number;
+  totalProducts: number;
+  totalServices: number;
+  totalJobs: number;
+  totalOrders: number;
+  totalRevenue: number;
+}
 
 export default function AdminDashboard() {
-  const [, setLocation] = useLocation();
   const { t, direction } = useLanguage();
-  const dir = direction;
-
-  const { data: user, isLoading } = trpc.auth.me.useQuery();
+  const navigate = useNavigate();
+  const [stats, setStats] = useState<Stats>({
+    totalUsers: 0,
+    totalProducts: 0,
+    totalServices: 0,
+    totalJobs: 0,
+    totalOrders: 0,
+    totalRevenue: 0
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoading && (!user || user.role !== 'admin')) {
-      setLocation('/auth/login');
-    }
-  }, [user, isLoading, setLocation]);
+    fetchStats();
+  }, []);
 
-  if (isLoading) {
+  const fetchStats = async () => {
+    try {
+      const response = await fetch('/api/admin/stats');
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data);
+      }
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const statCards = [
+    {
+      titleAr: 'إجمالي المستخدمين',
+      titleEn: 'Total Users',
+      value: stats.totalUsers,
+      icon: Users,
+      color: 'from-blue-500 to-blue-600',
+      link: '/admin/users'
+    },
+    {
+      titleAr: 'إجمالي المنتجات',
+      titleEn: 'Total Products',
+      value: stats.totalProducts,
+      icon: Package,
+      color: 'from-green-500 to-green-600',
+      link: '/admin/products'
+    },
+    {
+      titleAr: 'إجمالي الخدمات',
+      titleEn: 'Total Services',
+      value: stats.totalServices,
+      icon: Briefcase,
+      color: 'from-purple-500 to-purple-600',
+      link: '/admin/services'
+    },
+    {
+      titleAr: 'فرص العمل',
+      titleEn: 'Job Opportunities',
+      value: stats.totalJobs,
+      icon: TrendingUp,
+      color: 'from-orange-500 to-orange-600',
+      link: '/admin/jobs'
+    },
+    {
+      titleAr: 'إجمالي الطلبات',
+      titleEn: 'Total Orders',
+      value: stats.totalOrders,
+      icon: ShoppingCart,
+      color: 'from-pink-500 to-pink-600',
+      link: '/admin/orders'
+    },
+    {
+      titleAr: 'إجمالي الإيرادات',
+      titleEn: 'Total Revenue',
+      value: `$${stats.totalRevenue.toLocaleString()}`,
+      icon: DollarSign,
+      color: 'from-teal-500 to-teal-600',
+      link: '/admin/revenue'
+    }
+  ];
+
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p>{t('جاري التحميل...', 'Loading...')}</p>
+        <div className="text-xl">{t('جاري التحميل...', 'Loading...')}</div>
       </div>
     );
   }
 
-  if (!user || user.role !== 'admin') {
-    return null;
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50" dir={dir}>
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="OSDM" className="h-12 w-12" />
-              <div>
-                <h1 
-                  className="text-2xl font-bold"
-                  style={{ 
-                    background: 'linear-gradient(90deg, #846F9C 0%, #4691A9 50%, #89A58F 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    fontFamily: dir === 'rtl' ? 'DIN Next LT Arabic, sans-serif' : 'DIN Next LT Pro, sans-serif'
-                  }}
-                >
-                  {t('لوحة تحكم الإدارة', 'Admin Dashboard')}
-                </h1>
-                <p className="text-sm text-gray-600" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                  {t(`مرحباً ${user.name}`, `Welcome ${user.name}`)}
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setLocation('/')}
-                style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+    <div className="min-h-screen bg-gray-50 py-8" dir={direction}>
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 
+            className="text-3xl font-bold text-gray-900 mb-2"
+            style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+          >
+            {t('لوحة تحكم الإدارة', 'Admin Dashboard')}
+          </h1>
+          <p 
+            className="text-gray-600"
+            style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+          >
+            {t('مرحباً بك في لوحة التحكم', 'Welcome to the admin dashboard')}
+          </p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {statCards.map((card, index) => {
+            const Icon = card.icon;
+            return (
+              <button
+                key={index}
+                onClick={() => navigate(card.link)}
+                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer"
               >
-                {t('الصفحة الرئيسية', 'Home')}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  // Logout logic will be added
-                  setLocation('/auth/login');
-                }}
-                style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
-              >
-                {t('تسجيل الخروج', 'Logout')}
-              </Button>
-            </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p 
+                      className="text-gray-600 text-sm mb-2"
+                      style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                    >
+                      {t(card.titleAr, card.titleEn)}
+                    </p>
+                    <p 
+                      className="text-3xl font-bold text-gray-900"
+                      style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+                    >
+                      {card.value}
+                    </p>
+                  </div>
+                  <div className={`p-4 rounded-full bg-gradient-to-br ${card.color}`}>
+                    <Icon className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Quick Actions */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 
+            className="text-xl font-bold text-gray-900 mb-4"
+            style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+          >
+            {t('إجراءات سريعة', 'Quick Actions')}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <button
+              onClick={() => navigate('/admin/users')}
+              className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+            >
+              {t('إدارة المستخدمين', 'Manage Users')}
+            </button>
+            <button
+              onClick={() => navigate('/admin/products')}
+              className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+              style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+            >
+              {t('إدارة المنتجات', 'Manage Products')}
+            </button>
+            <button
+              onClick={() => navigate('/admin/services')}
+              className="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+              style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+            >
+              {t('إدارة الخدمات', 'Manage Services')}
+            </button>
+            <button
+              onClick={() => navigate('/admin/jobs')}
+              className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+              style={{ fontFamily: direction === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+            >
+              {t('إدارة فرص العمل', 'Manage Jobs')}
+            </button>
           </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('إجمالي المستخدمين', 'Total Users')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-[#846F9C]">2</div>
-              <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('مستخدم نشط', 'Active users')}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('المنتجات', 'Products')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-[#4691A9]">0</div>
-              <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('منتج منشور', 'Published products')}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('الخدمات', 'Services')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-[#89A58F]">0</div>
-              <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('خدمة نشطة', 'Active services')}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('فرص العمل', 'Jobs')}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-[#846F9C]">0</div>
-              <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('فرصة متاحة', 'Available jobs')}
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Management Sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setLocation('/admin/users')}>
-            <CardHeader>
-              <CardTitle style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('إدارة المستخدمين', 'User Management')}
-              </CardTitle>
-              <CardDescription style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('عرض وتعديل وحذف المستخدمين', 'View, edit, and delete users')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full bg-gradient-to-r from-[#846F9C] to-[#4691A9]" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('فتح', 'Open')}
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setLocation('/admin/products')}>
-            <CardHeader>
-              <CardTitle style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('إدارة المنتجات', 'Product Management')}
-              </CardTitle>
-              <CardDescription style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('مراجعة والموافقة على المنتجات', 'Review and approve products')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full bg-gradient-to-r from-[#4691A9] to-[#89A58F]" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('فتح', 'Open')}
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setLocation('/admin/services')}>
-            <CardHeader>
-              <CardTitle style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('إدارة الخدمات', 'Service Management')}
-              </CardTitle>
-              <CardDescription style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('مراجعة والموافقة على الخدمات', 'Review and approve services')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full bg-gradient-to-r from-[#89A58F] to-[#846F9C]" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('فتح', 'Open')}
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setLocation('/admin/jobs')}>
-            <CardHeader>
-              <CardTitle style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('إدارة فرص العمل', 'Job Management')}
-              </CardTitle>
-              <CardDescription style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('مراجعة والموافقة على فرص العمل', 'Review and approve jobs')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full bg-gradient-to-r from-[#846F9C] to-[#89A58F]" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('فتح', 'Open')}
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardHeader>
-              <CardTitle style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('التقارير', 'Reports')}
-              </CardTitle>
-              <CardDescription style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('عرض التقارير والإحصائيات', 'View reports and statistics')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full bg-gradient-to-r from-[#4691A9] to-[#846F9C]" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('فتح', 'Open')}
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardHeader>
-              <CardTitle style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('الإعدادات', 'Settings')}
-              </CardTitle>
-              <CardDescription style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('إعدادات المنصة العامة', 'General platform settings')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full bg-gradient-to-r from-[#89A58F] to-[#4691A9]" style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
-                {t('فتح', 'Open')}
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>
