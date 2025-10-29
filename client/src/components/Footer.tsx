@@ -396,7 +396,17 @@ export default function Footer() {
               className="text-sm text-gray-600 flex items-center justify-center gap-2 flex-wrap"
               style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
             >
-              <span>{t('صُنع بحب', 'Made with love')}</span>
+              <span>{t('صُنع', 'Made with')}</span>
+              <svg className="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style={{ stopColor: '#846F9C', stopOpacity: 1 }} />
+                    <stop offset="50%" style={{ stopColor: '#4691A9', stopOpacity: 1 }} />
+                    <stop offset="100%" style={{ stopColor: '#89A58F', stopOpacity: 1 }} />
+                  </linearGradient>
+                </defs>
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="url(#heartGradient)" />
+              </svg>
               <span>{t('في المملكة العربية السعودية', 'in Saudi Arabia')}</span>
               <span className="text-lg">🇸🇦</span>
             </p>
