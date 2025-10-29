@@ -1,0 +1,58 @@
+{
+  "query": "SELECT \n  p.id,\n  p.nameAr,\n  p.nameEn,\n  (SELECT COUNT(*) FROM product_categories c WHERE c.parentId = p.id) as subcategories_count\nFROM product_categories p\nWHERE p.parentId IS NULL\nORDER BY p.`order`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT \n  p.id,\n  p.nameAr,\n  p.nameEn,\n  (SELECT COUNT(*) FROM product_categories c WHERE c.parentId = p.id) as subcategories_count\nFROM product_categories p\nWHERE p.parentId IS NULL\nORDER BY p.`order`;",
+  "rows": [
+    {
+      "id": "180001",
+      "nameAr": "المحتوى النصي والمكتوب",
+      "nameEn": "Written & Text Content",
+      "subcategories_count": "0"
+    },
+    {
+      "id": "180002",
+      "nameAr": "المحتوى المرئي البصري",
+      "nameEn": "Visual Content",
+      "subcategories_count": "0"
+    },
+    {
+      "id": "180003",
+      "nameAr": "المحتوى السمعي",
+      "nameEn": "Audio Content",
+      "subcategories_count": "0"
+    },
+    {
+      "id": "180004",
+      "nameAr": "المحتوى المرئي المتحرك",
+      "nameEn": "Video Content",
+      "subcategories_count": "0"
+    },
+    {
+      "id": "180005",
+      "nameAr": "المحتوى التفاعلي والرقمي",
+      "nameEn": "Interactive Digital Content",
+      "subcategories_count": "0"
+    },
+    {
+      "id": "180006",
+      "nameAr": "محتوى البرمجة والتقنية",
+      "nameEn": "Programming & Technical Content",
+      "subcategories_count": "0"
+    },
+    {
+      "id": "180007",
+      "nameAr": "المنتجات الرقمية المتخصصة",
+      "nameEn": "Specialized Digital Products",
+      "subcategories_count": "0"
+    },
+    {
+      "id": "180008",
+      "nameAr": "الخدمات الاشتراكية",
+      "nameEn": "Subscription Services",
+      "subcategories_count": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnameAr\tnameEn\tsubcategories_count\n180001\tالمحتوى النصي والمكتوب\tWritten & Text Content\t0\n180002\tالمحتوى المرئي البصري\tVisual Content\t0\n180003\tالمحتوى السمعي\tAudio Content\t0\n180004\tالمحتوى المرئي المتحرك\tVideo Content\t0\n180005\tالمحتوى التفاعلي والرقمي\tInteractive Digital Content\t0\n180006\tمحتوى البرمجة والتقنية\tProgramming & Technical Content\t0\n180007\tالمنتجات الرقمية المتخصصة\tSpecialized Digital Products\t0\n180008\tالخدمات الاشتراكية\tSubscription Services\t0\n",
+  "stderr": "",
+  "execution_time_ms": 605
+}

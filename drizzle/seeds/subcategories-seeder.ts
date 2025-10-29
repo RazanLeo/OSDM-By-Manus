@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/mysql2';
 import mysql from 'mysql2/promise';
 import { productCategories, serviceCategories, jobCategories } from '../schema';
-import { eq } from 'drizzle-orm';
+import { eq, isNull } from 'drizzle-orm';
 
 /**
  * Subcategories and Types Seeder for OSDM Platform
@@ -12,7 +12,9 @@ async function seedProductSubcategories(db: any) {
   console.log('\n📦 Seeding Product Subcategories & Types...');
   
   // Get main categories
-  const categories = await db.select().from(productCategories).where(eq(productCategories.parentId, null));
+  const categories = await db.select().from(productCategories).where(isNull(productCategories.parentId));
+  console.log(`Found ${categories.length} main categories:`);
+  categories.forEach((c: any) => console.log(`  - ${c.nameEn} (ID: ${c.id})`));
   
   // 1. المحتوى النصي والمكتوب
   const textContent = categories.find((c: any) => c.nameEn === 'Written & Text Content');
@@ -101,7 +103,7 @@ async function seedProductSubcategories(db: any) {
 async function seedServiceSubcategories(db: any) {
   console.log('\n📦 Seeding Service Subcategories & Types...');
   
-  const categories = await db.select().from(serviceCategories).where(eq(serviceCategories.parentId, null));
+  const categories = await db.select().from(serviceCategories).where(isNull(serviceCategories.parentId));
   
   // 1. خدمات الكتابة والمحتوى
   const writingServices = categories.find((c: any) => c.nameEn === 'Writing & Content Services');
@@ -184,7 +186,7 @@ async function seedServiceSubcategories(db: any) {
 async function seedJobSubcategories(db: any) {
   console.log('\n📦 Seeding Job Subcategories & Types...');
   
-  const categories = await db.select().from(jobCategories).where(eq(jobCategories.parentId, null));
+  const categories = await db.select().from(jobCategories).where(isNull(jobCategories.parentId));
   
   // 1. الكتابة والمحتوى
   const jobsWriting = categories.find((c: any) => c.nameEn === 'Writing & Content');

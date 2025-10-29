@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, nameAr, nameEn, parentId\nFROM product_categories\nWHERE parentId = 180001\nLIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT id, nameAr, nameEn, parentId\nFROM product_categories\nWHERE parentId = 180001\nLIMIT 5;",
+  "rows": [
+    {
+      "id": "210001",
+      "nameAr": "الكتب الإلكترونية",
+      "nameEn": "E-Books",
+      "parentId": "180001"
+    },
+    {
+      "id": "210002",
+      "nameAr": "البحوث والدراسات والتقارير والتحليلات",
+      "nameEn": "Research & Reports",
+      "parentId": "180001"
+    },
+    {
+      "id": "210003",
+      "nameAr": "القوالب والنماذج النصية",
+      "nameEn": "Text Templates",
+      "parentId": "180001"
+    },
+    {
+      "id": "210004",
+      "nameAr": "المحتوى التعليمي والإعلامي المكتوب",
+      "nameEn": "Educational Content",
+      "parentId": "180001"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnameAr\tnameEn\tparentId\n210001\tالكتب الإلكترونية\tE-Books\t180001\n210002\tالبحوث والدراسات والتقارير والتحليلات\tResearch & Reports\t180001\n210003\tالقوالب والنماذج النصية\tText Templates\t180001\n210004\tالمحتوى التعليمي والإعلامي المكتوب\tEducational Content\t180001\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}
