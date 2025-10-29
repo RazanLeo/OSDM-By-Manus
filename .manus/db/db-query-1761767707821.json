@@ -1,0 +1,45 @@
+{
+  "query": "SELECT id, nameAr, nameEn, parentId, `order` \nFROM product_categories \nWHERE parentId IS NULL \nORDER BY `order` \nLIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT id, nameAr, nameEn, parentId, `order` \nFROM product_categories \nWHERE parentId IS NULL \nORDER BY `order` \nLIMIT 5;",
+  "rows": [
+    {
+      "id": "180001",
+      "nameAr": "المحتوى النصي والمكتوب",
+      "nameEn": "Written & Text Content",
+      "parentId": "NULL",
+      "order": "1"
+    },
+    {
+      "id": "180002",
+      "nameAr": "المحتوى المرئي البصري",
+      "nameEn": "Visual Content",
+      "parentId": "NULL",
+      "order": "2"
+    },
+    {
+      "id": "180003",
+      "nameAr": "المحتوى السمعي",
+      "nameEn": "Audio Content",
+      "parentId": "NULL",
+      "order": "3"
+    },
+    {
+      "id": "180004",
+      "nameAr": "المحتوى المرئي المتحرك",
+      "nameEn": "Video Content",
+      "parentId": "NULL",
+      "order": "4"
+    },
+    {
+      "id": "180005",
+      "nameAr": "المحتوى التفاعلي والرقمي",
+      "nameEn": "Interactive Digital Content",
+      "parentId": "NULL",
+      "order": "5"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnameAr\tnameEn\tparentId\torder\n180001\tالمحتوى النصي والمكتوب\tWritten & Text Content\tNULL\t1\n180002\tالمحتوى المرئي البصري\tVisual Content\tNULL\t2\n180003\tالمحتوى السمعي\tAudio Content\tNULL\t3\n180004\tالمحتوى المرئي المتحرك\tVideo Content\tNULL\t4\n180005\tالمحتوى التفاعلي والرقمي\tInteractive Digital Content\tNULL\t5\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

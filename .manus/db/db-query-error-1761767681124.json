@@ -1,0 +1,8 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM product_categories) as total_categories,\n  (SELECT COUNT(*) FROM product_categories WHERE parent_id IS NULL) as main_categories,\n  (SELECT COUNT(*) FROM product_categories WHERE parent_id IS NOT NULL) as sub_categories;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT \n  (SELECT COUNT(*) FROM product_categories) as total_categories,\n  (SELECT COUNT(*) FROM product_categories WHERE parent_id IS NULL) as main_categories,\n  (SELECT COUNT(*) FROM product_categories WHERE parent_id IS NOT NULL) as sub_categories;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'parent_id' in 'where clause'"
+  ]
+}

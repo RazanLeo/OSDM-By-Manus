@@ -34,7 +34,7 @@ export default function ProductsMarket() {
   return (
     <div className="min-h-screen bg-gray-50" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header */}
-      <header className="bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] text-white py-8 shadow-lg">
+      <header className="bg-gradient-to-r from-[#846F9C] to-[#4691A9] text-white py-8 shadow-lg">
         <div className="container mx-auto px-4">
           <Link href="/">
             <button className="mb-4 flex items-center gap-2 text-white/90 hover:text-white transition-colors">
