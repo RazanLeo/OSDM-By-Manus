@@ -76,8 +76,8 @@ export default function WhatYouNeed() {
               </div>
               <CardHeader>
                 <div className="flex justify-center mb-4">
-                  <div className={`p-4 rounded-full bg-gradient-to-r ${step.gradient} bg-opacity-10`}>
-                    <step.icon className={`h-8 w-8 text-[#4691A9]`} />
+                  <div className={`p-4 rounded-full bg-gradient-to-r ${step.gradient}`}>
+                    <step.icon className={`h-8 w-8 text-black`} />
                   </div>
                 </div>
                 <CardTitle 
