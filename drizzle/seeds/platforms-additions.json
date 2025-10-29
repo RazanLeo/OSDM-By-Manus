@@ -1,0 +1,93 @@
+{
+  "products": {
+    "Self Improvement": [
+      "Cooking",
+      "Crafts & DIY",
+      "Dating & Relationships",
+      "Outdoors",
+      "Philosophy",
+      "Productivity",
+      "Psychology",
+      "Spirituality",
+      "Travel",
+      "Weddings",
+      "Wellness"
+    ],
+    "Gaming": [
+      "Game Assets",
+      "Game Development",
+      "Game Design"
+    ],
+    "Comics & Graphic Novels": [
+      "Comics",
+      "Manga",
+      "Graphic Novels"
+    ],
+    "Fitness & Health": [
+      "Fitness Programs",
+      "Nutrition Plans",
+      "Yoga",
+      "Meditation"
+    ],
+    "Recorded Music": [
+      "Albums",
+      "Singles",
+      "Beats",
+      "Instrumentals"
+    ],
+    "Templates": [
+      "WordPress Templates",
+      "Shopify Templates",
+      "Dashboard Templates",
+      "Landing Pages",
+      "Email Templates"
+    ]
+  },
+  "services": {
+    "Lifestyle Services": [
+      "Personal Consulting",
+      "Career Guidance",
+      "Fitness Training",
+      "Cooking Classes",
+      "Health & Nutrition"
+    ],
+    "Gaming Services": [
+      "Game Testing",
+      "Game Coaching",
+      "Esports Consulting"
+    ],
+    "Data Services": [
+      "Data Science",
+      "Machine Learning",
+      "Data Entry",
+      "Data Extraction",
+      "Data Analysis",
+      "Data Processing",
+      "Database Management"
+    ]
+  },
+  "jobs": {
+    "Engineering & Architecture": [
+      "Civil Engineering",
+      "Mechanical Engineering",
+      "Electrical Engineering",
+      "Electronics Engineering",
+      "Architectural Design",
+      "Interior Design"
+    ],
+    "Support & Data Entry": [
+      "Customer Support",
+      "Virtual Assistant",
+      "Data Entry",
+      "Administrative Support"
+    ],
+    "Training & Education": [
+      "Online Teaching",
+      "Language Teaching",
+      "Programming Teaching",
+      "Graphic Design Teaching",
+      "Digital Marketing Teaching",
+      "Quran Teaching"
+    ]
+  }
+}
