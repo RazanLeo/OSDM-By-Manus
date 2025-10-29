@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_count,\n  SUM(CASE WHEN parentId IS NOT NULL THEN 1 ELSE 0 END) as sub_count\nFROM product_categories;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_count,\n  SUM(CASE WHEN parentId IS NOT NULL THEN 1 ELSE 0 END) as sub_count\nFROM product_categories;",
+  "rows": [
+    {
+      "total": "306",
+      "main_count": "8",
+      "sub_count": "298"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tmain_count\tsub_count\n306\t8\t298\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

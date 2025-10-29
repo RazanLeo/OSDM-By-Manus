@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, nameAr, nameEn, parentId\nFROM product_categories\nWHERE nameAr IN (\n  SELECT nameAr FROM product_categories\n  GROUP BY nameAr\n  HAVING COUNT(*) > 1\n)\nORDER BY nameAr, id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT id, nameAr, nameEn, parentId\nFROM product_categories\nWHERE nameAr IN (\n  SELECT nameAr FROM product_categories\n  GROUP BY nameAr\n  HAVING COUNT(*) > 1\n)\nORDER BY nameAr, id;",
+  "rows": [
+    {
+      "id": "300135",
+      "nameAr": "محاضرات مسجلة",
+      "nameEn": "محاضرات مسجلة",
+      "parentId": "300131"
+    },
+    {
+      "id": "300170",
+      "nameAr": "محاضرات مسجلة",
+      "nameEn": "محاضرات مسجلة",
+      "parentId": "300167"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnameAr\tnameEn\tparentId\n300135\tمحاضرات مسجلة\tمحاضرات مسجلة\t300131\n300170\tمحاضرات مسجلة\tمحاضرات مسجلة\t300167\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}
