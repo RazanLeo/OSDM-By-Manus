@@ -45,8 +45,8 @@ export default function MarketsSection() {
     <section id="markets" className="container py-12 md:py-20 px-4">
       <div className="text-center mb-12">
         <h2 
-          className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] bg-clip-text text-transparent mb-4"
-          style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
+          className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#846F9C] via-[#4691A9] to-[#89A58F] bg-clip-text text-transparent mb-4 leading-normal"
+          style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif', lineHeight: '1.5' }}
         >
           {t('الأسواق الرقمية', 'Digital Markets')}
         </h2>

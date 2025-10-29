@@ -29,7 +29,7 @@ export default function ProductsMarket() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16">
+        <section className="bg-gradient-to-r from-[#846F9C] to-[#9B7FB0] text-white py-16">
           <div className="container">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {t('سوق المنتجات الرقمية الجاهزة', 'Ready Made Digital Products Market')}

@@ -28,7 +28,7 @@ export default function ServicesMarket() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-16">
+        <section className="bg-gradient-to-r from-[#4691A9] to-[#5AA5BD] text-white py-16">
           <div className="container">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {t('سوق المنتجات والخدمات الرقمية المتخصصة حسب الطلب', 'Custom Digital Products & Services By Order Market')}

@@ -28,7 +28,7 @@ export default function JobsMarket() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-green-600 to-teal-600 text-white py-16">
+        <section className="bg-gradient-to-r from-[#89A58F] to-[#9DB9A3] text-white py-16">
           <div className="container">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {t('سوق فرص العمل الحر الرقمي عن بعد', 'Remote Work Opportunities for Freelancers Market')}
