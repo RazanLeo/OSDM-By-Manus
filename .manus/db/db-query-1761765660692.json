@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM product_categories) as categories,\n  (SELECT COUNT(*) FROM products) as products,\n  (SELECT COUNT(*) FROM service_categories) as service_cats,\n  (SELECT COUNT(*) FROM services) as services;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT \n  (SELECT COUNT(*) FROM product_categories) as categories,\n  (SELECT COUNT(*) FROM products) as products,\n  (SELECT COUNT(*) FROM service_categories) as service_cats,\n  (SELECT COUNT(*) FROM services) as services;",
+  "rows": [
+    {
+      "categories": "8",
+      "products": "30",
+      "service_cats": "8",
+      "services": "23"
+    }
+  ],
+  "messages": [],
+  "stdout": "categories\tproducts\tservice_cats\tservices\n8\t30\t8\t23\n",
+  "stderr": "",
+  "execution_time_ms": 130
+}

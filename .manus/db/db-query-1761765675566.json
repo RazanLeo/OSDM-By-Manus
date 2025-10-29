@@ -1,0 +1,58 @@
+{
+  "query": "SELECT id, nameAr, nameEn, parentId FROM product_categories LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT id, nameAr, nameEn, parentId FROM product_categories LIMIT 10;",
+  "rows": [
+    {
+      "id": "180001",
+      "nameAr": "المحتوى النصي والمكتوب",
+      "nameEn": "Written & Text Content",
+      "parentId": "NULL"
+    },
+    {
+      "id": "180002",
+      "nameAr": "المحتوى المرئي البصري",
+      "nameEn": "Visual Content",
+      "parentId": "NULL"
+    },
+    {
+      "id": "180003",
+      "nameAr": "المحتوى السمعي",
+      "nameEn": "Audio Content",
+      "parentId": "NULL"
+    },
+    {
+      "id": "180004",
+      "nameAr": "المحتوى المرئي المتحرك",
+      "nameEn": "Video Content",
+      "parentId": "NULL"
+    },
+    {
+      "id": "180005",
+      "nameAr": "المحتوى التفاعلي والرقمي",
+      "nameEn": "Interactive Digital Content",
+      "parentId": "NULL"
+    },
+    {
+      "id": "180006",
+      "nameAr": "محتوى البرمجة والتقنية",
+      "nameEn": "Programming & Technical Content",
+      "parentId": "NULL"
+    },
+    {
+      "id": "180007",
+      "nameAr": "المنتجات الرقمية المتخصصة",
+      "nameEn": "Specialized Digital Products",
+      "parentId": "NULL"
+    },
+    {
+      "id": "180008",
+      "nameAr": "الخدمات الاشتراكية",
+      "nameEn": "Subscription Services",
+      "parentId": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnameAr\tnameEn\tparentId\n180001\tالمحتوى النصي والمكتوب\tWritten & Text Content\tNULL\n180002\tالمحتوى المرئي البصري\tVisual Content\tNULL\n180003\tالمحتوى السمعي\tAudio Content\tNULL\n180004\tالمحتوى المرئي المتحرك\tVideo Content\tNULL\n180005\tالمحتوى التفاعلي والرقمي\tInteractive Digital Content\tNULL\n180006\tمحتوى البرمجة والتقنية\tProgramming & Technical Content\tNULL\n180007\tالمنتجات الرقمية المتخصصة\tSpecialized Digital Products\tNULL\n180008\tالخدمات الاشتراكية\tSubscription Services\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

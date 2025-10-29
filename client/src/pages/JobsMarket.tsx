@@ -1,152 +1,120 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'wouter';
-import { Laptop, MapPin, DollarSign, Clock, Home } from 'lucide-react';
+import { Briefcase, Star, Clock, DollarSign, Home } from 'lucide-react';
 import CategorySidebar from '../components/CategorySidebar';
 import { useLanguage } from '../hooks/useLanguage';
+import { trpc } from '../lib/trpc';
 
 export default function JobsMarket() {
   const { isRTL } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(false);
 
+  // Translations
   const t = {
     title: isRTL ? 'سوق فرص العمل الحر الرقمي عن بعد' : 'Remote Freelance Digital Work Opportunities Market',
     subtitle: isRTL ? 'فرص عمل حر تربط المستقلين بالشركات لتنفيذ المهام والأعمال والمشاريع بكافة أنواعها وأحجامها' : 'Freelance opportunities connecting freelancers with companies for all types and sizes of tasks and projects',
-    noJobs: isRTL ? 'لا توجد وظائف في هذا التصنيف' : 'No jobs in this category',
+    noJobs: isRTL ? 'لا توجد فرص عمل في هذا التصنيف' : 'No job opportunities in this category',
     loading: isRTL ? 'جاري التحميل...' : 'Loading...',
     sar: isRTL ? 'ريال' : 'SAR',
     budget: isRTL ? 'الميزانية' : 'Budget',
     duration: isRTL ? 'المدة' : 'Duration',
     days: isRTL ? 'أيام' : 'days',
+    home: isRTL ? 'الصفحة الرئيسية' : 'Home',
     proposals: isRTL ? 'عرض' : 'proposals',
-    remote: isRTL ? 'عن بعد' : 'Remote',
   };
 
-  useEffect(() => {
-    loadJobs(null);
-  }, []);
+  // Load jobs using trpc
+  const { data: jobs = [], isLoading } = trpc.jobs.list.useQuery(
+    selectedCategory ? { categoryId: selectedCategory } : undefined
+  );
 
-  const loadJobs = async (categoryId: number | null) => {
-    setLoading(true);
-    
-    try {
-      const endpoint = categoryId 
-        ? `/api/trpc/jobs.list?input=${encodeURIComponent(JSON.stringify({ categoryId }))}`
-        : '/api/trpc/jobs.list';
-      
-      const response = await fetch(endpoint);
-      const data = await response.json();
-      setJobs(data.result?.data || []);
-    } catch (error) {
-      console.error('Error fetching jobs:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCategorySelect = async (categoryId: number | null) => {
+  // Handle category selection
+  const handleCategorySelect = (categoryId: number | null) => {
     setSelectedCategory(categoryId);
-    await loadJobs(categoryId);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="bg-gradient-to-r from-[#89A58F] to-[#846F9C] text-white py-12">
+    <div className="min-h-screen bg-gray-50" dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Header */}
+      <header className="bg-gradient-to-r from-[#89A58F] to-[#846F9C] text-white py-8 shadow-lg">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <Laptop size={40} />
-              <h1 className="text-4xl font-bold">{t.title}</h1>
+          <Link href="/">
+            <button className="mb-4 flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+              <Home className="w-5 h-5" />
+              <span>{t.home}</span>
+            </button>
+          </Link>
+          <div className="flex items-center gap-4">
+            <Briefcase className="w-12 h-12" />
+            <div>
+              <h1 className="text-3xl font-bold">{t.title}</h1>
+              <p className="text-white/90 mt-1">{t.subtitle}</p>
             </div>
-            <Link href="/">
-              <button className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
-                <Home size={20} />
-                <span>{isRTL ? 'الصفحة الرئيسية' : 'Home'}</span>
-              </button>
-            </Link>
           </div>
-          <p className="text-xl text-white/90">{t.subtitle}</p>
         </div>
-      </div>
+      </header>
 
+      {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row gap-6">
-          <aside className="md:sticky md:top-4 md:self-start">
+        <div className="flex gap-8">
+          {/* Sidebar */}
+          <div className="w-80 flex-shrink-0">
             <CategorySidebar
               marketType="jobs"
               onCategorySelect={handleCategorySelect}
-              selectedCategoryId={selectedCategory}
             />
-          </aside>
+          </div>
 
-          <main className="flex-1">
-            {loading ? (
-              <div className="space-y-4">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 animate-pulse">
-                    <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-3"></div>
-                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2"></div>
-                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-4"></div>
-                    <div className="flex gap-4">
-                      <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
-                      <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
-                    </div>
-                  </div>
-                ))}
+          {/* Jobs Grid */}
+          <div className="flex-1">
+            {isLoading ? (
+              <div className="text-center py-12">
+                <p className="text-gray-600">{t.loading}</p>
               </div>
-            ) : jobs.length > 0 ? (
-              <div className="space-y-4">
+            ) : jobs.length === 0 ? (
+              <div className="text-center py-12">
+                <Briefcase className="w-16 h-16 mx-auto text-gray-300 mb-4" />
+                <p className="text-gray-600">{t.noJobs}</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-6">
                 {jobs.map((job: any) => (
-                  <Link key={job.id} href={`/job/${job.id}`}>
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex-1">
-                          <h3 className="text-xl font-semibold mb-2">
-                            {isRTL ? job.titleAr : job.titleEn}
-                          </h3>
-                          <p className="text-gray-600 dark:text-gray-400 line-clamp-2">
-                            {isRTL ? job.descriptionAr : job.descriptionEn}
-                          </p>
+                  <Link key={job.id} href={`/markets/jobs/${job.id}`}>
+                    <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 cursor-pointer">
+                      <h3 className="font-bold text-xl mb-3">
+                        {isRTL ? job.titleAr : job.titleEn}
+                      </h3>
+                      <p className="text-gray-600 mb-4 line-clamp-3">
+                        {isRTL ? job.descriptionAr : job.descriptionEn}
+                      </p>
+                      <div className="flex items-center gap-6 text-sm text-gray-500">
+                        <div className="flex items-center gap-2">
+                          <DollarSign className="w-4 h-4" />
+                          <span className="font-semibold text-[#4691A9]">
+                            {job.budget} {t.sar}
+                          </span>
                         </div>
-                      </div>
-                      
-                      <div className="flex flex-wrap items-center gap-4 mb-4">
-                        <div className="flex items-center gap-2 text-sm">
-                          <DollarSign size={16} className="text-gray-500" />
-                          <span className="font-semibold">{job.budget} {t.sar}</span>
-                        </div>
-                        
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <Clock size={16} />
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-4 h-4" />
                           <span>{job.duration} {t.days}</span>
                         </div>
-                        
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <MapPin size={16} />
-                          <span>{t.remote}</span>
+                        <div className="flex items-center gap-1">
+                          <Briefcase className="w-4 h-4" />
+                          <span>{job.proposalsCount || 0} {t.proposals}</span>
                         </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <div className="text-sm text-gray-500">
-                          {job.proposalsCount} {t.proposals}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {new Date(job.createdAt).toLocaleDateString(isRTL ? 'ar-SA' : 'en-US')}
-                        </div>
+                        {job.rating > 0 && (
+                          <div className="flex items-center gap-1">
+                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                            <span>{job.rating.toFixed(1)}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </Link>
                 ))}
               </div>
-            ) : (
-              <div className="text-center py-16">
-                <Laptop size={64} className="mx-auto text-gray-300 dark:text-gray-700 mb-4" />
-                <p className="text-xl text-gray-500 dark:text-gray-400">{t.noJobs}</p>
-              </div>
             )}
-          </main>
+          </div>
         </div>
       </div>
     </div>

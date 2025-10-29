@@ -1,0 +1,40 @@
+{
+  "query": "SELECT id, titleAr, titleEn, price FROM products LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT id, titleAr, titleEn, price FROM products LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "titleAr": "قالب موقع تجارة إلكترونية احترافي",
+      "titleEn": "Professional E-commerce Website Template",
+      "price": "299"
+    },
+    {
+      "id": "2",
+      "titleAr": "تطبيق جوال للتوصيل - كود كامل",
+      "titleEn": "Delivery Mobile App - Full Source Code",
+      "price": "1500"
+    },
+    {
+      "id": "3",
+      "titleAr": "كتاب إلكتروني: دليل التسويق الرقمي الشامل",
+      "titleEn": "E-book: Comprehensive Digital Marketing Guide",
+      "price": "99"
+    },
+    {
+      "id": "4",
+      "titleAr": "دورة تعليمية: تطوير تطبيقات الويب الحديثة",
+      "titleEn": "Course: Modern Web Application Development",
+      "price": "499"
+    },
+    {
+      "id": "5",
+      "titleAr": "نظام إدارة محتوى CMS كامل",
+      "titleEn": "Complete CMS Content Management System",
+      "price": "799"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitleAr\ttitleEn\tprice\n1\tقالب موقع تجارة إلكترونية احترافي\tProfessional E-commerce Website Template\t299\n2\tتطبيق جوال للتوصيل - كود كامل\tDelivery Mobile App - Full Source Code\t1500\n3\tكتاب إلكتروني: دليل التسويق الرقمي الشامل\tE-book: Comprehensive Digital Marketing Guide\t99\n4\tدورة تعليمية: تطوير تطبيقات الويب الحديثة\tCourse: Modern Web Application Development\t499\n5\tنظام إدارة محتوى CMS كامل\tComplete CMS Content Management System\t799\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}
