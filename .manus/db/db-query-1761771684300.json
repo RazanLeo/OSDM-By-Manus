@@ -1,0 +1,15 @@
+{
+  "query": "SELECT nameAr, nameEn, COUNT(*) as count\nFROM product_categories\nWHERE parentId IS NOT NULL\nGROUP BY nameAr, nameEn\nHAVING count > 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT nameAr, nameEn, COUNT(*) as count\nFROM product_categories\nWHERE parentId IS NOT NULL\nGROUP BY nameAr, nameEn\nHAVING count > 1;",
+  "rows": [
+    {
+      "nameAr": "قوالب العروض التقديمية",
+      "nameEn": "Presentation Templates",
+      "count": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "nameAr\tnameEn\tcount\nقوالب العروض التقديمية\tPresentation Templates\t2\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

@@ -19,14 +19,14 @@ async function seedAllCategories() {
     await db.delete(productCategories);
     
     const productCats = [
-      { nameAr: 'المحتوى النصي والمكتوب', nameEn: 'Written & Text Content', icon: 'FileText', order: 1 },
+      { nameAr: 'المحتوى النصي والمكتوب', nameEn: 'Written & Text Content', icon: 'BookText', order: 1 },
       { nameAr: 'المحتوى المرئي البصري', nameEn: 'Visual Content', icon: 'Image', order: 2 },
-      { nameAr: 'المحتوى السمعي', nameEn: 'Audio Content', icon: 'Headphones', order: 3 },
-      { nameAr: 'المحتوى المرئي المتحرك', nameEn: 'Video Content', icon: 'Video', order: 4 },
+      { nameAr: 'المحتوى السمعي الصوتي', nameEn: 'Audio Content', icon: 'Headphones', order: 3 },
+      { nameAr: 'المحتوى المرئي المتحرك والفيديو', nameEn: 'Video Content', icon: 'Video', order: 4 },
       { nameAr: 'المحتوى التفاعلي والرقمي', nameEn: 'Interactive Digital Content', icon: 'MousePointer', order: 5 },
       { nameAr: 'محتوى البرمجة والتقنية', nameEn: 'Programming & Technical Content', icon: 'Code', order: 6 },
       { nameAr: 'المنتجات الرقمية المتخصصة', nameEn: 'Specialized Digital Products', icon: 'Sparkles', order: 7 },
-      { nameAr: 'الخدمات الاشتراكية', nameEn: 'Subscription Services', icon: 'CreditCard', order: 8 }
+      { nameAr: 'الخدمات الاشتراكية والعضويات', nameEn: 'Subscription Services', icon: 'CreditCard', order: 8 }
     ];
     
     for (const cat of productCats) {

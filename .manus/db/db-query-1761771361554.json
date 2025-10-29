@@ -1,0 +1,50 @@
+{
+  "query": "SELECT id, nameAr, nameEn FROM product_categories WHERE parentId IS NULL ORDER BY `order`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT id, nameAr, nameEn FROM product_categories WHERE parentId IS NULL ORDER BY `order`;",
+  "rows": [
+    {
+      "id": "180001",
+      "nameAr": "المحتوى النصي والمكتوب",
+      "nameEn": "Written & Text Content"
+    },
+    {
+      "id": "180002",
+      "nameAr": "المحتوى المرئي البصري",
+      "nameEn": "Visual Content"
+    },
+    {
+      "id": "180003",
+      "nameAr": "المحتوى السمعي",
+      "nameEn": "Audio Content"
+    },
+    {
+      "id": "180004",
+      "nameAr": "المحتوى المرئي المتحرك",
+      "nameEn": "Video Content"
+    },
+    {
+      "id": "180005",
+      "nameAr": "المحتوى التفاعلي والرقمي",
+      "nameEn": "Interactive Digital Content"
+    },
+    {
+      "id": "180006",
+      "nameAr": "محتوى البرمجة والتقنية",
+      "nameEn": "Programming & Technical Content"
+    },
+    {
+      "id": "180007",
+      "nameAr": "المنتجات الرقمية المتخصصة",
+      "nameEn": "Specialized Digital Products"
+    },
+    {
+      "id": "180008",
+      "nameAr": "الخدمات الاشتراكية",
+      "nameEn": "Subscription Services"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnameAr\tnameEn\n180001\tالمحتوى النصي والمكتوب\tWritten & Text Content\n180002\tالمحتوى المرئي البصري\tVisual Content\n180003\tالمحتوى السمعي\tAudio Content\n180004\tالمحتوى المرئي المتحرك\tVideo Content\n180005\tالمحتوى التفاعلي والرقمي\tInteractive Digital Content\n180006\tمحتوى البرمجة والتقنية\tProgramming & Technical Content\n180007\tالمنتجات الرقمية المتخصصة\tSpecialized Digital Products\n180008\tالخدمات الاشتراكية\tSubscription Services\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}
