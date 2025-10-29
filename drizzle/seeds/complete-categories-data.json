@@ -1,0 +1,98 @@
+{
+  "productCategories": [
+    {
+      "nameAr": "المحتوى النصي والمكتوب",
+      "nameEn": "Written & Text Content",
+      "icon": "BookText",
+      "order": 1,
+      "subcategories": [
+        {
+          "nameAr": "الكتب الإلكترونية",
+          "nameEn": "E-Books",
+          "icon": "Book",
+          "order": 1,
+          "types": [
+            {"nameAr": "كتب علمية وأكاديمية", "nameEn": "Scientific & Academic Books"},
+            {"nameAr": "كتب أطفال ويافعين", "nameEn": "Children & Young Adult Books"},
+            {"nameAr": "كتب تطوير وتنمية الذات", "nameEn": "Self-Development Books"},
+            {"nameAr": "السير الذاتية والمذكرات", "nameEn": "Biographies & Memoirs"},
+            {"nameAr": "كتب التاريخ", "nameEn": "History Books"},
+            {"nameAr": "كتب الجغرافيا", "nameEn": "Geography Books"},
+            {"nameAr": "العلوم الطبيعية", "nameEn": "Natural Sciences"},
+            {"nameAr": "العلوم الاجتماعية", "nameEn": "Social Sciences"},
+            {"nameAr": "أعمال واقتصاد", "nameEn": "Business & Economics"},
+            {"nameAr": "دين وفلسفة", "nameEn": "Religion & Philosophy"},
+            {"nameAr": "الفنون والحرف", "nameEn": "Arts & Crafts"},
+            {"nameAr": "كتب تعليم صناعة الحلي والتجميل والعطور", "nameEn": "Jewelry, Beauty & Perfume Making"},
+            {"nameAr": "الطبخ والطعام", "nameEn": "Cooking & Food"},
+            {"nameAr": "الطب والصحة", "nameEn": "Medicine & Health"},
+            {"nameAr": "التقنية والحاسوب", "nameEn": "Technology & Computing"},
+            {"nameAr": "السفر والسياحة والترفيه", "nameEn": "Travel, Tourism & Entertainment"},
+            {"nameAr": "التعليم والكتب المدرسية", "nameEn": "Education & School Books"},
+            {"nameAr": "الرياضة", "nameEn": "Sports"},
+            {"nameAr": "القانون", "nameEn": "Law"},
+            {"nameAr": "البيئة والطبيعة", "nameEn": "Environment & Nature"},
+            {"nameAr": "المراجع", "nameEn": "References"},
+            {"nameAr": "الروايات والخيال", "nameEn": "Novels & Fiction"},
+            {"nameAr": "الأدب الكلاسيكي", "nameEn": "Classical Literature"},
+            {"nameAr": "القصص القصيرة", "nameEn": "Short Stories"},
+            {"nameAr": "الروايات المصورة", "nameEn": "Graphic Novels"},
+            {"nameAr": "المسرحيات", "nameEn": "Plays"},
+            {"nameAr": "الشعر", "nameEn": "Poetry"},
+            {"nameAr": "الأساطير والخرافات", "nameEn": "Myths & Legends"}
+          ]
+        },
+        {
+          "nameAr": "البحوث والدراسات والتقارير والتحليلات",
+          "nameEn": "Research, Studies, Reports & Analysis",
+          "icon": "FileSearch",
+          "order": 2,
+          "types": [
+            {"nameAr": "أبحاث السوق", "nameEn": "Market Research"},
+            {"nameAr": "تقارير الصناعة", "nameEn": "Industry Reports"},
+            {"nameAr": "دراسات الجدوى", "nameEn": "Feasibility Studies"},
+            {"nameAr": "أوراق بيضاء", "nameEn": "White Papers"},
+            {"nameAr": "دراسات حالة", "nameEn": "Case Studies"},
+            {"nameAr": "تقارير إحصائية", "nameEn": "Statistical Reports"},
+            {"nameAr": "بحوث ودراسات علمية", "nameEn": "Scientific Research & Studies"}
+          ]
+        },
+        {
+          "nameAr": "القوالب والنماذج النصية",
+          "nameEn": "Text Templates & Forms",
+          "icon": "FileType",
+          "order": 3,
+          "types": [
+            {"nameAr": "قوالب السيرة الذاتية", "nameEn": "CV Templates"},
+            {"nameAr": "قوالب الخطابات الرسمية", "nameEn": "Formal Letter Templates"},
+            {"nameAr": "قوالب خطط العمل", "nameEn": "Business Plan Templates"},
+            {"nameAr": "قوالب العقود القانونية", "nameEn": "Legal Contract Templates"},
+            {"nameAr": "قوالب التسويق", "nameEn": "Marketing Templates"},
+            {"nameAr": "قوالب البريد الإلكتروني", "nameEn": "Email Templates"},
+            {"nameAr": "قوالب الفواتير", "nameEn": "Invoice Templates"},
+            {"nameAr": "قوالب العروض التقديمية", "nameEn": "Presentation Templates"},
+            {"nameAr": "قوالب المستندات", "nameEn": "Document Templates"},
+            {"nameAr": "قوالب التقارير", "nameEn": "Report Templates"}
+          ]
+        },
+        {
+          "nameAr": "المحتوى التعليمي والإعلامي المكتوب",
+          "nameEn": "Written Educational & Media Content",
+          "icon": "GraduationCap",
+          "order": 4,
+          "types": [
+            {"nameAr": "دورات تدريبية مكتوبة وملفات تعليمية", "nameEn": "Written Training Courses & Educational Files"},
+            {"nameAr": "ملخصات جاهزة", "nameEn": "Ready Summaries"},
+            {"nameAr": "كتيبات وأدلة تعليمية", "nameEn": "Educational Guides & Manuals"},
+            {"nameAr": "كتيبات وأدلة إرشادية", "nameEn": "How-to Guides"},
+            {"nameAr": "مقالات ومدونات ومنشورات", "nameEn": "Articles, Blogs & Publications"},
+            {"nameAr": "ملفات تعليمية PDF", "nameEn": "Educational PDF Files"},
+            {"nameAr": "أوراق عمل", "nameEn": "Worksheets"},
+            {"nameAr": "اختبارات ومسابقات", "nameEn": "Quizzes & Tests"},
+            {"nameAr": "ملفات بروم��تات (هندسة الأوامر)", "nameEn": "Prompt Files (Prompt Engineering)"}
+          ]
+        }
+      ]
+    }
+  ]
+}
