@@ -1,0 +1,4 @@
+INSERT INTO service_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('خدمات التصوير الفوتوغرافي', 'Photography Services', NULL, 9, NOW(), NOW());
+INSERT INTO service_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('خدمات البيانات والتحليل', 'Data & Analytics Services', NULL, 10, NOW(), NOW());
+INSERT INTO service_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('خدمات نمط الحياة', 'Lifestyle Services', NULL, 11, NOW(), NOW());
+INSERT INTO service_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('خدمات الاستشارات', 'Consulting Services', NULL, 12, NOW(), NOW());

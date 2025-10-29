@@ -1,0 +1,150 @@
+{
+  "query": "SELECT id, nameAr, nameEn, parentId, `order` FROM job_categories WHERE parentId IS NULL ORDER BY `order`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT id, nameAr, nameEn, parentId, `order` FROM job_categories WHERE parentId IS NULL ORDER BY `order`;",
+  "rows": [
+    {
+      "id": "210017",
+      "nameAr": "الكتابة والمحتوى",
+      "nameEn": "Writing & Content",
+      "parentId": "NULL",
+      "order": "1"
+    },
+    {
+      "id": "210018",
+      "nameAr": "التصميم والإبداع",
+      "nameEn": "Design & Creative",
+      "parentId": "NULL",
+      "order": "2"
+    },
+    {
+      "id": "240001",
+      "nameAr": "البرمجة والتطوير وتكنولوجيا المعلومات والتقنية",
+      "nameEn": "Programming & IT",
+      "parentId": "NULL",
+      "order": "2"
+    },
+    {
+      "id": "240002",
+      "nameAr": "الأعمال والمشاريع والمهام والإدارة",
+      "nameEn": "Business & Management",
+      "parentId": "NULL",
+      "order": "3"
+    },
+    {
+      "id": "210019",
+      "nameAr": "الصوت والفيديو",
+      "nameEn": "Audio & Video",
+      "parentId": "NULL",
+      "order": "3"
+    },
+    {
+      "id": "210020",
+      "nameAr": "البرمجة والتطوير",
+      "nameEn": "Programming & Development",
+      "parentId": "NULL",
+      "order": "4"
+    },
+    {
+      "id": "240003",
+      "nameAr": "المالية والاقتصاد والمحاسبة",
+      "nameEn": "Finance & Accounting",
+      "parentId": "NULL",
+      "order": "4"
+    },
+    {
+      "id": "210021",
+      "nameAr": "التسويق الرقمي والأعمال",
+      "nameEn": "Digital Marketing & Business",
+      "parentId": "NULL",
+      "order": "5"
+    },
+    {
+      "id": "240004",
+      "nameAr": "المبيعات والتسويق",
+      "nameEn": "Sales & Marketing",
+      "parentId": "NULL",
+      "order": "5"
+    },
+    {
+      "id": "210022",
+      "nameAr": "التعليم والتدريب",
+      "nameEn": "Education & Training",
+      "parentId": "NULL",
+      "order": "6"
+    },
+    {
+      "id": "240005",
+      "nameAr": "الكتابة والترجمة والمحتوى",
+      "nameEn": "Writing & Translation",
+      "parentId": "NULL",
+      "order": "6"
+    },
+    {
+      "id": "210023",
+      "nameAr": "الخدمات المتخصصة",
+      "nameEn": "Specialized Services",
+      "parentId": "NULL",
+      "order": "7"
+    },
+    {
+      "id": "240006",
+      "nameAr": "التصميم والإبداع",
+      "nameEn": "Design & Creative",
+      "parentId": "NULL",
+      "order": "7"
+    },
+    {
+      "id": "210024",
+      "nameAr": "الخدمات الحية",
+      "nameEn": "Live Services",
+      "parentId": "NULL",
+      "order": "8"
+    },
+    {
+      "id": "240007",
+      "nameAr": "إعداد الدراسات والبحوث والتقارير والخطط",
+      "nameEn": "Research & Reports",
+      "parentId": "NULL",
+      "order": "8"
+    },
+    {
+      "id": "240008",
+      "nameAr": "التعليم والتدريب",
+      "nameEn": "Education & Training",
+      "parentId": "NULL",
+      "order": "9"
+    },
+    {
+      "id": "240009",
+      "nameAr": "القانون",
+      "nameEn": "Legal",
+      "parentId": "NULL",
+      "order": "10"
+    },
+    {
+      "id": "240010",
+      "nameAr": "الهندسة والعمارة",
+      "nameEn": "Engineering & Architecture",
+      "parentId": "NULL",
+      "order": "11"
+    },
+    {
+      "id": "240011",
+      "nameAr": "الإدارة والدعم والتشغيل",
+      "nameEn": "Admin & Support",
+      "parentId": "NULL",
+      "order": "12"
+    },
+    {
+      "id": "240012",
+      "nameAr": "الموارد البشرية والتوظيف",
+      "nameEn": "HR & Recruitment",
+      "parentId": "NULL",
+      "order": "13"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnameAr\tnameEn\tparentId\torder\n210017\tالكتابة والمحتوى\tWriting & Content\tNULL\t1\n210018\tالتصميم والإبداع\tDesign & Creative\tNULL\t2\n240001\tالبرمجة والتطوير وتكنولوجيا المعلومات والتقنية\tProgramming & IT\tNULL\t2\n240002\tالأعمال والمشاريع والمهام والإدارة\tBusiness & Management\tNULL\t3\n210019\tالصوت والفيديو\tAudio & Video\tNULL\t3\n210020\tالبرمجة والتطوير\tProgramming & Development\tNULL\t4\n240003\tالمالية والاقتصاد والمحاسبة\tFinance & Accounting\tNULL\t4\n210021\tالتسويق الرقمي والأعمال\tDigital Marketing & Business\tNULL\t5\n240004\tالمبيعات والتسويق\tSales & Marketing\tNULL\t5\n210022\tالتعليم والتدريب\tEducation & Training\tNULL\t6\n240005\tالكتابة والترجمة والمحتوى\tWriting & Translation\tNULL\t6\n210023\tالخدمات المتخصصة\tSpecialized Services\tNULL\t7\n240006\tالتصميم والإبداع\tDesign & Creative\tNULL\t7\n210024\tالخدمات الحية\tLive Services\tNULL\t8\n240007\tإعداد الدراسات والبحوث والتقارير والخطط\tResearch & Reports\tNULL\t8\n240008\tالتعليم والتدريب\tEducation & Training\tNULL\t9\n240009\tالقانون\tLegal\tNULL\t10\n240010\tالهندسة والعمارة\tEngineering & Architecture\tNULL\t11\n240011\tالإدارة والدعم والتشغيل\tAdmin & Support\tNULL\t12\n240012\tالموارد البشرية والتوظيف\tHR & Recruitment\tNULL\t13\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

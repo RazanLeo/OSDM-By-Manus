@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM job_categories WHERE id = 14 AND nameAr = 'التصميم والإبداع';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute DELETE FROM job_categories WHERE id = 14 AND nameAr = 'التصميم والإبداع';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 48
+}

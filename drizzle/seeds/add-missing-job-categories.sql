@@ -1,0 +1,18 @@
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('علم البيانات والتحليلات', 'Data Science & Analytics', NULL, 21, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('تطوير الويب والجوال والبرمجيات', 'Web, Mobile, & Software Development', NULL, 22, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('المبيعات والتسويق', 'Sales & Marketing', NULL, 23, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('الهندسة والعمارة', 'Engineering & Architecture', NULL, 24, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('الدعم الإداري وخدمة العملاء', 'Admin & Customer Support', NULL, 25, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('المالية والمحاسبة', 'Finance & Accounting', NULL, 26, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('الموارد البشرية والتدريب', 'HR & Training', NULL, 27, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('القانون والاستشارات القانونية', 'Legal & Consulting', NULL, 28, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('الموسيقى والصوتيات', 'Music & Audio', NULL, 29, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('البرمجة والتقنية', 'Programming & Tech', NULL, 30, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('الأعمال التجارية', 'Business Services', NULL, 31, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('نمط الحياة', 'Lifestyle', NULL, 32, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('البيانات والإحصاء', 'Data & Statistics', NULL, 33, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('تطوير الألعاب', 'Game Development', NULL, 34, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('الأمن السيبراني', 'Cybersecurity', NULL, 35, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('التجارة الإلكترونية', 'E-Commerce', NULL, 36, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('إدارة المشاريع', 'Project Management', NULL, 37, NOW(), NOW());
+INSERT INTO job_categories (nameAr, nameEn, parentId, `order`, createdAt, updatedAt) VALUES ('الاستشارات', 'Consulting', NULL, 38, NOW(), NOW());

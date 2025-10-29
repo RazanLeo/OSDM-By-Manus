@@ -1,0 +1,25 @@
+{
+  "query": "\nSELECT \n  'Products' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories\nFROM product_categories\nUNION ALL\nSELECT \n  'Services' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories\nFROM service_categories\nUNION ALL\nSELECT \n  'Jobs' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories\nFROM job_categories;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute \nSELECT \n  'Products' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories\nFROM product_categories\nUNION ALL\nSELECT \n  'Services' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories\nFROM service_categories\nUNION ALL\nSELECT \n  'Jobs' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories\nFROM job_categories;\n",
+  "rows": [
+    {
+      "market": "Jobs",
+      "total": "37",
+      "main_categories": "37"
+    },
+    {
+      "market": "Services",
+      "total": "246",
+      "main_categories": "11"
+    },
+    {
+      "market": "Products",
+      "total": "312",
+      "main_categories": "15"
+    }
+  ],
+  "messages": [],
+  "stdout": "market\ttotal\tmain_categories\nJobs\t37\t37\nServices\t246\t11\nProducts\t312\t15\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

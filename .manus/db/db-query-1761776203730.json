@@ -1,0 +1,28 @@
+{
+  "query": "\nSELECT \n  'Products' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories,\n  SUM(CASE WHEN parentId IS NOT NULL THEN 1 ELSE 0 END) as sub_and_types\nFROM product_categories\nUNION ALL\nSELECT \n  'Services' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories,\n  SUM(CASE WHEN parentId IS NOT NULL THEN 1 ELSE 0 END) as sub_and_types\nFROM service_categories\nUNION ALL\nSELECT \n  'Jobs' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories,\n  SUM(CASE WHEN parentId IS NOT NULL THEN 1 ELSE 0 END) as sub_and_types\nFROM job_categories;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute \nSELECT \n  'Products' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories,\n  SUM(CASE WHEN parentId IS NOT NULL THEN 1 ELSE 0 END) as sub_and_types\nFROM product_categories\nUNION ALL\nSELECT \n  'Services' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories,\n  SUM(CASE WHEN parentId IS NOT NULL THEN 1 ELSE 0 END) as sub_and_types\nFROM service_categories\nUNION ALL\nSELECT \n  'Jobs' as market,\n  COUNT(*) as total,\n  SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main_categories,\n  SUM(CASE WHEN parentId IS NOT NULL THEN 1 ELSE 0 END) as sub_and_types\nFROM job_categories;\n",
+  "rows": [
+    {
+      "market": "Jobs",
+      "total": "20",
+      "main_categories": "20",
+      "sub_and_types": "0"
+    },
+    {
+      "market": "Services",
+      "total": "243",
+      "main_categories": "8",
+      "sub_and_types": "235"
+    },
+    {
+      "market": "Products",
+      "total": "305",
+      "main_categories": "8",
+      "sub_and_types": "297"
+    }
+  ],
+  "messages": [],
+  "stdout": "market\ttotal\tmain_categories\tsub_and_types\nJobs\t20\t20\t0\nServices\t243\t8\t235\nProducts\t305\t8\t297\n",
+  "stderr": "",
+  "execution_time_ms": 639
+}

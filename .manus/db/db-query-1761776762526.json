@@ -1,0 +1,14 @@
+{
+  "query": "SELECT COUNT(*) as total, SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main FROM service_categories;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4HyFyescyY38rju.root --database G7XeFet7eLw4EU4ZHzPEXP --execute SELECT COUNT(*) as total, SUM(CASE WHEN parentId IS NULL THEN 1 ELSE 0 END) as main FROM service_categories;",
+  "rows": [
+    {
+      "total": "243",
+      "main": "8"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tmain\n243\t8\n",
+  "stderr": "",
+  "execution_time_ms": 888
+}
