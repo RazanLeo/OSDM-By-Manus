@@ -305,8 +305,8 @@ export default function Footer() {
               </li>
               <li style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}>
                 <span className="font-semibold block mb-1">{t('الهاتف / واتساب / تليجرام:', 'Phone / WhatsApp / Telegram:')}</span>
-                <a href="tel:+966544827213" className="hover:text-[#4691A9] transition-colors">
-                  +966 544 827 213
+                <a href="tel:+966544827213" className="hover:text-[#4691A9] transition-colors" dir="ltr">
+                  00966544827213
                 </a>
               </li>
             </ul>
@@ -404,7 +404,7 @@ export default function Footer() {
               className="text-xs text-gray-500 mt-2"
               style={{ fontFamily: dir === 'rtl' ? 'Cairo, Tajawal, sans-serif' : 'Inter, sans-serif' }}
             >
-              {t('جميع الحقوق محفوظة لمنصة OSDM 2025', 'All Rights Reserved OSDM Platform 2025')}
+              {t('جميع الحقوق محفوظة OSDM 2025', 'All Rights Reserved OSDM 2025')}
             </p>
           </div>
         </div>
