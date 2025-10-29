@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { Laptop, MapPin, DollarSign, Clock } from 'lucide-react';
+import { Laptop, MapPin, DollarSign, Clock, Home } from 'lucide-react';
 import CategorySidebar from '../components/CategorySidebar';
 import { useLanguage } from '../hooks/useLanguage';
 
@@ -23,8 +23,11 @@ export default function JobsMarket() {
     remote: isRTL ? 'عن بعد' : 'Remote',
   };
 
-  const handleCategorySelect = async (categoryId: number | null) => {
-    setSelectedCategory(categoryId);
+  useEffect(() => {
+    loadJobs(null);
+  }, []);
+
+  const loadJobs = async (categoryId: number | null) => {
     setLoading(true);
     
     try {
@@ -42,13 +45,26 @@ export default function JobsMarket() {
     }
   };
 
+  const handleCategorySelect = async (categoryId: number | null) => {
+    setSelectedCategory(categoryId);
+    await loadJobs(categoryId);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="bg-gradient-to-r from-[#89A58F] to-[#846F9C] text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-3 mb-4">
-            <Laptop size={40} />
-            <h1 className="text-4xl font-bold">{t.title}</h1>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Laptop size={40} />
+              <h1 className="text-4xl font-bold">{t.title}</h1>
+            </div>
+            <Link href="/">
+              <button className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
+                <Home size={20} />
+                <span>{isRTL ? 'الصفحة الرئيسية' : 'Home'}</span>
+              </button>
+            </Link>
           </div>
           <p className="text-xl text-white/90">{t.subtitle}</p>
         </div>

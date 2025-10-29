@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { Briefcase, Star, Clock, DollarSign } from 'lucide-react';
+import { Briefcase, Star, Clock, DollarSign, Home } from 'lucide-react';
 import CategorySidebar from '../components/CategorySidebar';
 import { useLanguage } from '../hooks/useLanguage';
 
@@ -21,8 +21,11 @@ export default function ServicesMarket() {
     days: isRTL ? 'أيام' : 'days',
   };
 
-  const handleCategorySelect = async (categoryId: number | null) => {
-    setSelectedCategory(categoryId);
+  useEffect(() => {
+    loadServices(null);
+  }, []);
+
+  const loadServices = async (categoryId: number | null) => {
     setLoading(true);
     
     try {
@@ -40,13 +43,26 @@ export default function ServicesMarket() {
     }
   };
 
+  const handleCategorySelect = async (categoryId: number | null) => {
+    setSelectedCategory(categoryId);
+    await loadServices(categoryId);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="bg-gradient-to-r from-[#4691A9] to-[#89A58F] text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-3 mb-4">
-            <Briefcase size={40} />
-            <h1 className="text-4xl font-bold">{t.title}</h1>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Briefcase size={40} />
+              <h1 className="text-4xl font-bold">{t.title}</h1>
+            </div>
+            <Link href="/">
+              <button className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
+                <Home size={20} />
+                <span>{isRTL ? 'الصفحة الرئيسية' : 'Home'}</span>
+              </button>
+            </Link>
           </div>
           <p className="text-xl text-white/90">{t.subtitle}</p>
         </div>

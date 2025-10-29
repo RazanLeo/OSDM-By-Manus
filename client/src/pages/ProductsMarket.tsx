@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { ShoppingBag, Star, Download, Eye } from 'lucide-react';
+import { ShoppingBag, Star, Download, Eye, Home } from 'lucide-react';
 import CategorySidebar from '../components/CategorySidebar';
 import { useLanguage } from '../hooks/useLanguage';
 
@@ -21,9 +21,13 @@ export default function ProductsMarket() {
     views: isRTL ? 'مشاهدة' : 'views',
   };
 
-  // Handle category selection
-  const handleCategorySelect = async (categoryId: number | null) => {
-    setSelectedCategory(categoryId);
+  // Load products on mount
+  useEffect(() => {
+    loadProducts(null);
+  }, []);
+
+  // Load products
+  const loadProducts = async (categoryId: number | null) => {
     setLoading(true);
     
     try {
@@ -41,14 +45,28 @@ export default function ProductsMarket() {
     }
   };
 
+  // Handle category selection
+  const handleCategorySelect = async (categoryId: number | null) => {
+    setSelectedCategory(categoryId);
+    await loadProducts(categoryId);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <div className="bg-gradient-to-r from-[#846F9C] to-[#4691A9] text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-3 mb-4">
-            <ShoppingBag size={40} />
-            <h1 className="text-4xl font-bold">{t.title}</h1>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <ShoppingBag size={40} />
+              <h1 className="text-4xl font-bold">{t.title}</h1>
+            </div>
+            <Link href="/">
+              <button className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
+                <Home size={20} />
+                <span>{isRTL ? 'الصفحة الرئيسية' : 'Home'}</span>
+              </button>
+            </Link>
           </div>
           <p className="text-xl text-white/90">{t.subtitle}</p>
         </div>
