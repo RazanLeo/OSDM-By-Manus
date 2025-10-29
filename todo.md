@@ -200,3 +200,9 @@
   * الوصف الجديد: "خدمات رقمية متخصصة حسب احتياجك"
   * الترجمة الإنجليزية: "Specialized digital services tailored to your needs"
 
+
+
+- [x] تصحيح وصف السوق الأول (المنتجات الرقمية):
+  * الوصف الجديد: "منتجات رقمية جاهزة للشراء والتحميل الفوري"
+  * الترجمة الإنجليزية: "Ready digital products for instant purchase and download"
+
