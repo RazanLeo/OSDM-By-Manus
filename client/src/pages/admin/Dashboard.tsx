@@ -1,11 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { trpc } from '@/lib/trpc';
 import { Users, Package, Briefcase, ShoppingCart, TrendingUp, DollarSign } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { t, direction } = useLanguage();
-  const navigate = useNavigate();
+  const [, navigate] = useLocation();
   const statsQuery = trpc.admin.stats.useQuery(undefined, { retry: false });
   const loading = statsQuery.isLoading;
   const stats = statsQuery.data ?? {
