@@ -24,8 +24,8 @@ export default function Login() {
         title: t('تم تسجيل الدخول بنجاح', 'Login successful'),
         description: t(`مرحباً ${data.user.name}`, `Welcome ${data.user.name}`),
       });
-      // Reload to update user context
-      window.location.href = '/';
+      // Reload to update user context — straight into the dashboard per the platform spec
+      window.location.href = '/dashboard';
     },
     onError: (error) => {
       toast({

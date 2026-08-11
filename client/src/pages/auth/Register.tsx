@@ -26,7 +26,7 @@ export default function Register() {
         title: t('تم إنشاء الحساب بنجاح', 'Account created successfully'),
         description: t(`مرحباً ${data.user.name}`, `Welcome ${data.user.name}`),
       });
-      window.location.href = '/';
+      window.location.href = '/dashboard';
     },
     onError: (error) => {
       toast({
