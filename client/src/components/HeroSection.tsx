@@ -184,8 +184,7 @@ export default function HeroSection() {
                 preload="auto"
                 muted={isMuted}
               >
-                <source src="/hero-video.mov" type="video/mp4" />
-                <source src="/hero-video.mov" type="video/quicktime" />
+                <source src="/hero-video.mp4" type="video/mp4" />
               </video>
 
               {!isPlaying && (
