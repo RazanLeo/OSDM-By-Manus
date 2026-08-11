@@ -1,46 +1,20 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { trpc } from '@/lib/trpc';
 import { Users, Package, Briefcase, ShoppingCart, TrendingUp, DollarSign } from 'lucide-react';
-
-interface Stats {
-  totalUsers: number;
-  totalProducts: number;
-  totalServices: number;
-  totalJobs: number;
-  totalOrders: number;
-  totalRevenue: number;
-}
 
 export default function AdminDashboard() {
   const { t, direction } = useLanguage();
   const navigate = useNavigate();
-  const [stats, setStats] = useState<Stats>({
+  const statsQuery = trpc.admin.stats.useQuery(undefined, { retry: false });
+  const loading = statsQuery.isLoading;
+  const stats = statsQuery.data ?? {
     totalUsers: 0,
     totalProducts: 0,
     totalServices: 0,
     totalJobs: 0,
     totalOrders: 0,
     totalRevenue: 0
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchStats();
-  }, []);
-
-  const fetchStats = async () => {
-    try {
-      const response = await fetch('/api/admin/stats');
-      if (response.ok) {
-        const data = await response.json();
-        setStats(data);
-      }
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const statCards = [
