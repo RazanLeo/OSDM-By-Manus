@@ -31,7 +31,11 @@ export const appRouter = router({
   conversations: conversationsRouter,
 
   auth: router({
-    me: publicProcedure.query(opts => opts.ctx.user),
+    me: publicProcedure.query(opts => {
+      if (!opts.ctx.user) return null;
+      const { password: _password, ...safeUser } = opts.ctx.user;
+      return safeUser;
+    }),
     
     login: publicProcedure
       .input(z.object({
