@@ -4,9 +4,26 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import * as db from "./db";
+import { financeRouter } from "./modules/finance";
+import { disputesRouter } from "./modules/disputes";
+import { productsExtRouter } from "./modules/products";
+import { servicesExtRouter } from "./modules/services";
+import { jobsExtRouter } from "./modules/jobs";
 
 export const appRouter = router({
   system: systemRouter,
+
+  // Financial core: wallet (available/escrow/pending-withdrawal), top-up, withdrawals,
+  // transactions, revenue config (admin) — see server/modules/finance.ts
+  finance: financeRouter,
+
+  // Disputes: open/evidence/reply/admin-resolve (escrow freeze law) — server/modules/disputes.ts
+  disputes: disputesRouter,
+
+  // Market module extensions (implemented by market agents)
+  productsExt: productsExtRouter,
+  servicesExt: servicesExtRouter,
+  jobsExt: jobsExtRouter,
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

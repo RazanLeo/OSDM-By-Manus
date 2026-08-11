@@ -1,0 +1,6 @@
+{
+  "platformCommissionPct": 25,
+  "paymentGatewayFeePct": 5,
+  "refundAdminFeeSAR": 5,
+  "currency": "SAR"
+}

@@ -43,6 +43,13 @@
       "when": 1761683614334,
       "tag": "0005_soft_lionheart",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1786462868670,
+      "tag": "0006_next_wendell_rand",
+      "breakpoints": true
     }
   ]
 }
