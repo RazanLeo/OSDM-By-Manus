@@ -6,6 +6,7 @@ import {
   productCategories,
   products,
   serviceCategories,
+  servicePackages,
   services,
   users,
 } from "../drizzle/schema";
@@ -195,6 +196,59 @@ async function seedSamples(db: Db, sellerId: number): Promise<void> {
         isActive: true,
       });
       console.log("[Seed] Sample service inserted");
+    }
+  }
+
+  // باقات الخدمة الثلاث (Basic/Standard/Premium) كما تنص آلية Fiverr/Khamsat في البرومبت
+  const [{ packageCount }] = await db
+    .select({ packageCount: sql<number>`count(*)` })
+    .from(servicePackages);
+  if (Number(packageCount) === 0) {
+    const firstService = await db
+      .select({ id: services.id })
+      .from(services)
+      .limit(1);
+    if (firstService[0]) {
+      const serviceId = firstService[0].id;
+      await db.insert(servicePackages).values([
+        {
+          serviceId,
+          nameAr: "الباقة الأساسية",
+          nameEn: "Basic",
+          descriptionAr: "شعار واحد بصيغة PNG مع مقترح واحد ومراجعة واحدة",
+          descriptionEn: "One logo in PNG with a single concept and one revision",
+          price: 250,
+          deliveryTime: 3,
+          deliveryTimeUnit: "days",
+          features: "شعار PNG,مقترح واحد,مراجعة واحدة",
+          order: 1,
+        },
+        {
+          serviceId,
+          nameAr: "الباقة القياسية",
+          nameEn: "Standard",
+          descriptionAr: "شعار بجميع الصيغ مع 3 مقترحات ومراجعتين وملف مصدر",
+          descriptionEn: "Logo in all formats with 3 concepts, 2 revisions and source file",
+          price: 450,
+          deliveryTime: 5,
+          deliveryTimeUnit: "days",
+          features: "جميع الصيغ,3 مقترحات,مراجعتان,ملف المصدر",
+          order: 2,
+        },
+        {
+          serviceId,
+          nameAr: "الباقة الاحترافية",
+          nameEn: "Premium",
+          descriptionAr: "هوية بصرية كاملة: شعار + ألوان + خطوط + دليل استخدام مع مراجعات غير محدودة",
+          descriptionEn: "Full brand identity: logo + colors + fonts + brand guide with unlimited revisions",
+          price: 900,
+          deliveryTime: 7,
+          deliveryTimeUnit: "days",
+          features: "هوية كاملة,دليل علامة,مراجعات غير محدودة,أولوية تنفيذ",
+          order: 3,
+        },
+      ]);
+      console.log("[Seed] Sample service packages inserted");
     }
   }
 
