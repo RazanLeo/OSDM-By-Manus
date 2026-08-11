@@ -9,6 +9,7 @@ import { disputesRouter } from "./modules/disputes";
 import { productsExtRouter } from "./modules/products";
 import { servicesExtRouter } from "./modules/services";
 import { jobsExtRouter } from "./modules/jobs";
+import { notificationsRouter, conversationsRouter } from "./modules/notifications";
 
 export const appRouter = router({
   system: systemRouter,
@@ -24,6 +25,10 @@ export const appRouter = router({
   productsExt: productsExtRouter,
   servicesExt: servicesExtRouter,
   jobsExt: jobsExtRouter,
+
+  // Core UI: notifications list/mark-read + general conversations — server/modules/notifications.ts
+  notifications: notificationsRouter,
+  conversations: conversationsRouter,
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

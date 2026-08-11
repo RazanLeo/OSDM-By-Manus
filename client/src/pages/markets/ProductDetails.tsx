@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { useParams, Link } from 'wouter';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -14,9 +16,38 @@ import { toast } from 'sonner';
 export default function ProductDetails() {
   const { id } = useParams();
   const { t } = useLanguage();
-  
-  const { data: product, isLoading } = trpc.products.getById.useQuery({ id: parseInt(id!) });
-  const reviews: any[] = [];
+
+  const { data, isLoading } = trpc.productsExt.public.productDetails.useQuery(
+    { productId: parseInt(id!) },
+    { enabled: !!id, retry: false }
+  );
+  const product = data?.product;
+  const seller = data?.seller;
+  const reviews = data?.reviews ?? [];
+
+  const [couponCode, setCouponCode] = useState('');
+  const [purchaseResult, setPurchaseResult] = useState<{
+    downloadUrl: string;
+    licenseKey: string;
+  } | null>(null);
+
+  const purchaseMutation = trpc.productsExt.buyer.purchase.useMutation({
+    onSuccess: (res) => {
+      setPurchaseResult({ downloadUrl: res.downloadUrl, licenseKey: res.licenseKey });
+      toast.success(t(res.messageAr, res.messageEn));
+    },
+    onError: (e) => {
+      toast.error(e.message || t('فشل إتمام الشراء', 'Purchase failed'));
+    },
+  });
+
+  const handleBuyNow = () => {
+    if (!product) return;
+    purchaseMutation.mutate({
+      productId: product.id,
+      couponCode: couponCode.trim() || undefined,
+    });
+  };
 
   const handleAddToCart = () => {
     toast.success(t('تمت الإضافة إلى السلة', 'Added to cart'));
@@ -51,12 +82,17 @@ export default function ProductDetails() {
     );
   }
 
-  const averageRating = 5.0;
+  const averageRating =
+    reviews.length > 0
+      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+      : product.rating || 0;
+  const sellerName = seller?.profile?.companyName || seller?.name || t('البائع', 'Seller');
+  const sellerRating = seller?.profile?.rating ?? 0;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-1 container py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -127,26 +163,37 @@ export default function ProductDetails() {
 
                     <TabsContent value="files" className="mt-4">
                       <div className="space-y-2">
-                        <p className="text-muted-foreground">
-                          {t('سيتم عرض الملفات بعد الشراء', 'Files will be shown after purchase')}
-                        </p>
+                        {purchaseResult ? (
+                          <Button
+                            className="bg-osdm-purple hover:bg-osdm-purple/90"
+                            onClick={() => window.open(purchaseResult.downloadUrl, '_blank')}
+                          >
+                            <Download className="h-4 w-4 mr-2" />
+                            {t('تحميل الملف', 'Download File')}
+                          </Button>
+                        ) : (
+                          <p className="text-muted-foreground">
+                            {t('سيتم عرض الملفات بعد الشراء', 'Files will be shown after purchase')}
+                          </p>
+                        )}
                       </div>
                     </TabsContent>
 
                     <TabsContent value="reviews" className="mt-4">
                       <div className="space-y-4">
                         {reviews.length > 0 ? (
-                          reviews.map((review: any) => (
+                          reviews.map((review) => (
                             <Card key={review.id}>
                               <CardContent className="pt-6">
                                 <div className="flex items-start gap-4">
                                   <Avatar>
-                                    <AvatarImage src={review.user?.avatar} />
-                                    <AvatarFallback>{review.user?.name?.[0]}</AvatarFallback>
+                                    <AvatarFallback>{review.reviewerName?.[0] || 'U'}</AvatarFallback>
                                   </Avatar>
                                   <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-2">
-                                      <span className="font-semibold">{review.user?.name}</span>
+                                      <span className="font-semibold">
+                                        {review.reviewerName || t('مستخدم', 'User')}
+                                      </span>
                                       <div className="flex">
                                         {[...Array(5)].map((_, i) => (
                                           <Star
@@ -160,7 +207,9 @@ export default function ProductDetails() {
                                         ))}
                                       </div>
                                     </div>
-                                    <p className="text-sm text-muted-foreground">{review.comment}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                      {t(review.commentAr || '', review.commentEn || '')}
+                                    </p>
                                   </div>
                                 </div>
                               </CardContent>
@@ -192,17 +241,49 @@ export default function ProductDetails() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button 
-                  className="w-full bg-osdm-purple hover:bg-osdm-purple/90" 
-                  size="lg"
-                  onClick={handleAddToCart}
-                >
-                  <ShoppingCart className="h-5 w-5 mr-2" />
-                  {t('إضافة إلى السلة', 'Add to Cart')}
-                </Button>
-                <Button variant="outline" className="w-full" size="lg">
-                  {t('شراء الآن', 'Buy Now')}
-                </Button>
+                {purchaseResult ? (
+                  <>
+                    <Button
+                      className="w-full bg-osdm-purple hover:bg-osdm-purple/90"
+                      size="lg"
+                      onClick={() => window.open(purchaseResult.downloadUrl, '_blank')}
+                    >
+                      <Download className="h-5 w-5 mr-2" />
+                      {t('تحميل المنتج', 'Download Product')}
+                    </Button>
+                    <p className="text-sm text-muted-foreground text-center">
+                      {t('مفتاح الترخيص:', 'License key:')}{' '}
+                      <span className="font-medium">{purchaseResult.licenseKey}</span>
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <Input
+                      placeholder={t('كود الخصم (اختياري)', 'Coupon code (optional)')}
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                    />
+                    <Button
+                      className="w-full bg-osdm-purple hover:bg-osdm-purple/90"
+                      size="lg"
+                      onClick={handleAddToCart}
+                    >
+                      <ShoppingCart className="h-5 w-5 mr-2" />
+                      {t('إضافة إلى السلة', 'Add to Cart')}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      size="lg"
+                      onClick={handleBuyNow}
+                      disabled={purchaseMutation.isPending}
+                    >
+                      {purchaseMutation.isPending
+                        ? t('جاري إتمام الشراء...', 'Processing purchase...')
+                        : t('شراء الآن', 'Buy Now')}
+                    </Button>
+                  </>
+                )}
               </CardContent>
             </Card>
 
@@ -214,13 +295,16 @@ export default function ProductDetails() {
               <CardContent>
                 <div className="flex items-center gap-3 mb-4">
                   <Avatar>
-                    <AvatarFallback>S</AvatarFallback>
+                    {seller?.profile?.companyLogo && (
+                      <AvatarImage src={seller.profile.companyLogo} />
+                    )}
+                    <AvatarFallback>{sellerName?.[0] || 'S'}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <p className="font-semibold">{t('البائع', 'Seller')}</p>
+                    <p className="font-semibold">{sellerName}</p>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                       <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                      <span>5.0</span>
+                      <span>{sellerRating.toFixed(1)}</span>
                     </div>
                   </div>
                 </div>
@@ -261,4 +345,3 @@ export default function ProductDetails() {
     </div>
   );
 }
-

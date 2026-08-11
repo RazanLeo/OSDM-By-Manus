@@ -10,11 +10,21 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { trpc } from '@/lib/trpc';
 import { Search, ShoppingCart, Eye, Download, Star } from 'lucide-react';
 import { Link } from 'wouter';
+import { toast } from 'sonner';
 
 export default function ProductsMarket() {
   const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  const purchaseMutation = trpc.productsExt.buyer.purchase.useMutation({
+    onSuccess: (res) => {
+      toast.success(t(res.messageAr, res.messageEn));
+    },
+    onError: (e) => {
+      toast.error(e.message || t('فشل إتمام الشراء', 'Purchase failed'));
+    },
+  });
 
   const { data: categories = [] } = trpc.productCategories.list.useQuery();
   const { data: products = [], isLoading } = trpc.products.list.useQuery({
@@ -158,7 +168,11 @@ export default function ProductsMarket() {
                         {t('عرض التفاصيل', 'View Details')}
                       </Button>
                     </Link>
-                    <Button className="bg-osdm-purple hover:bg-osdm-purple/90">
+                    <Button
+                      className="bg-osdm-purple hover:bg-osdm-purple/90"
+                      onClick={() => purchaseMutation.mutate({ productId: product.id })}
+                      disabled={purchaseMutation.isPending}
+                    >
                       <ShoppingCart className="h-4 w-4" />
                     </Button>
                   </CardFooter>

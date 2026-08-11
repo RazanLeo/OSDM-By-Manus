@@ -14,24 +14,170 @@ import { Clock, DollarSign, Users, Calendar, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
 
+function parseJsonArray(value: string | null | undefined): string[] {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.filter((v): v is string => typeof v === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+type BidShape = {
+  id: number;
+  freelancerId: number;
+  amount: number;
+  currency: string;
+  deliveryTime: number;
+  proposalAr: string;
+  proposalEn: string;
+  status: string;
+  createdAt: string | Date;
+};
+
+function BidRow({
+  bid,
+  freelancerName,
+  isOwner,
+  canAccept,
+  onAccept,
+  accepting,
+}: {
+  bid: BidShape;
+  freelancerName?: string | null;
+  isOwner: boolean;
+  canAccept: boolean;
+  onAccept: (bidId: number) => void;
+  accepting: boolean;
+}) {
+  const { t } = useLanguage();
+  const { data: profile } = trpc.jobsExt.public.freelancerProfile.useQuery(
+    { userId: bid.freelancerId },
+    { enabled: !freelancerName },
+  );
+  const name = freelancerName ?? profile?.name ?? t('مستقل', 'Freelancer');
+
+  const statusLabel =
+    bid.status === 'pending' ? t('قيد الانتظار', 'Pending')
+    : bid.status === 'accepted' ? t('مقبول', 'Accepted')
+    : bid.status === 'rejected' ? t('مرفوض', 'Rejected')
+    : t('مسحوب', 'Withdrawn');
+
+  return (
+    <div className="p-4 border rounded-lg space-y-3">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Avatar>
+            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="font-semibold">{name}</p>
+            <p className="text-sm text-muted-foreground">
+              {new Date(bid.createdAt).toLocaleDateString('ar-SA')}
+            </p>
+          </div>
+        </div>
+        <Badge variant={bid.status === 'accepted' ? 'default' : 'secondary'}>{statusLabel}</Badge>
+      </div>
+      <p className="text-sm whitespace-pre-wrap">{t(bid.proposalAr, bid.proposalEn)}</p>
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <DollarSign className="h-4 w-4" />
+            {bid.amount} {bid.currency}
+          </span>
+          <span className="flex items-center gap-1">
+            <Clock className="h-4 w-4" />
+            {bid.deliveryTime} {t('أيام', 'days')}
+          </span>
+        </div>
+        {isOwner && canAccept && bid.status === 'pending' && (
+          <Button
+            size="sm"
+            className="bg-osdm-green hover:bg-osdm-green/90"
+            disabled={accepting}
+            onClick={() => onAccept(bid.id)}
+          >
+            {accepting ? t('جارٍ القبول...', 'Accepting...') : t('قبول العرض', 'Accept Bid')}
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function JobDetails() {
   const { id } = useParams();
   const { t } = useLanguage();
   const [bidAmount, setBidAmount] = useState('');
   const [bidDuration, setBidDuration] = useState('');
   const [bidDescription, setBidDescription] = useState('');
-  
-  const { data: job, isLoading } = trpc.jobs.getById.useQuery({ id: parseInt(id!) });
+
+  const jobId = parseInt(id!);
+  const utils = trpc.useUtils();
+
+  const { data: job, isLoading } = trpc.jobsExt.public.jobDetails.useQuery(
+    { jobId },
+    { enabled: Number.isFinite(jobId) && jobId > 0, retry: false },
+  );
+  const { data: me } = trpc.auth.me.useQuery();
+  const isOwner = !!me && !!job && me.id === job.employerId;
+
+  const { data: publicBids } = trpc.jobBids.listByJob.useQuery(
+    { jobId },
+    { enabled: Number.isFinite(jobId) && jobId > 0 && !isOwner },
+  );
+  const { data: ownerBids, isLoading: ownerBidsLoading } = trpc.jobsExt.employer.jobBids.useQuery(
+    { jobId },
+    { enabled: isOwner },
+  );
+
+  const { data: employerProfile } = trpc.jobsExt.public.freelancerProfile.useQuery(
+    { userId: job?.employerId ?? 0 },
+    { enabled: !!job },
+  );
+  const { data: openJobs } = trpc.jobs.list.useQuery(undefined, { enabled: !!job });
+  const employerJobsCount =
+    openJobs && job ? openJobs.filter((j: { employerId: number }) => j.employerId === job.employerId).length : null;
+
+  const invalidateJob = () => {
+    utils.jobsExt.public.jobDetails.invalidate({ jobId });
+    utils.jobBids.listByJob.invalidate({ jobId });
+    utils.jobsExt.employer.jobBids.invalidate({ jobId });
+  };
+
+  const placeBid = trpc.jobsExt.freelancer.placeBid.useMutation({
+    onSuccess: () => {
+      toast.success(t('تم إرسال العرض', 'Bid submitted'));
+      setBidAmount('');
+      setBidDuration('');
+      setBidDescription('');
+      invalidateJob();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const acceptBid = trpc.jobsExt.employer.acceptBid.useMutation({
+    onSuccess: () => {
+      toast.success(t('تم قبول العرض وتمويل العقد في الضمان', 'Bid accepted and contract funded in escrow'));
+      invalidateJob();
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
   const handleSubmitBid = () => {
     if (!bidAmount || !bidDuration || !bidDescription) {
       toast.error(t('يرجى ملء جميع الحقول', 'Please fill all fields'));
       return;
     }
-    toast.success(t('تم إرسال العرض', 'Bid submitted'));
-    setBidAmount('');
-    setBidDuration('');
-    setBidDescription('');
+    const amount = parseInt(bidAmount);
+    const days = parseInt(bidDuration);
+    if (!Number.isFinite(amount) || amount <= 0 || !Number.isFinite(days) || days <= 0) {
+      toast.error(t('قيمة العرض أو المدة غير صالحة', 'Invalid bid amount or duration'));
+      return;
+    }
+    placeBid.mutate({ jobId, amount, deliveryDays: days, coverLetter: bidDescription });
   };
 
   if (isLoading) {
@@ -63,10 +209,14 @@ export default function JobDetails() {
     );
   }
 
+  const skills = parseJsonArray(job.skills);
+  const attachments = parseJsonArray(job.attachments);
+  const employerName = job.employer?.name ?? t('العميل', 'Client');
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-1 container py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -123,35 +273,84 @@ export default function JobDetails() {
                       </p>
                     </div>
 
-                    {job.attachments && (
+                    {attachments.length > 0 && (
                       <div className="mt-6">
                         <h3 className="font-semibold mb-3">{t('المرفقات', 'Attachments')}</h3>
                         <div className="space-y-2">
-                          <div className="flex items-center gap-3 p-3 border rounded-lg">
-                            <FileText className="h-5 w-5 text-muted-foreground" />
-                            <div className="flex-1">
-                              <p className="font-medium">{t('ملف المشروع', 'Project file')}</p>
-                            </div>
-                          </div>
+                          {attachments.map((url, i) => (
+                            <a key={url} href={url} target="_blank" rel="noopener noreferrer" className="block">
+                              <div className="flex items-center gap-3 p-3 border rounded-lg">
+                                <FileText className="h-5 w-5 text-muted-foreground" />
+                                <div className="flex-1">
+                                  <p className="font-medium">{t('ملف المشروع', 'Project file')} {i + 1}</p>
+                                </div>
+                              </div>
+                            </a>
+                          ))}
                         </div>
                       </div>
                     )}
                   </TabsContent>
 
                   <TabsContent value="skills" className="mt-4">
-                    <div className="flex flex-wrap gap-2">
-                      {['JavaScript', 'React', 'Node.js', 'TypeScript', 'CSS'].map((skill) => (
-                        <Badge key={skill} variant="secondary">
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
+                    {skills.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {skills.map((skill) => (
+                          <Badge key={skill} variant="secondary">
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-muted-foreground text-center py-8">
+                        {t('لم تُحدد مهارات لهذا المشروع', 'No skills specified for this project')}
+                      </p>
+                    )}
                   </TabsContent>
 
                   <TabsContent value="bids" className="mt-4">
-                    <p className="text-muted-foreground text-center py-8">
-                      {t('لا توجد عروض بعد', 'No bids yet')}
-                    </p>
+                    {isOwner ? (
+                      ownerBidsLoading ? (
+                        <div className="text-center py-8">
+                          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                        </div>
+                      ) : ownerBids && ownerBids.length > 0 ? (
+                        <div className="space-y-4">
+                          {ownerBids.map((bid) => (
+                            <BidRow
+                              key={bid.id}
+                              bid={bid}
+                              freelancerName={bid.freelancer?.name}
+                              isOwner
+                              canAccept={job.status === 'open'}
+                              onAccept={(bidId) => acceptBid.mutate({ bidId })}
+                              accepting={acceptBid.isPending}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-muted-foreground text-center py-8">
+                          {t('لا توجد عروض بعد', 'No bids yet')}
+                        </p>
+                      )
+                    ) : publicBids && publicBids.length > 0 ? (
+                      <div className="space-y-4">
+                        {publicBids.map((bid) => (
+                          <BidRow
+                            key={bid.id}
+                            bid={bid}
+                            isOwner={false}
+                            canAccept={false}
+                            onAccept={() => undefined}
+                            accepting={false}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-muted-foreground text-center py-8">
+                        {t('لا توجد عروض بعد', 'No bids yet')}
+                      </p>
+                    )}
                   </TabsContent>
                 </Tabs>
               </CardContent>
@@ -161,7 +360,7 @@ export default function JobDetails() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Submit Bid Card */}
-            {job.status === 'open' && (
+            {job.status === 'open' && !isOwner && (
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">{t('قدم عرضك', 'Submit Your Bid')}</CardTitle>
@@ -203,11 +402,12 @@ export default function JobDetails() {
                       onChange={(e) => setBidDescription(e.target.value)}
                     />
                   </div>
-                  <Button 
+                  <Button
                     className="w-full bg-osdm-green hover:bg-osdm-green/90"
                     onClick={handleSubmitBid}
+                    disabled={placeBid.isPending}
                   >
-                    {t('إرسال العرض', 'Submit Bid')}
+                    {placeBid.isPending ? t('جارٍ الإرسال...', 'Submitting...') : t('إرسال العرض', 'Submit Bid')}
                   </Button>
                 </CardContent>
               </Card>
@@ -221,23 +421,23 @@ export default function JobDetails() {
               <CardContent>
                 <div className="flex items-center gap-3 mb-4">
                   <Avatar>
-                    <AvatarFallback>C</AvatarFallback>
+                    <AvatarFallback>{employerName.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <p className="font-semibold">{t('العميل', 'Client')}</p>
+                    <p className="font-semibold">{employerName}</p>
                     <p className="text-sm text-muted-foreground">
-                      {t('عضو منذ', 'Member since')} 2024
+                      {t('عضو منذ', 'Member since')} {employerProfile ? new Date(employerProfile.memberSince).getFullYear() : ''}
                     </p>
                   </div>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">{t('المشاريع:', 'Projects:')}</span>
-                    <span className="font-medium">5</span>
+                    <span className="font-medium">{employerJobsCount ?? '—'}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">{t('التقييم:', 'Rating:')}</span>
-                    <span className="font-medium">5.0 ⭐</span>
+                    <span className="font-medium">{(employerProfile?.avgRating ?? 0).toFixed(1)} ⭐</span>
                   </div>
                 </div>
               </CardContent>
@@ -277,4 +477,3 @@ export default function JobDetails() {
     </div>
   );
 }
-

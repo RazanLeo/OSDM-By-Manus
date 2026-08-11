@@ -1,35 +1,53 @@
 import { useState } from 'react';
 import OSDMDashboardLayout from '@/components/OSDMDashboardLayout';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/_core/hooks/useAuth';
+import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
 import { MessageCircle, Send, Search } from 'lucide-react';
 
 export default function Messages() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { user } = useAuth();
+  const utils = trpc.useUtils();
   const [selectedChat, setSelectedChat] = useState<number | null>(null);
   const [messageText, setMessageText] = useState('');
+  const [search, setSearch] = useState('');
 
-  // Mock data - replace with real data from API
-  const conversations = [
-    { id: 1, name: 'أحمد محمد', lastMessage: 'شكراً لك', time: '10:30 ص', unread: 2 },
-    { id: 2, name: 'فاطمة علي', lastMessage: 'متى يمكنك التسليم؟', time: 'أمس', unread: 0 },
-    { id: 3, name: 'محمد سعيد', lastMessage: 'تم استلام المشروع', time: '2024-01-15', unread: 0 },
-  ];
+  const { data: allConversations = [], isLoading: convsLoading } = trpc.conversations.list.useQuery(undefined, {
+    refetchInterval: 10000,
+  });
+  const { data: messages = [], isLoading: messagesLoading } = trpc.conversations.messages.useQuery(
+    { conversationId: selectedChat ?? 0 },
+    { enabled: selectedChat !== null, refetchInterval: 5000 },
+  );
 
-  const messages = selectedChat ? [
-    { id: 1, sender: 'other', text: 'مرحباً، هل يمكنك مساعدتي؟', time: '10:00 ص' },
-    { id: 2, sender: 'me', text: 'بالتأكيد، كيف يمكنني مساعدتك؟', time: '10:05 ص' },
-    { id: 3, sender: 'other', text: 'أحتاج تصميم شعار لشركتي', time: '10:10 ص' },
-    { id: 4, sender: 'me', text: 'ممتاز، يمكنني المساعدة. ما هي تفاصيل المشروع؟', time: '10:15 ص' },
-  ] : [];
+  const sendMutation = trpc.conversations.send.useMutation({
+    onSuccess: () => {
+      utils.conversations.messages.invalidate();
+      utils.conversations.list.invalidate();
+    },
+    onError: (err) => {
+      toast.error(err.message || t('فشل إرسال الرسالة', 'Failed to send message'));
+    },
+  });
+
+  const formatTime = (d: string | Date) =>
+    new Date(d).toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US', { dateStyle: 'short', timeStyle: 'short' });
+
+  const conversations = allConversations.filter((conv) =>
+    (conv.otherUserName ?? '').toLowerCase().includes(search.toLowerCase()),
+  );
+
+  const selectedConv = conversations.find((c) => c.id === selectedChat) ?? allConversations.find((c) => c.id === selectedChat);
 
   const handleSendMessage = () => {
-    if (messageText.trim()) {
-      // TODO: Send message via API
-      console.log('Sending:', messageText);
+    if (messageText.trim() && selectedChat !== null && !sendMutation.isPending) {
+      sendMutation.mutate({ conversationId: selectedChat, message: messageText.trim() });
       setMessageText('');
     }
   };
@@ -50,40 +68,52 @@ export default function Messages() {
                   <Input
                     placeholder={t('بحث...', 'Search...')}
                     className="pl-10"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                   />
                 </div>
               </div>
-              
+
               <div className="overflow-y-auto h-[calc(100%-8rem)]">
-                {conversations.map((conv) => (
-                  <div
-                    key={conv.id}
-                    onClick={() => setSelectedChat(conv.id)}
-                    className={`p-4 border-b cursor-pointer hover:bg-accent transition-colors ${
-                      selectedChat === conv.id ? 'bg-accent' : ''
-                    }`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <Avatar>
-                        <AvatarFallback>{conv.name[0]}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <p className="font-semibold truncate">{conv.name}</p>
-                          <span className="text-xs text-muted-foreground">{conv.time}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-sm text-muted-foreground truncate">{conv.lastMessage}</p>
-                          {conv.unread > 0 && (
-                            <span className="bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5">
-                              {conv.unread}
-                            </span>
-                          )}
+                {convsLoading ? (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                  </div>
+                ) : conversations.length === 0 ? (
+                  <div className="p-4 text-center text-sm text-muted-foreground">
+                    {t('لا توجد محادثات بعد', 'No conversations yet')}
+                  </div>
+                ) : (
+                  conversations.map((conv) => (
+                    <div
+                      key={conv.id}
+                      onClick={() => setSelectedChat(conv.id)}
+                      className={`p-4 border-b cursor-pointer hover:bg-accent transition-colors ${
+                        selectedChat === conv.id ? 'bg-accent' : ''
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <Avatar>
+                          <AvatarFallback>{(conv.otherUserName ?? '?')[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-1">
+                            <p className="font-semibold truncate">{conv.otherUserName ?? t('مستخدم', 'User')}</p>
+                            <span className="text-xs text-muted-foreground">{formatTime(conv.lastMessageAt)}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <p className="text-sm text-muted-foreground truncate">{conv.lastMessage ?? ''}</p>
+                            {conv.unread > 0 && (
+                              <span className="bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5">
+                                {conv.unread}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
 
@@ -96,15 +126,17 @@ export default function Messages() {
                     <div className="flex items-center gap-3">
                       <Avatar>
                         <AvatarFallback>
-                          {conversations.find(c => c.id === selectedChat)?.name[0]}
+                          {(selectedConv?.otherUserName ?? '?')[0]}
                         </AvatarFallback>
                       </Avatar>
                       <div>
                         <p className="font-semibold">
-                          {conversations.find(c => c.id === selectedChat)?.name}
+                          {selectedConv?.otherUserName ?? t('مستخدم', 'User')}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {t('نشط الآن', 'Active now')}
+                          {selectedConv?.lastMessageAt
+                            ? `${t('آخر رسالة', 'Last message')}: ${formatTime(selectedConv.lastMessageAt)}`
+                            : t('نشط الآن', 'Active now')}
                         </p>
                       </div>
                     </div>
@@ -112,23 +144,29 @@ export default function Messages() {
 
                   {/* Messages */}
                   <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                    {messages.map((msg) => (
-                      <div
-                        key={msg.id}
-                        className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}
-                      >
-                        <div
-                          className={`max-w-[70%] rounded-lg p-3 ${
-                            msg.sender === 'me'
-                              ? 'bg-primary text-primary-foreground'
-                              : 'bg-accent'
-                          }`}
-                        >
-                          <p>{msg.text}</p>
-                          <p className="text-xs mt-1 opacity-70">{msg.time}</p>
-                        </div>
+                    {messagesLoading ? (
+                      <div className="text-center py-8">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
                       </div>
-                    ))}
+                    ) : (
+                      messages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`flex ${msg.senderId === user?.id ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div
+                            className={`max-w-[70%] rounded-lg p-3 ${
+                              msg.senderId === user?.id
+                                ? 'bg-primary text-primary-foreground'
+                                : 'bg-accent'
+                            }`}
+                          >
+                            <p>{msg.message}</p>
+                            <p className="text-xs mt-1 opacity-70">{formatTime(msg.createdAt)}</p>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
 
                   {/* Message Input */}
@@ -140,7 +178,11 @@ export default function Messages() {
                         onChange={(e) => setMessageText(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                       />
-                      <Button onClick={handleSendMessage} className="bg-osdm-blue hover:bg-osdm-blue/90">
+                      <Button
+                        onClick={handleSendMessage}
+                        className="bg-osdm-blue hover:bg-osdm-blue/90"
+                        disabled={sendMutation.isPending}
+                      >
                         <Send className="h-4 w-4" />
                       </Button>
                     </div>
@@ -161,4 +203,3 @@ export default function Messages() {
     </OSDMDashboardLayout>
   );
 }
-

@@ -4,19 +4,47 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { useUserMode } from '@/contexts/UserModeContext';
-import { ShoppingBag, Wrench, Briefcase, DollarSign, ShoppingCart, Star } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
+import { ShoppingBag, Wrench, Briefcase, DollarSign, ShoppingCart } from 'lucide-react';
 
 export default function Dashboard() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { user } = useAuth();
   const { userMode } = useUserMode();
+
+  const isSeller = userMode === 'seller';
+
+  const { data: wallet } = trpc.finance.wallet.useQuery();
+  const { data: recentTransactions = [], isLoading: activityLoading } = trpc.finance.transactions.useQuery({ limit: 200 });
+
+  // Seller-side aggregates
+  const { data: salesStats } = trpc.productsExt.seller.salesStats.useQuery(undefined, { enabled: isSeller });
+  const { data: sellerOrders = [] } = trpc.serviceOrders.myOrders.useQuery({ type: 'seller' }, { enabled: isSeller });
+  const { data: freelancerContracts = [] } = trpc.contracts.myContracts.useQuery({ type: 'freelancer' }, { enabled: isSeller });
+
+  // Buyer-side aggregates
+  const { data: myPurchases = [] } = trpc.productsExt.buyer.myPurchases.useQuery(undefined, { enabled: !isSeller });
+  const { data: buyerOrders = [] } = trpc.serviceOrders.myOrders.useQuery({ type: 'buyer' }, { enabled: !isSeller });
+  const { data: employerContracts = [] } = trpc.contracts.myContracts.useQuery({ type: 'employer' }, { enabled: !isSeller });
+
+  const currency = wallet?.currency || 'SAR';
+
+  const servicesDelivered = sellerOrders.filter((o) => o.status === 'completed').length;
+  const projectsCompleted = freelancerContracts.filter((c) => c.status === 'completed').length;
+
+  const productsPurchased = myPurchases.filter((p) => p.status === 'completed').length;
+  const servicesReceived = buyerOrders.filter((o) => o.status === 'completed').length;
+  const projectsReceived = employerContracts.filter((c) => c.status === 'completed').length;
+  const totalExpenses = recentTransactions
+    .filter((tx) => tx.type === 'purchase' && tx.status === 'completed')
+    .reduce((sum, tx) => sum + tx.amount, 0);
 
   const sellerStats = [
     {
       icon: ShoppingBag,
       titleAr: 'المنتجات المباعة',
       titleEn: 'Products Sold',
-      value: '0',
+      value: String(salesStats?.totals.salesCount ?? 0),
       change: '+0%',
       bgColor: 'bg-gradient-to-r from-[#846F9C] to-[#846F9C]/80',
     },
@@ -24,7 +52,7 @@ export default function Dashboard() {
       icon: Wrench,
       titleAr: 'الخدمات المنفذة',
       titleEn: 'Services Delivered',
-      value: '0',
+      value: String(servicesDelivered),
       change: '+0%',
       bgColor: 'bg-gradient-to-r from-[#4691A9] to-[#4691A9]/80',
     },
@@ -32,7 +60,7 @@ export default function Dashboard() {
       icon: Briefcase,
       titleAr: 'المشاريع المكتملة',
       titleEn: 'Projects Completed',
-      value: '0',
+      value: String(projectsCompleted),
       change: '+0%',
       bgColor: 'bg-gradient-to-r from-[#89A58F] to-[#89A58F]/80',
     },
@@ -40,7 +68,7 @@ export default function Dashboard() {
       icon: DollarSign,
       titleAr: 'إجمالي الأرباح',
       titleEn: 'Total Earnings',
-      value: '0 SAR',
+      value: `${wallet?.totalEarnings ?? 0} ${currency}`,
       change: '+0%',
       bgColor: 'bg-gradient-to-r from-[#846F9C] to-[#4691A9]',
     },
@@ -51,7 +79,7 @@ export default function Dashboard() {
       icon: ShoppingCart,
       titleAr: 'المنتجات المشتراة',
       titleEn: 'Products Purchased',
-      value: '0',
+      value: String(productsPurchased),
       change: '+0%',
       bgColor: 'bg-gradient-to-r from-[#846F9C] to-[#846F9C]/80',
     },
@@ -59,7 +87,7 @@ export default function Dashboard() {
       icon: Wrench,
       titleAr: 'الخدمات المستلمة',
       titleEn: 'Services Received',
-      value: '0',
+      value: String(servicesReceived),
       change: '+0%',
       bgColor: 'bg-gradient-to-r from-[#4691A9] to-[#4691A9]/80',
     },
@@ -67,7 +95,7 @@ export default function Dashboard() {
       icon: Briefcase,
       titleAr: 'المشاريع المستلمة',
       titleEn: 'Projects Received',
-      value: '0',
+      value: String(projectsReceived),
       change: '+0%',
       bgColor: 'bg-gradient-to-r from-[#89A58F] to-[#89A58F]/80',
     },
@@ -75,7 +103,7 @@ export default function Dashboard() {
       icon: DollarSign,
       titleAr: 'إجمالي المصروفات',
       titleEn: 'Total Expenses',
-      value: '0 SAR',
+      value: `${totalExpenses} ${currency}`,
       change: '+0%',
       bgColor: 'bg-gradient-to-r from-[#846F9C] to-[#4691A9]',
     },
@@ -145,6 +173,10 @@ export default function Dashboard() {
 
   const actions = userMode === 'seller' ? sellerActions : buyerActions;
 
+  const recentActivity = recentTransactions.slice(0, 5);
+  const formatDate = (d: string | Date) =>
+    new Date(d).toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' });
+
   return (
     <OSDMDashboardLayout>
       <div className="space-y-6">
@@ -212,13 +244,32 @@ export default function Dashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-12 text-muted-foreground">
-              {t('لا توجد أنشطة حديثة', 'No recent activities')}
-            </div>
+            {activityLoading ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+              </div>
+            ) : recentActivity.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">
+                {t('لا توجد أنشطة حديثة', 'No recent activities')}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentActivity.map((tx) => (
+                  <div key={tx.id} className="flex items-center justify-between border-b pb-3 last:border-b-0 last:pb-0">
+                    <div className="min-w-0">
+                      <p className="font-medium truncate">{t(tx.descriptionAr || '', tx.descriptionEn || '')}</p>
+                      <p className="text-xs text-muted-foreground">{formatDate(tx.createdAt)}</p>
+                    </div>
+                    <p className="font-semibold shrink-0">
+                      {tx.amount} {tx.currency || 'SAR'}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
     </OSDMDashboardLayout>
   );
 }
-
