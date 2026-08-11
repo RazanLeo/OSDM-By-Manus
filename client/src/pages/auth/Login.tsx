@@ -157,8 +157,8 @@ export default function Login() {
                 {t('حسابات تجريبية:', 'Test Accounts:')}
               </p>
               <div className="space-y-1 text-xs text-blue-800" style={{ fontFamily: 'monospace' }}>
-                <p>👤 User: user@osdm.sa / User@123</p>
-                <p>👑 Admin: admin@osdm.sa / Admin@123</p>
+                <p>👤 Guest: Guest@osdm.sa / guest@123456</p>
+                <p>👑 Admin: admin@osdm.sa / admin@123456</p>
               </div>
             </div>
           </CardContent>

@@ -100,16 +100,23 @@ async function ensureUser(
   }
 ): Promise<number | null> {
   const existing = await db
-    .select({ id: users.id, role: users.role })
+    .select({ id: users.id, role: users.role, password: users.password })
     .from(users)
     .where(eq(users.email, data.email))
     .limit(1);
 
   if (existing[0]) {
-    if (existing[0].role !== data.role) {
+    const passwordMatches = existing[0].password
+      ? await bcrypt.compare(data.password, existing[0].password)
+      : false;
+    if (existing[0].role !== data.role || !passwordMatches) {
       await db
         .update(users)
-        .set({ role: data.role })
+        .set({
+          role: data.role,
+          password: await bcrypt.hash(data.password, 10),
+          name: data.name,
+        })
         .where(eq(users.id, existing[0].id));
     }
     return existing[0].id;
@@ -238,11 +245,26 @@ export async function seedDefaultsIfEmpty(): Promise<void> {
   await syncCatalog(db, serviceCategories, SERVICE_CATALOG, "services");
   await syncCatalog(db, jobCategories, JOB_CATALOG, "jobs");
 
+  // الحسابات المنصوص عليها حرفياً في البرومبت
+  await ensureUser(db, {
+    email: "razan@osdm.sa",
+    name: "Razan@OSDM",
+    password: "RazanOSDM@056300",
+    role: "admin",
+  });
+
   await ensureUser(db, {
     email: "admin@osdm.sa",
-    name: "إدارة منصة OSDM",
-    password: "OSDM-Admin@2026",
+    name: "admin",
+    password: "admin@123456",
     role: "admin",
+  });
+
+  await ensureUser(db, {
+    email: "Guest@osdm.sa",
+    name: "Guest",
+    password: "guest@123456",
+    role: "user",
   });
 
   const sellerId = await ensureUser(db, {
