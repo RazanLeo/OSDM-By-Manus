@@ -82,9 +82,9 @@ export default function ServicesMarket() {
                 {services.map((service: any) => (
                   <Link key={service.id} href={`/markets/services/${service.id}`}>
                     <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-4 cursor-pointer">
-                      {service.imageUrl && (
+                      {service.coverImage && (
                         <img
-                          src={service.imageUrl}
+                          src={service.coverImage}
                           alt={isRTL ? service.titleAr : service.titleEn}
                           className="w-full h-48 object-cover rounded-md mb-4"
                         />
@@ -98,7 +98,7 @@ export default function ServicesMarket() {
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm text-gray-500">{t.startingFrom}</span>
                         <span className="text-2xl font-bold text-[#4691A9]">
-                          {service.basePrice} {t.sar}
+                          {service.startingPrice} {t.sar}
                         </span>
                       </div>
                       <div className="flex items-center justify-between text-sm text-gray-500">

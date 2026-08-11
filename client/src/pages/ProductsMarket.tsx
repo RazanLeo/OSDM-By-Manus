@@ -81,9 +81,9 @@ export default function ProductsMarket() {
                 {products.map((product: any) => (
                   <Link key={product.id} href={`/markets/products/${product.id}`}>
                     <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-4 cursor-pointer">
-                      {product.imageUrl && (
+                      {product.coverImage && (
                         <img
-                          src={product.imageUrl}
+                          src={product.coverImage}
                           alt={isRTL ? product.titleAr : product.titleEn}
                           className="w-full h-48 object-cover rounded-md mb-4"
                         />

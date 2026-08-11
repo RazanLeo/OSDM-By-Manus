@@ -102,7 +102,7 @@ export default function JobsMarket() {
                         </div>
                         <div className="flex items-center gap-1">
                           <Briefcase className="w-4 h-4" />
-                          <span>{job.proposalsCount || 0} {t.proposals}</span>
+                          <span>{job.bidsCount || 0} {t.proposals}</span>
                         </div>
                         {job.rating > 0 && (
                           <div className="flex items-center gap-1">
