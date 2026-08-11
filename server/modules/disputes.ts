@@ -17,8 +17,10 @@ import { deliveries, disputes } from "../../drizzle/schema";
 import { adminProcedure, protectedProcedure, router } from "../_core/trpc";
 import {
   escrowRefund,
+  escrowRefundAfterRelease,
   escrowRelease,
   findActiveEscrowHold,
+  findReleasedEscrow,
   type EscrowMarket,
   type EscrowRef,
 } from "./finance";
@@ -93,13 +95,27 @@ export const disputesRouter = router({
       const db = await requireDb();
       const disputeType = marketToDisputeType(input.market);
 
-      // Escrow must exist for the ref — a dispute is about held money
-      const hold = await findActiveEscrowHold({ market: input.market, orderId: input.orderId });
+      // Escrow must exist for the ref — a dispute is about held money.
+      // Instant-delivery products release escrow immediately, so a RELEASED hold
+      // (money already with the seller) also qualifies, within the 7-day window.
+      const escrowRef: EscrowRef = { market: input.market, orderId: input.orderId };
+      const hold = await findActiveEscrowHold(escrowRef);
       if (!hold) {
-        throw new TRPCError({
-          code: "PRECONDITION_FAILED",
-          message: "لا يوجد مبلغ في الضمان لهذا الطلب — لا يمكن فتح نزاع | No escrowed amount for this order — a dispute cannot be opened",
-        });
+        const released = await findReleasedEscrow(escrowRef);
+        if (!released) {
+          throw new TRPCError({
+            code: "PRECONDITION_FAILED",
+            message: "لا يوجد مبلغ في الضمان لهذا الطلب — لا يمكن فتح نزاع | No escrowed amount for this order — a dispute cannot be opened",
+          });
+        }
+        // Instant delivery: the release moment counts as the delivery moment.
+        const releasedAt = released.createdAt.getTime();
+        if (Date.now() - releasedAt > DISPUTE_WINDOW_DAYS * 24 * 60 * 60 * 1000) {
+          throw new TRPCError({
+            code: "PRECONDITION_FAILED",
+            message: "انتهت مهلة فتح النزاع (7 أيام من التسليم) | The dispute window has expired (7 days from delivery)",
+          });
+        }
       }
 
       // 7-day window from the latest delivery (per the constitution)
@@ -286,15 +302,32 @@ export const disputesRouter = router({
         .where(eq(disputes.id, dispute.id));
 
       try {
+        const hold = await findActiveEscrowHold(ref);
         if (input.decision === "release") {
-          const hold = await findActiveEscrowHold(ref);
           if (!hold) {
-            throw new TRPCError({ code: "NOT_FOUND", message: "لا يوجد مبلغ محجوز | No active escrow hold" });
+            // Instant-delivery products: escrow was already released to the seller —
+            // 'release' simply upholds the completed payout; no funds move.
+            const released = await findReleasedEscrow(ref);
+            if (!released) {
+              throw new TRPCError({ code: "NOT_FOUND", message: "لا يوجد مبلغ محجوز | No active escrow hold" });
+            }
+            return { success: true, decision: input.decision, fees: null, alreadyReleased: true } as const;
           }
           // The buyer is whoever funded the escrow; the seller is the other party.
           const sellerId = dispute.raisedBy === hold.userId ? dispute.againstUserId : dispute.raisedBy;
           const fees = await escrowRelease(ref, sellerId);
           return { success: true, decision: input.decision, fees } as const;
+        }
+        if (!hold) {
+          // Refund after the escrow was already released: claw back from the seller.
+          const released = await findReleasedEscrow(ref);
+          if (!released) {
+            throw new TRPCError({ code: "NOT_FOUND", message: "لا يوجد مبلغ محجوز | No active escrow hold" });
+          }
+          const buyerId = released.userId;
+          const sellerId = dispute.raisedBy === buyerId ? dispute.againstUserId : dispute.raisedBy;
+          const refund = await escrowRefundAfterRelease(ref, buyerId, sellerId, released.amount);
+          return { success: true, decision: input.decision, refund } as const;
         }
         const refund = await escrowRefund(ref);
         return { success: true, decision: input.decision, refund } as const;

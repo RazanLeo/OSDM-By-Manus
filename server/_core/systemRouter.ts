@@ -11,6 +11,7 @@ export const systemRouter = router({
     )
     .query(() => ({
       ok: true,
+      build: "2026-08-11-disputes-released-escrow",
     })),
 
   notifyOwner: adminProcedure

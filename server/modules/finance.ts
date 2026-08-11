@@ -311,6 +311,91 @@ export async function findActiveEscrowHold(ref: EscrowRef) {
   return rows.length > 0 ? rows[0] : null;
 }
 
+/**
+ * Finds the escrow transaction for a ref whose money was ALREADY released to the
+ * seller (status 'completed'). Ready digital products release escrow instantly on
+ * purchase, so their post-delivery disputes reference a released — not active — hold.
+ */
+export async function findReleasedEscrow(ref: EscrowRef) {
+  const db = await requireDb();
+  const rows = await db
+    .select()
+    .from(transactions)
+    .where(
+      and(
+        eq(transactions.type, "purchase"),
+        eq(transactions.status, "completed"),
+        eq(transactions.referenceType, escrowReferenceType(ref.market)),
+        eq(transactions.referenceId, String(ref.orderId)),
+      ),
+    )
+    .orderBy(desc(transactions.createdAt))
+    .limit(1);
+  return rows.length > 0 ? rows[0] : null;
+}
+
+/**
+ * Admin refund AFTER escrow was already released to the seller (instant-delivery
+ * products). Claws the net earnings back from the seller and refunds the buyer the
+ * gross amount minus the fixed 5 SAR admin fee (per the OSDM constitution); the
+ * platform returns its commission as part of making the buyer whole.
+ */
+export async function escrowRefundAfterRelease(
+  ref: EscrowRef,
+  buyerId: number,
+  sellerId: number,
+  grossAmount: number,
+): Promise<{ refunded: number; adminFee: number; sellerDebited: number }> {
+  const db = await requireDb();
+  const config = readRevenueConfig();
+  const fees = computeFees(grossAmount);
+  const adminFee = Math.min(config.refundAdminFeeSAR, grossAmount);
+  const refunded = grossAmount - adminFee;
+
+  // 1) Claw the net sale earnings back from the seller (balance may go negative = debt)
+  const sellerWallet = await getOrCreateWallet(sellerId);
+  await db
+    .update(wallets)
+    .set({
+      balance: sellerWallet.balance - fees.sellerNet,
+      totalEarnings: Math.max(0, sellerWallet.totalEarnings - fees.sellerNet),
+    })
+    .where(eq(wallets.userId, sellerId));
+  await recordTransaction({
+    userId: sellerId,
+    type: "refund",
+    amount: fees.sellerNet,
+    balanceBefore: sellerWallet.balance,
+    balanceAfter: sellerWallet.balance - fees.sellerNet,
+    descriptionAr: "استرجاع أرباح بيع بعد قرار نزاع لصالح المشتري",
+    descriptionEn: "Sale earnings reversed after dispute resolved for the buyer",
+    referenceId: String(ref.orderId),
+    referenceType: escrowReferenceType(ref.market),
+    status: "completed",
+  });
+
+  // 2) Refund the buyer (gross minus the fixed admin fee)
+  const buyerWallet = await getOrCreateWallet(buyerId);
+  await db
+    .update(wallets)
+    .set({ balance: buyerWallet.balance + refunded })
+    .where(eq(wallets.userId, buyerId));
+  await recordTransaction({
+    userId: buyerId,
+    type: "refund",
+    amount: refunded,
+    balanceBefore: buyerWallet.balance,
+    balanceAfter: buyerWallet.balance + refunded,
+    descriptionAr: `استرداد مبلغ بعد خصم رسوم إدارية ${adminFee} ر.س (قرار نزاع)`,
+    descriptionEn: `Refund after ${adminFee} SAR admin fee (dispute decision)`,
+    referenceId: String(ref.orderId),
+    referenceType: escrowReferenceType(ref.market),
+    status: "completed",
+  });
+
+  return { refunded, adminFee, sellerDebited: fees.sellerNet };
+}
+
 /** Throws if an open/under-review dispute exists for the ref (escrow freeze law). */
 export async function assertEscrowNotFrozen(ref: EscrowRef): Promise<void> {
   const db = await requireDb();
